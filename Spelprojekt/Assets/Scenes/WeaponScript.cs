@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
 {
+    public float damage = 10f;
+    public float range = 100f;
+
     public Rigidbody bulletPrefab;
-    private float bulletSpeed = 10f;
     public Transform Weapon;
 
     void Start()
