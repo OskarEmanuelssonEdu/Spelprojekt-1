@@ -26,18 +26,24 @@ public class PlayerMovement : MonoBehaviour
     int myXDierction = 0;
 
 
+    Vector3 myColliderSize = new Vector3(1, 1, 1);
+    Vector3 myCurrentColliderSize = new Vector3(1, 1, 1);
+
     [SerializeField]
     KeyCode myJumpKey = KeyCode.Space;
     [SerializeField]
     KeyCode myMoveLeftKey = KeyCode.A;
     [SerializeField]
     KeyCode myMoveRightKey = KeyCode.D;
+    [SerializeField]
+    KeyCode mySlideKey = KeyCode.LeftShift;
 
     [SerializeField]
     LayerMask layerMask;
     Vector3 myCurrentVelocity;
 
     bool myIsGrounded;
+    bool myIsSliding;
 
     JumpState myJumpState;
     enum JumpState
@@ -48,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
     void Update()
     {
@@ -62,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
         {
             myXDierction = -1;
         }
+
+        print(myCurrentVelocity.magnitude);
     }
     void FixedUpdate()
     {
@@ -101,6 +109,19 @@ public class PlayerMovement : MonoBehaviour
             myInputDirectionY = 0;
         }
 
+        if (Input.GetKeyDown(mySlideKey))
+        {
+
+            DoEnterSlide();
+
+        }
+        else if (Input.GetKeyUp(mySlideKey))
+        {
+
+            DoExitSlide();
+
+        }
+
     }
     void Deccelerate()
     {
@@ -121,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void CastBox()
     {
-        RaycastHit2D[] hitInfo = Physics2D.BoxCastAll(transform.position, transform.localScale, 0, myCurrentVelocity.normalized, myCurrentVelocity.magnitude * Time.fixedDeltaTime, layerMask);
+        RaycastHit2D[] hitInfo = Physics2D.BoxCastAll(transform.position, myCurrentColliderSize, 0, myCurrentVelocity.normalized, myCurrentVelocity.magnitude * Time.fixedDeltaTime, layerMask);
 
         Vector2 temp = new Vector2();
 
@@ -137,35 +158,75 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        print(temp);
-
         //ApplyForce(-temp * myCurrentVelocity);
 
         if (temp.y < 0 && myCurrentVelocity.y > 0)
         {
 
-
-
             myCurrentVelocity.y = 0;
+
+
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
         if (temp.y > 0 && myCurrentVelocity.y < 0)
         {
 
-            myCurrentVelocity.y = 0;
+
+            if (temp.y < 1 && temp.y > 0 && myIsSliding)
+            {
+
+                DoSlideDownSlope(temp);
+
+
+            }
+            else
+            {
+
+                myCurrentVelocity.y = 0;
+
+            }
+
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
 
-        if (temp.x > 0 && myCurrentVelocity.x < 0)
+        if (temp.x > 0 && myCurrentVelocity.x < 0) //going left
         {
 
-            myCurrentVelocity.x = 0;
+            if (temp.x > 0 && temp.x < 0.6)
+            {
+
+
+                DoMoveAlongSlope(temp);
+
+
+            }
+
+            else
+            {
+
+                myCurrentVelocity.x = 0;
+
+            }
             //ApplyForce(myCurrentVelocity.magnitude * temp);
 
         }
-        if (temp.x < 0 && myCurrentVelocity.x > 0)
+        if (temp.x < 0 && myCurrentVelocity.x > 0) //going right
         {
-            myCurrentVelocity.x = 0;
+
+            if (temp.x < 0 && temp.x > -0.6)
+            {
+
+
+                DoMoveAlongSlope(temp);
+
+            }
+            else
+            {
+
+                myCurrentVelocity.x = 0;
+
+            }
+
 
             //ApplyForce(myCurrentVelocity.magnitude * temp);
 
@@ -177,7 +238,7 @@ public class PlayerMovement : MonoBehaviour
     void DoPhysics()
     {
 
-        if (myCurrentVelocity.magnitude < myMaxSpeed)
+        if (myCurrentVelocity.magnitude < myMaxSpeed && !myIsSliding)
         {
             ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
         }
@@ -192,7 +253,7 @@ public class PlayerMovement : MonoBehaviour
                 myCurrentVelocity.x += myDrag;
             }
         }
-        if (myInputDirectionX == 0)
+        if (myInputDirectionX == 0 && !myIsSliding)
         {
             Deccelerate();
         }
@@ -201,7 +262,7 @@ public class PlayerMovement : MonoBehaviour
         {
             case JumpState.none:
 
-                
+                ApplyForce(new Vector3(0, -myGravity, 0));
 
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
@@ -250,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
 
                 }
 
-                    break;
+                break;
 
         }
 
@@ -268,8 +329,79 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-    void DoSlide()
+    void DoEnterSlide()
     {
+        myIsSliding = true;
+        myCurrentColliderSize = new Vector3(myColliderSize.x, 0.5f, myColliderSize.z);
+
+    }
+    void DoExitSlide()
+    {
+
+        transform.Translate(new Vector3(0, myColliderSize.y - myCurrentColliderSize.y, 0));
+
+        myIsSliding = false;
+        myCurrentColliderSize = myColliderSize;
+
+
+    }
+    void DoMoveAlongSlope(Vector3 Normals)
+    {
+
+        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * Normals;
+        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * Normals;
+
+        float normalSignedAngle = Vector3.SignedAngle(Normals, myCurrentVelocity, Vector3.forward);
+
+        // print(normalSignedAngle);
+
+        if (normalSignedAngle > 0)
+        {
+
+
+            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+        }
+        else if (normalSignedAngle < 0)
+        {
+
+            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+
+
+        }
+
+        Debug.DrawRay(transform.position, Normals, Color.red);
+
+    }
+    void DoSlideDownSlope(Vector3 Normals)
+    {
+
+        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * Normals;
+        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * Normals;
+
+        float normalSignedAngle = Vector3.SignedAngle(Normals, myCurrentVelocity, Vector3.forward);
+
+        // print(normalSignedAngle);
+
+        if (normalSignedAngle > 0)
+        {
+
+
+            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
+
+        }
+        else if (normalSignedAngle < 0)
+        {
+
+            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
+
+        }
+
+        Debug.DrawRay(transform.position, Normals, Color.red);
+
 
     }
     private void OnDrawGizmos()
