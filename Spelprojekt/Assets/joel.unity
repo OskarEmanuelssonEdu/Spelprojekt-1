@@ -1087,7 +1087,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 40
+  field of view: 53.3
   orthographic: 0
   orthographic size: 8.44
   m_Depth: -1
@@ -1113,7 +1113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573791192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1, z: -9.582}
+  m_LocalPosition: {x: -1.5, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1132,14 +1132,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMovementSpeed: 10
+  myMaxMovementSpeed: 29.89
   myPlayer: {fileID: 349822191}
   myDistanceAllowedFromEdge: 0
-  myDistanceBeforeZoomingOut: 38.7
-  myZoomOutSpeed: 2.76
-  myZoomInSpeed: 1
-  myMinFieldOfView: 40
-  myMaxFieldOfView: 55
-  myCameraFollowZoomOutSpeed: 3.79
+  myDistanceBeforeZoomingOut: 20.9
+  myDistanceBeforeSpeedingUp: 49.7
+  myDistanceBeforeSlowingDown: 33
+  myZoomOutSpeed: 22.15
+  myZoomInSpeed: 3.5
+  myMinFieldOfView: 50
+  myMaxFieldOfView: 60
+  myCameraFollowZoomOutSpeed: 0.1
   myCamera: {fileID: 1573791194}
 --- !u!114 &1573791197
 MonoBehaviour:

@@ -8,6 +8,9 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     private float myMovementSpeed;
     [SerializeField]
+    private float myMaxMovementSpeed;
+    private float myCurrentMovementSpeed;
+    [SerializeField]
     private GameObject myPlayer;
 
     [Header("All the way to the left is 0, to the right is 100")]
@@ -19,8 +22,14 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     [Range(0f, 100f)]
     private float myDistanceBeforeZoomingOut;
-    
-   
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float myDistanceBeforeSpeedingUp;
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float myDistanceBeforeSlowingDown;
+
+
     [Header("FOV Settings")]
     [SerializeField]
     private float myZoomOutSpeed;
@@ -43,30 +52,31 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        
+        myCurrentMovementSpeed = myMovementSpeed;
     }
     void Update()
     {
-        Move();
+        Debug.Log("Camera Speed: " + myCurrentMovementSpeed);
         CheckPlayerScreenLocation();
+        Move();
+
         if (myCamera.fieldOfView > myMaxFieldOfView)
         {
             myCamera.fieldOfView = myMaxFieldOfView;
         }
     }
 
-    private void Move()
-    {
-        transform.Translate(new Vector3(myMovementSpeed * Time.deltaTime, 0, 0));
-
-    }
+    
 
     private void CheckPlayerScreenLocation()
     {
         Vector3 screenPoint = myCamera.WorldToViewportPoint(myPlayer.transform.position);
         
         bool isTouchingLeftBound = screenPoint.x < myDistanceAllowedFromEdge/100;
-        bool isTouchingRightBound = screenPoint.x > myDistanceBeforeZoomingOut/100;
+        bool isTouchingZoomOutBound = screenPoint.x > myDistanceBeforeZoomingOut/100;
+
+        bool isTouchingSpeedUpBound = screenPoint.x > myDistanceBeforeSpeedingUp / 100;
+        bool isTouchingSlowDownBound = screenPoint.x < myDistanceBeforeSlowingDown / 100;
 
         if (isTouchingLeftBound)
         {
@@ -74,21 +84,36 @@ public class CameraMovement : MonoBehaviour
             //Destroy(myPlayer);
             Debug.Log("Touching Left Bound");
         }
-        if (isTouchingRightBound)
+        if (isTouchingZoomOutBound)
         {
-            Debug.Log("Touching Right Bound");
+            Debug.Log("Touching ZoomOut Bound");
             ZoomOut();
         }
         if ((myCamera.fieldOfView > myMinFieldOfView))
         {
             ZoomIn();
         }
+        if (isTouchingSpeedUpBound)
+        {
+            Debug.Log("Touching SpeedUp Bound");
+            myCurrentMovementSpeed = (int)Mathf.Lerp(myCurrentMovementSpeed, myMaxMovementSpeed, myCameraFollowZoomOutSpeed * Time.deltaTime);
+           
+        }
+        if(isTouchingSlowDownBound)
+        {
+            Debug.Log("Touching SlowDown Bound");
+            myCurrentMovementSpeed = (int)Mathf.Lerp(myCurrentMovementSpeed, myMovementSpeed, myCameraFollowZoomOutSpeed * Time.deltaTime);
+        }
 
-        Vector3 pointToMoveTo = new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, pointToMoveTo, Time.deltaTime * myCameraFollowZoomOutSpeed);
+        
 
     }
+    private void Move()
+    {
+        transform.Translate(new Vector3(myCurrentMovementSpeed * Time.deltaTime, 0, 0));
 
+
+    }
     private void ZoomIn()
     {
         myCamera.fieldOfView -= myZoomInSpeed * Time.deltaTime;
@@ -97,6 +122,6 @@ public class CameraMovement : MonoBehaviour
     private void ZoomOut()
     {
         myCamera.fieldOfView += myZoomOutSpeed * Time.deltaTime;
-        //Vector3 pointToMoveTo = new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z);
+        
     }
 }
