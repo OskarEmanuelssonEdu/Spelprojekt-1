@@ -58,6 +58,7 @@ public class CameraMovement : MonoBehaviour
     private void Move()
     {
         transform.Translate(new Vector3(myMovementSpeed * Time.deltaTime, 0, 0));
+
     }
 
     private void CheckPlayerScreenLocation()
@@ -75,26 +76,27 @@ public class CameraMovement : MonoBehaviour
         }
         if (isTouchingRightBound)
         {
-            Debug.Log("Touching Left Bound");
+            Debug.Log("Touching Right Bound");
             ZoomOut();
         }
-        if (!isTouchingRightBound && (myCamera.fieldOfView > myMinFieldOfView))
+        if ((myCamera.fieldOfView > myMinFieldOfView))
         {
             ZoomIn();
         }
+
+        Vector3 pointToMoveTo = new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, pointToMoveTo, Time.deltaTime * myCameraFollowZoomOutSpeed);
 
     }
 
     private void ZoomIn()
     {
         myCamera.fieldOfView -= myZoomInSpeed * Time.deltaTime;
-        Vector3 pointToMoveTo = new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z);
     }
 
     private void ZoomOut()
     {
         myCamera.fieldOfView += myZoomOutSpeed * Time.deltaTime;
-        Vector3 pointToMoveTo = new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, pointToMoveTo, Time.deltaTime * myCameraFollowZoomOutSpeed);
+        //Vector3 pointToMoveTo = new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z);
     }
 }
