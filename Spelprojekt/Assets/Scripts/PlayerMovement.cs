@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     LayerMask layerMask;
     Vector3 myCurrentVelocity;
 
+    bool myIsGrounded;
+
     JumpState myJumpState;
     enum JumpState
     {
@@ -48,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-
+        myIsGrounded = CheckGround();
         GetInputs();
         if (myCurrentVelocity.x > 0)
         {
@@ -104,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, Vector3.one * 0.8f ,0 , Vector3.down, 0,layerMask))
+        if (Physics2D.BoxCast(transform.position, transform.localScale, 0 , Vector3.down, 0.1f ,layerMask))
         {
             return true;
         }
@@ -117,29 +119,57 @@ public class PlayerMovement : MonoBehaviour
     }
     void CastBox()
     {
-        RaycastHit2D hitInfo = Physics2D.BoxCast(transform.position, transform.localScale , 0, myCurrentVelocity * Time.fixedDeltaTime, layerMask);
+        RaycastHit2D[] hitInfo = Physics2D.BoxCastAll(transform.position, transform.localScale, 0, myCurrentVelocity.normalized, myCurrentVelocity.magnitude * Time.fixedDeltaTime, layerMask);
 
-        if (hitInfo.collider != null)
+        Vector2 temp = new Vector2();
+
+        foreach (var item in hitInfo)
         {
-            Debug.Log(hitInfo.normal.x, hitInfo.collider.gameObject);
-            Vector3 temp = new Vector3(hitInfo.normal.x, hitInfo.normal.y, 0);
-            if (hitInfo.normal.y < 0 && myCurrentVelocity.y > 0)
-            {
-                ApplyForce(myCurrentVelocity.magnitude* temp);
-            }
 
-            if (hitInfo.normal.x > 0 && myXDierction == -1)
+            if(item.collider != null)
             {
-                ApplyForce(new Vector3(myCurrentVelocity.x * temp.x, 0, 0));
 
-            }
-            if (hitInfo.normal.x < 0 && myXDierction == 1)
-            {
-                ApplyForce(new Vector3(myCurrentVelocity.x * temp.x, 0, 0));
+                temp += item.normal;
 
             }
 
         }
+
+        print(temp);
+
+        //ApplyForce(-temp * myCurrentVelocity);
+
+        if (temp.y < 0 && myCurrentVelocity.y > 0)
+        {
+
+
+
+            myCurrentVelocity.y = 0;
+            //ApplyForce(myCurrentVelocity.magnitude * temp);
+        }
+        //if (temp.y > 0 && myCurrentVelocity.y < 0)
+        //{
+
+        //    myCurrentVelocity.y = 0;
+        //    //ApplyForce(myCurrentVelocity.magnitude * temp);
+        //}
+
+        if (temp.x > 0 && myCurrentVelocity.x < 0)
+        {
+
+            myCurrentVelocity.x = 0;
+            //ApplyForce(myCurrentVelocity.magnitude * temp);
+
+        }
+        if (temp.x < 0 && myCurrentVelocity.x > 0)
+        {
+            myCurrentVelocity.x = 0;
+
+            //ApplyForce(myCurrentVelocity.magnitude * temp);
+
+        }
+
+
 
     }
     void DoPhysics()
@@ -169,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
             DoJump();
 
         }
-        if (!CheckGround())
+        if (!myIsGrounded)
         {
             if (myCurrentVelocity.y > 0)
             {
@@ -186,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (myCurrentVelocity.y < 0)
             {
-                myCurrentVelocity = new Vector3(myCurrentVelocity.x, 0, 0);
+                myCurrentVelocity.y = 0;
 
             }
         }
@@ -209,6 +239,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+        Gizmos.DrawCube(transform.position + myCurrentVelocity, transform.localScale);
     }
 }
