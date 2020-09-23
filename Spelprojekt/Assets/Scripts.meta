@@ -1,10 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: d0d25a7a604896b429eaa98761f18f06
+folderAsset: yes
+=======
 <<<<<<< HEAD:Spelprojekt/Assets/Scripts.meta
 guid: d0d25a7a604896b429eaa98761f18f06
 folderAsset: yes
 =======
 guid: a18f1199eabb93c4daaab9c8b1f5269f
 >>>>>>> origin/Denise:Spelprojekt/Assets/Cannon.unity.meta
+>>>>>>> master
 DefaultImporter:
   externalObjects: {}
   userData: 
