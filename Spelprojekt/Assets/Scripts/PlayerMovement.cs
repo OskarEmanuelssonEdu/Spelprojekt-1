@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("DO NOT TOUCH")]
     [SerializeField]
-    LayerMask layerMask;
+    LayerMask myLayerMask;
 
 
     bool myIsGrounded;
@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, transform.localScale, 0, Vector3.down, 0.1f, layerMask))
+        if (Physics2D.BoxCast(transform.position, transform.localScale, 0, Vector3.down, 0.1f, myLayerMask))
         {
             return true;
         }
@@ -162,9 +162,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void CastBox()
     {
-        RaycastHit2D[] hitInfo = Physics2D.BoxCastAll(transform.position, myCurrentColliderSize, 0, myCurrentVelocity.normalized, myCurrentVelocity.magnitude * Time.fixedDeltaTime, layerMask);
+        RaycastHit2D[] hitInfo = Physics2D.BoxCastAll(transform.position, myCurrentColliderSize, 0, myCurrentVelocity.normalized, myCurrentVelocity.magnitude * Time.fixedDeltaTime, myLayerMask);
 
-        Vector2 temp = new Vector2();
+        Vector2 hitNormals = new Vector2();
 
         foreach (var item in hitInfo)
         {
@@ -172,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
             if (item.collider != null)
             {
 
-                temp += item.normal;
+                hitNormals += item.normal;
 
             }
 
@@ -180,22 +180,26 @@ public class PlayerMovement : MonoBehaviour
 
         //ApplyForce(-temp * myCurrentVelocity);
 
-        if (temp.y < 0 && myCurrentVelocity.y > 0)
+        if (hitNormals.y < 0 && myCurrentVelocity.y > 0)
         {
 
             myCurrentVelocity.y = 0;
+            for (int i = 0; i < hitInfo.Length; i++)
+            {
+                transform.position = hitInfo[i].centroid;
+            }
 
 
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
-        if (temp.y > 0 && myCurrentVelocity.y < 0)
+        if (hitNormals.y > 0 && myCurrentVelocity.y < 0)
         {
 
 
-            if (temp.y < 1 && temp.y > 0 && myIsSliding)
+            if (hitNormals.y < 1 && hitNormals.y > 0 && myIsSliding)
             {
 
-                DoSlideDownSlope(temp);
+                DoSlideDownSlope(hitNormals);
 
 
             }
@@ -203,20 +207,23 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 myCurrentVelocity.y = 0;
+                for (int i = 0; i < hitInfo.Length; i++)
+                {
+                    transform.position = hitInfo[i].centroid;
+                }
 
             }
 
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
-
-        if (temp.x > 0 && myCurrentVelocity.x < 0) //going left
+        if (hitNormals.x > 0 && myCurrentVelocity.x < 0) //going left
         {
 
-            if (temp.x > 0 && temp.x < 0.6)
+            if (hitNormals.x > 0 && hitNormals.x < 0.6)
             {
 
 
-                DoMoveAlongSlope(temp);
+                DoMoveAlongSlope(hitNormals);
 
 
             }
@@ -225,30 +232,40 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 myCurrentVelocity.x = 0;
+                for (int i = 0; i < hitInfo.Length; i++)
+                {
+                    transform.position = hitInfo[i].centroid;
+                }
 
+                //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
-            //ApplyForce(myCurrentVelocity.magnitude * temp);
+
 
         }
-        if (temp.x < 0 && myCurrentVelocity.x > 0) //going right
+        if (hitNormals.x < 0 && myCurrentVelocity.x > 0) //going right
         {
 
-            if (temp.x < 0 && temp.x > -0.6)
+            if (hitNormals.x < 0 && hitNormals.x > -0.6)
             {
 
 
-                DoMoveAlongSlope(temp);
+                DoMoveAlongSlope(hitNormals);
 
             }
             else
             {
 
                 myCurrentVelocity.x = 0;
+                for (int i = 0; i < hitInfo.Length; i++)
+                {
+                    transform.position = hitInfo[i].centroid;
+                }
 
+                //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
 
 
-            //ApplyForce(myCurrentVelocity.magnitude * temp);
+
 
         }
 
@@ -365,13 +382,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-    void DoMoveAlongSlope(Vector3 Normals)
+    void DoMoveAlongSlope(Vector3 someNormals)
     {
 
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * Normals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * Normals;
+        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
-        float normalSignedAngle = Vector3.SignedAngle(Normals, myCurrentVelocity, Vector3.forward);
+        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
 
         // print(normalSignedAngle);
 
@@ -390,16 +407,16 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        Debug.DrawRay(transform.position, Normals, Color.red);
+        Debug.DrawRay(transform.position, someNormals, Color.red);
 
     }
-    void DoSlideDownSlope(Vector3 Normals)
+    void DoSlideDownSlope(Vector3 someNormals)
     {
 
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * Normals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * Normals;
+        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
-        float normalSignedAngle = Vector3.SignedAngle(Normals, myCurrentVelocity, Vector3.forward);
+        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
 
         // print(normalSignedAngle);
 
@@ -420,13 +437,13 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        Debug.DrawRay(transform.position, Normals, Color.red);
+        Debug.DrawRay(transform.position, someNormals, Color.red);
 
 
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity, transform.localScale);
+        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
     }
 }
