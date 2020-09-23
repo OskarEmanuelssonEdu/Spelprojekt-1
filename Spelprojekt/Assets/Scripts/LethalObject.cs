@@ -11,25 +11,26 @@ public class LethalObject : MonoBehaviour
 
     private void Update()
     {
-        Vector3 RectangleOneScale = transform.localScale,
-                RectangleTwoScale = myPlayer.transform.localScale,
-                RectangleOnePosition = transform.position,
-                RectangleTwoPosition = myPlayer.transform.position;
+        Vector3 rectangleOneScale = transform.localScale,
+                rectangleTwoScale = myPlayer.transform.localScale,
+                rectangleOnePosition = transform.position,
+                rectangleTwoPosition = myPlayer.transform.position;
 
-        float RectangleOneRightSide = RectangleOnePosition.x - RectangleOneScale.x * .5f,
-              RectangleOneLeftSide = RectangleOnePosition.x + RectangleOneScale.x * .5f,
-              RectangleOneBottomSide = RectangleOnePosition.y + RectangleOneScale.y * .5f,
-              RectangleOneTopSide = RectangleOnePosition.y - RectangleOneScale.y * .5f,
-              RectangleTwoRightSide = RectangleTwoPosition.x - RectangleTwoScale.x * .5f,
-              RectangleTwoLeftSide = RectangleTwoPosition.x + RectangleTwoScale.x * .5f,
-              RectangleTwoTopSide = RectangleTwoPosition.y + RectangleTwoScale.y * .5f,
-              RectangleTwoBottomSide = RectangleTwoPosition.y - RectangleTwoScale.y * .5f;
+        // Calculate the sides of the rectangles in order to detect collision
+        float rectangleOneRightSide = rectangleOnePosition.x - rectangleOneScale.x * .5f,
+              rectangleOneLeftSide = rectangleOnePosition.x + rectangleOneScale.x * .5f,
+              rectangleOneBottomSide = rectangleOnePosition.y + rectangleOneScale.y * .5f,
+              rectangleOneTopSide = rectangleOnePosition.y - rectangleOneScale.y * .5f,
+              rectangleTwoRightSide = rectangleTwoPosition.x - rectangleTwoScale.x * .5f,
+              rectangleTwoLeftSide = rectangleTwoPosition.x + rectangleTwoScale.x * .5f,
+              rectangleTwoTopSide = rectangleTwoPosition.y + rectangleTwoScale.y * .5f,
+              rectangleTwoBottomSide = rectangleTwoPosition.y - rectangleTwoScale.y * .5f;
 
         // Collision detection between two rectangles
-        if (RectangleOneRightSide < RectangleTwoLeftSide &&
-            RectangleOneLeftSide > RectangleTwoRightSide &&
-            RectangleOneTopSide > RectangleTwoBottomSide &&
-            RectangleOneBottomSide < RectangleTwoTopSide)
+        if (rectangleOneRightSide < rectangleTwoLeftSide &&
+            rectangleOneLeftSide > rectangleTwoRightSide &&
+            rectangleOneTopSide > rectangleTwoBottomSide &&
+            rectangleOneBottomSide < rectangleTwoTopSide)
         {
             myPlayer.TakeDamage(myDamage * Time.deltaTime);
         }
