@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
     float myCountDownTime = 3;
     float myCountDownTimer = 0;
 
-    
-
+    [SerializeField]
+    ScoreManager scoreManager;
+    [SerializeField]
+    Player player;
     void Update()
     {
         CountDownToStart();
@@ -26,5 +28,9 @@ public class GameManager : MonoBehaviour
         {
             myCountDownTimer += Time.deltaTime;
         }
+    }
+    public Vector3 PlayerPosition()
+    {
+        return player.transform.position;
     }
 }
