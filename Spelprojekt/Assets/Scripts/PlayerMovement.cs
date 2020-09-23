@@ -254,33 +254,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        //if (myInputDirectionY == 1)
-        //{
-        //    DoJump();
-
-        //}
-
-        //if (!myIsGrounded)
-        //{
-        //    if (myCurrentVelocity.y > 0)
-        //    {
-        //        ApplyForce(new Vector3(0, -myGravity * 3, 0));
-        //    }
-        //    else
-        //    {
-        //        ApplyForce(new Vector3(0, -myGravity / 2, 0));
-
-        //        Debug.Log("go SLOW down");
-        //    }
-        //}
-        //else
-        //{
-        //    if (myCurrentVelocity.y < 0)
-        //    {
-        //        myCurrentVelocity.y = 0;
-
-        //    }
-        //}
 
         CastBox();
 
