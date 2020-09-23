@@ -659,9 +659,10 @@ MonoBehaviour:
   myAcceleration: 0.25
   myDecceleration: 1
   myDrag: 0.5
-  myJumpForce: 25
+  myJumpForce: 2
   myGravity: 0.5
-  myXDierction: 0
+  myJumpTime: 0.25
+  myJumpStartForce: 5
   myJumpKey: 32
   myMoveLeftKey: 97
   myMoveRightKey: 100
@@ -875,7 +876,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 125.5
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:

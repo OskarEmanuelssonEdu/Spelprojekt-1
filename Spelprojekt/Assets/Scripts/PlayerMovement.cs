@@ -17,10 +17,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float myGravity = 1f;
     float myJumpTimer = 0f;
+    [SerializeField]
     float myJumpTime = 0.25f;
+    [SerializeField]
+    float myJumpStartForce = 1f;
     int myInputDirectionX = 0;
     int myInputDirectionY = 0;
-    [SerializeField]
     int myXDierction = 0;
 
 
@@ -90,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
             myInputDirectionX = 0;
         }
         //-------------------
-        if (Input.GetKey(myJumpKey) && CheckGround())
+        if (Input.GetKey(myJumpKey))
         {
             myInputDirectionY = 1;
         }
@@ -106,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, transform.localScale, 0 , Vector3.down, 0.1f ,layerMask))
+        if (Physics2D.BoxCast(transform.position, transform.localScale, 0, Vector3.down, 0.1f, layerMask))
         {
             return true;
         }
@@ -126,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         foreach (var item in hitInfo)
         {
 
-            if(item.collider != null)
+            if (item.collider != null)
             {
 
                 temp += item.normal;
@@ -147,12 +149,12 @@ public class PlayerMovement : MonoBehaviour
             myCurrentVelocity.y = 0;
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
-        //if (temp.y > 0 && myCurrentVelocity.y < 0)
-        //{
+        if (temp.y > 0 && myCurrentVelocity.y < 0)
+        {
 
-        //    myCurrentVelocity.y = 0;
-        //    //ApplyForce(myCurrentVelocity.magnitude * temp);
-        //}
+            myCurrentVelocity.y = 0;
+            //ApplyForce(myCurrentVelocity.magnitude * temp);
+        }
 
         if (temp.x > 0 && myCurrentVelocity.x < 0)
         {
@@ -194,32 +196,91 @@ public class PlayerMovement : MonoBehaviour
         {
             Deccelerate();
         }
-        if (myInputDirectionY == 1)
+
+        switch (myJumpState)
         {
-            DoJump();
+            case JumpState.none:
+
+                
+
+                if (myIsGrounded && myInputDirectionY == 1)
+                {
+
+
+                    myCurrentVelocity.y = 0;
+                    myJumpTimer = 0;
+                    ApplyForce(new Vector3(0, myJumpStartForce, 0));
+                    myJumpState = JumpState.jumping;
+
+
+                }
+                else if (!myIsGrounded)
+                {
+
+                    myJumpState = JumpState.falling;
+
+                }
+
+                break;
+
+            case JumpState.jumping:
+
+
+                if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
+                {
+
+                    myJumpState = JumpState.falling;
+
+                }
+                ApplyForce(new Vector3(0, myJumpForce * Time.deltaTime, 0));
+
+                myJumpTimer += Time.fixedDeltaTime;
+
+
+                break;
+            case JumpState.falling:
+
+                ApplyForce(new Vector3(0, -myGravity, 0));
+
+                if (myIsGrounded)
+                {
+
+                    myJumpState = JumpState.none;
+
+
+                }
+
+                    break;
 
         }
-        if (!myIsGrounded)
-        {
-            if (myCurrentVelocity.y > 0)
-            {
-                ApplyForce(new Vector3(0, -myGravity * 3, 0));
-            }
-            else
-            {
-                ApplyForce(new Vector3(0, -myGravity / 2, 0));
 
-                Debug.Log("go SLOW down");
-            }
-        }
-        else
-        {
-            if (myCurrentVelocity.y < 0)
-            {
-                myCurrentVelocity.y = 0;
+        //if (myInputDirectionY == 1)
+        //{
+        //    DoJump();
 
-            }
-        }
+        //}
+
+        //if (!myIsGrounded)
+        //{
+        //    if (myCurrentVelocity.y > 0)
+        //    {
+        //        ApplyForce(new Vector3(0, -myGravity * 3, 0));
+        //    }
+        //    else
+        //    {
+        //        ApplyForce(new Vector3(0, -myGravity / 2, 0));
+
+        //        Debug.Log("go SLOW down");
+        //    }
+        //}
+        //else
+        //{
+        //    if (myCurrentVelocity.y < 0)
+        //    {
+        //        myCurrentVelocity.y = 0;
+
+        //    }
+        //}
 
         CastBox();
 
@@ -228,6 +289,8 @@ public class PlayerMovement : MonoBehaviour
 
     void DoJump()
     {
+
+        myCurrentVelocity.y = 0;
         ApplyForce(new Vector3(0, myJumpForce, 0));
 
 
