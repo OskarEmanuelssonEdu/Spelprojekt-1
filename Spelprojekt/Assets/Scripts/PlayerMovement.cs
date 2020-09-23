@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    [SerializeField]
     float myMaxSpeed = 10;
+    [SerializeField]
     float myAcceleration = 1;
+    [SerializeField]
     float myDecceleration = 1;
+    [SerializeField]
     float myDrag = 0.1f;
+    [SerializeField]
+    float myJumpForce = 15;
+    [SerializeField]
+    float myGravity = 1f;
+    float myJumpTimer = 0f;
+    float myJumpTime = 0.25f;
     int myInputDirectionX = 0;
     int myInputDirectionY = 0;
+    [SerializeField]
+    int myXDierction = 0;
+
 
     [SerializeField]
     KeyCode myJumpKey = KeyCode.Space;
@@ -32,11 +44,20 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
     void Update()
     {
+
         GetInputs();
+        if (myCurrentVelocity.x > 0)
+        {
+            myXDierction = 1;
+        }
+        if (myCurrentVelocity.x < 0)
+        {
+            myXDierction = -1;
+        }
     }
     void FixedUpdate()
     {
@@ -46,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     void ApplyForce(Vector3 aTargetVelocity)
     {
         myCurrentVelocity = myCurrentVelocity + aTargetVelocity;
-        
+
     }
     void GetInputs()
     {
@@ -54,11 +75,11 @@ public class PlayerMovement : MonoBehaviour
         {
             myInputDirectionX = 0;
         }
-        else if(Input.GetKey(myMoveLeftKey))
+        else if (Input.GetKey(myMoveLeftKey))
         {
             myInputDirectionX = -1;
         }
-        else if(Input.GetKey(myMoveRightKey))
+        else if (Input.GetKey(myMoveRightKey))
         {
             myInputDirectionX = 1;
         }
@@ -67,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
             myInputDirectionX = 0;
         }
         //-------------------
-        if (Input.GetKey(myJumpKey))
+        if (Input.GetKey(myJumpKey) && CheckGround())
         {
             myInputDirectionY = 1;
         }
@@ -81,20 +102,40 @@ public class PlayerMovement : MonoBehaviour
     {
         myCurrentVelocity.x = Mathf.MoveTowards(myCurrentVelocity.x, 0, myDecceleration);
     }
+    bool CheckGround()
+    {
+        if (Physics2D.BoxCast(transform.position, Vector3.one * 0.8f ,0 , Vector3.down, 0,layerMask))
+        {
+            return true;
+        }
+        else
+        {
+
+            return false;
+        }
+
+    }
     void CastBox()
     {
-        RaycastHit2D hitInfo = Physics2D.BoxCast(transform.position, transform.localScale , 0, (myCurrentVelocity * Time.fixedDeltaTime) - (transform.localScale / 2) * myInputDirectionX, layerMask);
-        
+        RaycastHit2D hitInfo = Physics2D.BoxCast(transform.position, transform.localScale , 0, myCurrentVelocity * Time.fixedDeltaTime, layerMask);
+
         if (hitInfo.collider != null)
         {
-            if (hitInfo.normal.x > 0 && myInputDirectionX == -1)
+            Debug.Log(hitInfo.normal.x, hitInfo.collider.gameObject);
+            Vector3 temp = new Vector3(hitInfo.normal.x, hitInfo.normal.y, 0);
+            if (hitInfo.normal.y < 0 && myCurrentVelocity.y > 0)
             {
-                 ApplyForce(myCurrentVelocity.magnitude * new Vector3(hitInfo.normal.x, hitInfo.normal.y,0));
+                ApplyForce(myCurrentVelocity.magnitude* temp);
+            }
+
+            if (hitInfo.normal.x > 0 && myXDierction == -1)
+            {
+                ApplyForce(new Vector3(myCurrentVelocity.x * temp.x, 0, 0));
 
             }
-            if (hitInfo.normal.x < 0 && myInputDirectionX == 1)
+            if (hitInfo.normal.x < 0 && myXDierction == 1)
             {
-                ApplyForce(myCurrentVelocity.magnitude * new Vector3(hitInfo.normal.x, hitInfo.normal.y, 0));
+                ApplyForce(new Vector3(myCurrentVelocity.x * temp.x, 0, 0));
 
             }
 
@@ -110,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (myCurrentVelocity.x > 0)
+            if (myXDierction == 1)
             {
                 myCurrentVelocity.x -= myDrag;
             }
@@ -125,20 +166,49 @@ public class PlayerMovement : MonoBehaviour
         }
         if (myInputDirectionY == 1)
         {
+            DoJump();
 
+        }
+        if (!CheckGround())
+        {
+            if (myCurrentVelocity.y > 0)
+            {
+                ApplyForce(new Vector3(0, -myGravity * 3, 0));
+            }
+            else
+            {
+                ApplyForce(new Vector3(0, -myGravity / 2, 0));
+
+                Debug.Log("go SLOW down");
+            }
+        }
+        else
+        {
+            if (myCurrentVelocity.y < 0)
+            {
+                myCurrentVelocity = new Vector3(myCurrentVelocity.x, 0, 0);
+
+            }
         }
 
         CastBox();
 
         transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
-    
+
     void DoJump()
     {
+        ApplyForce(new Vector3(0, myJumpForce, 0));
+
 
     }
     void DoSlide()
     {
 
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
     }
 }
