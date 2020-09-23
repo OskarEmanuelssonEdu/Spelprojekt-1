@@ -4,23 +4,40 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [Header("Speed settings")]
+    
+ 
     [SerializeField]
+    [Range(0, 50)]
     float myMaxSpeed = 10;
     [SerializeField]
+    [Range(0.1f, 50)]
     float myAcceleration = 1;
     [SerializeField]
+    [Range(0.1f, 50)]
     float myDecceleration = 1;
     [SerializeField]
+    [Range(0.1f, 1)]
     float myDrag = 0.1f;
+
+    [Header("Jump settings")]
+
     [SerializeField]
+    [Range(0, 100)]
     float myJumpForce = 15;
     [SerializeField]
+    [Range(1, 100)]
     float myGravity = 1f;
+    [SerializeField]
+    [Range(0, 2)]
+    float myJumpTime = 0.25f;
     float myJumpTimer = 0f;
     [SerializeField]
-    float myJumpTime = 0.25f;
-    [SerializeField]
+    [Range(0,100)]
     float myJumpStartForce = 1f;
+
+
     int myInputDirectionX = 0;
     int myInputDirectionY = 0;
     int myXDierction = 0;
@@ -29,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
     Vector3 myColliderSize = new Vector3(1, 1, 1);
     Vector3 myCurrentColliderSize = new Vector3(1, 1, 1);
 
+
+    [Header("Input Settings")]
     [SerializeField]
     KeyCode myJumpKey = KeyCode.Space;
     [SerializeField]
@@ -38,13 +57,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     KeyCode mySlideKey = KeyCode.LeftShift;
 
+    [Header("DO NOT TOUCH")]
     [SerializeField]
     LayerMask layerMask;
-    Vector3 myCurrentVelocity;
+
 
     bool myIsGrounded;
     bool myIsSliding;
-
+    Vector3 myCurrentVelocity;
     JumpState myJumpState;
     enum JumpState
     {
