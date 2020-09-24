@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
 
     [Header("Speed settings")]
-    
- 
+
+
     [SerializeField]
     [Range(0, 50)]
     float myMaxSpeed = 10;
@@ -34,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     float myJumpTime = 0.25f;
     float myJumpTimer = 0f;
     [SerializeField]
-    [Range(0,100)]
+    [Range(0, 100)]
     float myJumpStartForce = 1f;
 
 
@@ -57,14 +55,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     KeyCode mySlideKey = KeyCode.LeftShift;
 
+
     [Header("DO NOT TOUCH")]
     [SerializeField]
     LayerMask myLayerMask;
-
-
     bool myIsGrounded;
     bool myIsSliding;
     Vector3 myCurrentVelocity;
+
+    public Vector3 MyCurrentVelocity { get { return myCurrentVelocity;  } set { myCurrentVelocity = value; } }
+
     JumpState myJumpState;
     enum JumpState
     {
@@ -89,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
             myXDierction = -1;
         }
 
-        print(myCurrentVelocity.magnitude);
     }
     void FixedUpdate()
     {
@@ -103,6 +102,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void GetInputs()
     {
+
+
         if (Input.GetKey(myMoveLeftKey) && Input.GetKey(myMoveRightKey))
         {
             myInputDirectionX = 0;
@@ -290,7 +291,7 @@ public class PlayerMovement : MonoBehaviour
                 myCurrentVelocity.x += myDrag;
             }
         }
-        if (myInputDirectionX == 0 && !myIsSliding)
+        if (myInputDirectionX == 0 && !myIsSliding && myIsGrounded)
         {
             Deccelerate();
         }
@@ -304,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-
+                    DoExitSlide();
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -352,12 +353,10 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-
         CastBox();
 
         transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
-
     void DoJump()
     {
 
@@ -444,6 +443,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+        Gizmos.DrawWireCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, myCurrentColliderSize);
     }
 }
