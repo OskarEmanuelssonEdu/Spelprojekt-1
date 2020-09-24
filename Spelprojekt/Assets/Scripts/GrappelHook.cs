@@ -54,7 +54,7 @@ public class GrappelHook : MonoBehaviour
         Vector3 mouseDir = transform.position - new Vector3(myMousePosition.x, myMousePosition.y , 0);
         RaycastHit2D hitInfo = Physics2D.Raycast(myShootPosition.position, -mouseDir.normalized, myRange, myLayerMask);
 
-        if (hitInfo.collider != null)
+        if (hitInfo.collider != null && myLayerMask != 0)
         {
             myLineRenderer.enabled = true;
             myHitPosition = hitInfo.centroid;
@@ -67,9 +67,15 @@ public class GrappelHook : MonoBehaviour
         Vector3 directionToPivot = transform.position - myHitPosition;
         Debug.DrawLine(transform.position, myHitPosition);
 
-        myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce);
+        if (myHitPosition.y >= transform.position.y - 2)
+        {
+            myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce + (Vector3.up / 4));
 
-  
+        }
+        else
+        {
+            myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce);
+        }
         //Line renderer points
         myLineRenderer.SetPosition(0, transform.position);
         myLineRenderer.SetPosition(1, myHitPosition);
