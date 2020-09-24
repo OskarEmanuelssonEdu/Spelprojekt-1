@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
 
     [Header("Speed settings")]
-    
- 
+
+
     [SerializeField]
     [Range(0, 50)]
     float myMaxSpeed = 10;
@@ -34,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     float myJumpTime = 0.25f;
     float myJumpTimer = 0f;
     [SerializeField]
-    [Range(0,100)]
+    [Range(0, 100)]
     float myJumpStartForce = 1f;
 
 
@@ -56,11 +54,23 @@ public class PlayerMovement : MonoBehaviour
     KeyCode myMoveRightKey = KeyCode.D;
     [SerializeField]
     KeyCode mySlideKey = KeyCode.LeftShift;
+    [SerializeField]
+    KeyCode myGrappleKey = KeyCode.Mouse0;
+
+    Vector3 myMousePosition;
+    Vector3 myGrapplePosition;
+    float myGrappleDistance;
+    [SerializeField]
+    float myGrappleStartSlack;
+    bool myGrappling;
 
     [Header("DO NOT TOUCH")]
     [SerializeField]
     LayerMask myLayerMask;
-
+    [SerializeField]
+    LineRenderer myLineRenderer;
+    [SerializeField]
+    float hookElasticity;
 
     bool myIsGrounded;
     bool myIsSliding;
@@ -89,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
             myXDierction = -1;
         }
 
-        print(myCurrentVelocity.magnitude);
     }
     void FixedUpdate()
     {
@@ -103,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void GetInputs()
     {
+
+        myMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         if (Input.GetKey(myMoveLeftKey) && Input.GetKey(myMoveRightKey))
         {
             myInputDirectionX = 0;
@@ -139,6 +151,22 @@ public class PlayerMovement : MonoBehaviour
         {
 
             DoExitSlide();
+
+        }
+        if (Input.GetKeyDown(myGrappleKey))
+        {
+
+            myGrapplePosition = new Vector3(myMousePosition.x, myMousePosition.y, 0);
+            myGrappleDistance = (myGrapplePosition - transform.position).magnitude + myGrappleStartSlack;
+            myGrappling = true;
+
+
+
+        }
+        else if (Input.GetKeyUp(myGrappleKey))
+        {
+
+            myGrappling = false;
 
         }
 
@@ -272,6 +300,8 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
+
+    float oskar = 0f;
     void DoPhysics()
     {
 
@@ -290,7 +320,7 @@ public class PlayerMovement : MonoBehaviour
                 myCurrentVelocity.x += myDrag;
             }
         }
-        if (myInputDirectionX == 0 && !myIsSliding)
+        if (myInputDirectionX == 0 && !myIsSliding && myIsGrounded)
         {
             Deccelerate();
         }
@@ -304,7 +334,7 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-
+                    DoExitSlide();
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -352,6 +382,40 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        if (myGrappling)
+        {
+            myLineRenderer.enabled = true;
+            myLineRenderer.SetPosition(0, transform.position);
+            myLineRenderer.SetPosition(1, myGrapplePosition);
+
+
+
+            print(myGrapplePosition);
+            print(myGrappleDistance);
+
+            if ((transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized));
+
+
+                //myGrappleDistance -= 10f;
+            }
+            //else
+            //{
+            //    oskar = 0f;
+            //}
+
+
+            //ApplyForce((myGrapplePosition - transform.position).normalized * oskar);
+
+        }
+        else
+        {
+
+            myLineRenderer.enabled = false;
+
+        }
 
         CastBox();
 
@@ -444,6 +508,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+        Gizmos.DrawWireCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, myCurrentColliderSize);
     }
 }
