@@ -217,9 +217,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  range: 100
   mySpeed: 10
   myTimeInBetweenShots: 2
+  distanceToActivate: 20
   myBulletManager: {fileID: 1445290296}
   myGameManager: {fileID: 0}
 --- !u!114 &1445290296
