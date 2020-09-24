@@ -54,27 +54,17 @@ public class PlayerMovement : MonoBehaviour
     KeyCode myMoveRightKey = KeyCode.D;
     [SerializeField]
     KeyCode mySlideKey = KeyCode.LeftShift;
-    [SerializeField]
-    KeyCode myGrappleKey = KeyCode.Mouse0;
 
-    Vector3 myMousePosition;
-    Vector3 myGrapplePosition;
-    float myGrappleDistance;
-    [SerializeField]
-    float myGrappleStartSlack;
-    bool myGrappling;
 
     [Header("DO NOT TOUCH")]
     [SerializeField]
     LayerMask myLayerMask;
-    [SerializeField]
-    LineRenderer myLineRenderer;
-    [SerializeField]
-    float hookElasticity;
-
     bool myIsGrounded;
     bool myIsSliding;
     Vector3 myCurrentVelocity;
+
+    public Vector3 MyCurrentVelocity { get { return myCurrentVelocity;  } set { myCurrentVelocity = value; } }
+
     JumpState myJumpState;
     enum JumpState
     {
@@ -113,7 +103,6 @@ public class PlayerMovement : MonoBehaviour
     void GetInputs()
     {
 
-        myMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetKey(myMoveLeftKey) && Input.GetKey(myMoveRightKey))
         {
@@ -151,22 +140,6 @@ public class PlayerMovement : MonoBehaviour
         {
 
             DoExitSlide();
-
-        }
-        if (Input.GetKeyDown(myGrappleKey))
-        {
-
-            myGrapplePosition = new Vector3(myMousePosition.x, myMousePosition.y, 0);
-            myGrappleDistance = (myGrapplePosition - transform.position).magnitude + myGrappleStartSlack;
-            myGrappling = true;
-
-
-
-        }
-        else if (Input.GetKeyUp(myGrappleKey))
-        {
-
-            myGrappling = false;
 
         }
 
@@ -300,8 +273,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-
-    float oskar = 0f;
     void DoPhysics()
     {
 
@@ -382,46 +353,10 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (myGrappling)
-        {
-            myLineRenderer.enabled = true;
-            myLineRenderer.SetPosition(0, transform.position);
-            myLineRenderer.SetPosition(1, myGrapplePosition);
-
-
-
-            print(myGrapplePosition);
-            print(myGrappleDistance);
-
-            //if ((transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
-            //{
-
-                myCurrentVelocity = Vector3.Project(myCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized));
-
-
-                //myGrappleDistance -= 10f;
-            //}
-            //else
-            //{
-            //    oskar = 0f;
-            //}
-
-
-            //ApplyForce((myGrapplePosition - transform.position).normalized * oskar);
-
-        }
-        else
-        {
-
-            myLineRenderer.enabled = false;
-
-        }
-
         CastBox();
 
         transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
-
     void DoJump()
     {
 
