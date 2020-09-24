@@ -12,20 +12,10 @@ public class CameraMovement : MonoBehaviour
 
     [Header("SPEED Settings")]
     [SerializeField]
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
     [Range(0f, 100f)]
     private float myMinMovementSpeed;
     [SerializeField]
     [Range(0f, 100f)]
-=======
-    [Range(0f, 5f)]
-    private float myOverallSpeed;
-    [SerializeField]
-    [Range(0f, 100f)]
-    private float myMinMovementSpeed;
-    [SerializeField]
-    [Range(0f, 100f)]
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
     private float myMaxMovementSpeed;
     [SerializeField]
     [Range(0f, 100f)]
@@ -70,11 +60,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     [Range(0f, 50f)]
     private float myMaxFieldOfView;
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
-    
-=======
 
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
 
 
     private void Start()
@@ -95,11 +81,7 @@ public class CameraMovement : MonoBehaviour
     private void CheckPlayerScreenLocation()
     {
         Vector3 screenPoint = myCamera.WorldToViewportPoint(myPlayer.transform.position);
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
-        
-=======
 
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
         bool isTouchingLeftBound = screenPoint.x < myDistanceAllowedFromEdge;
         bool isTouchingZoomOutBound = screenPoint.x > myDistanceBeforeZoomingOut;
         bool isTouchingSpeedUpBound = screenPoint.x > myDistanceBeforeSpeedingUp;
@@ -115,20 +97,12 @@ public class CameraMovement : MonoBehaviour
             Debug.Log("Touching ZoomOut Bound");
             ZoomOut();
         }
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
-        
-=======
 
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
         if (isTouchingSpeedUpBound)
         {
             Debug.Log("Touching SpeedUp Bound");
             ZoomOut();
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
             myCurrentMovementSpeed += myCameraFollowAcceleration * Time.deltaTime * screenPoint.x;
-=======
-            myCurrentMovementSpeed += myCameraFollowAcceleration * Time.deltaTime * (screenPoint.x)* (screenPoint.x) * myOverallSpeed;
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
             if (myCurrentMovementSpeed > myMaxMovementSpeed)
             {
                 myCurrentMovementSpeed = myMaxMovementSpeed;
@@ -137,12 +111,7 @@ public class CameraMovement : MonoBehaviour
         if (isTouchingSlowDownBound)
         {
             ZoomIn();
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
             myCurrentMovementSpeed -= myCameraFollowDeceleration * Time.deltaTime;
-=======
-            //Camera will deccelerate faster the closer the player gets to the edge of the screen
-            myCurrentMovementSpeed -= myCameraFollowDeceleration * Time.deltaTime * (1-screenPoint.x)* (1 - screenPoint.x) * myOverallSpeed;
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
             if (myCurrentMovementSpeed < myMinMovementSpeed)
             {
                 myCurrentMovementSpeed = myMinMovementSpeed;
@@ -152,23 +121,13 @@ public class CameraMovement : MonoBehaviour
     }
     private void Move()
     {
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
-        
+
         transform.Translate(new Vector3(myCurrentMovementSpeed * Time.deltaTime, 0, 0));
 
     }
     private void ZoomIn()
     {
         myCamera.orthographicSize -= myZoomInSpeed * Time.deltaTime;
-=======
-
-        transform.Translate(new Vector3(myCurrentMovementSpeed * Time.deltaTime * myOverallSpeed, 0, 0));
-
-    }
-    private void ZoomIn()
-    {
-        myCamera.orthographicSize -= myZoomInSpeed * Time.deltaTime * myOverallSpeed;
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
         if (myCamera.orthographicSize < myMinFieldOfView)
         {
             myCamera.orthographicSize = myMinFieldOfView;
@@ -177,11 +136,7 @@ public class CameraMovement : MonoBehaviour
 
     private void ZoomOut()
     {
-<<<<<<< Updated upstream:Spelprojekt/Assets/CameraMovement.cs
         myCamera.orthographicSize += myZoomOutSpeed * Time.deltaTime;
-=======
-        myCamera.orthographicSize += myZoomOutSpeed * Time.deltaTime * myOverallSpeed;
->>>>>>> Stashed changes:Spelprojekt/Assets/Scripts/CameraMovement.cs
         if (myCamera.orthographicSize > myMaxFieldOfView)
         {
             myCamera.orthographicSize = myMaxFieldOfView;
