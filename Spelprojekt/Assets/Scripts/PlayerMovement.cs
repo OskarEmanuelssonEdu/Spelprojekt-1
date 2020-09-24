@@ -393,14 +393,14 @@ public class PlayerMovement : MonoBehaviour
             print(myGrapplePosition);
             print(myGrappleDistance);
 
-            if ((transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
-            {
+            //if ((transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
+            //{
 
                 myCurrentVelocity = Vector3.Project(myCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized));
 
 
                 //myGrappleDistance -= 10f;
-            }
+            //}
             //else
             //{
             //    oskar = 0f;
