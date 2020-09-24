@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class GrappelHook : MonoBehaviour
 {
-    [SerializeField]
-    float myPullForce = 1.4f;
-    [SerializeField]
-    float myRangeToBreak = 2.5f;
+    [Header("Grappling hook settings")]
+    [Range(10, 30)]
     [SerializeField]
     float myRange = 20;
+    [Range(1,3)]
+    [SerializeField]
+    float myPullForce = 1.4f;
+    [Range(0, 5)]
+    [SerializeField]
+    float myRangeToBreak = 2.5f;
+   
     bool myDoGrappel = false;
     Vector3 myHitPosition;
     Vector3 myMousePosition;
     [SerializeField]
     LayerMask myLayerMask;
+    
+    [Header("Refernce settings")]
     [SerializeField]
     Transform myShootPosition;
     [SerializeField]
     PlayerMovement myPlayerMovement;
-
     [SerializeField]
     LineRenderer myLineRenderer;
     private void Update()
