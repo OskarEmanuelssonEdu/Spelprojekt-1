@@ -6,82 +6,90 @@ using UnityEditor;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
-    private float myMovementSpeed;
-    [SerializeField]
-    private float myMaxMovementSpeed;
-    private float myCurrentMovementSpeed;
+    Camera myCamera;
     [SerializeField]
     private GameObject myPlayer;
 
-    [Header("All the way to the left is 0, to the right is 100")]
-    //How close to the edge of the screen can the player get before dying
+    [Header("SPEED Settings")]
     [SerializeField]
     [Range(0f, 100f)]
+    private float myMinMovementSpeed;
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float myMaxMovementSpeed;
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float myCurrentMovementSpeed;
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float myCameraFollowAcceleration;
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float myCameraFollowDeceleration;
+
+
+
+    [Header("BOUNDARY Settings")]
+    [Header("All the way to the left is 0, to the right is 1")]
+    //How close to the edge of the screen can the player get before dying
+    [SerializeField]
+    [Range(0f, 1f)]
     private float myDistanceAllowedFromEdge;
     //How far to the right can the player run before the camera starts zooming out
     [SerializeField]
-    [Range(0f, 100f)]
+    [Range(0f, 1f)]
     private float myDistanceBeforeZoomingOut;
     [SerializeField]
-    [Range(0f, 100f)]
+    [Range(0f, 1f)]
     private float myDistanceBeforeSpeedingUp;
     [SerializeField]
-    [Range(0f, 100f)]
+    [Range(0f, 1f)]
     private float myDistanceBeforeSlowingDown;
 
 
     [Header("FOV Settings")]
     [SerializeField]
+    [Range(0f, 50f)]
     private float myZoomOutSpeed;
     [SerializeField]
+    [Range(0f, 50f)]
     private float myZoomInSpeed;
-    //If Camera is ortographic, change to size instead of FOV
     [SerializeField]
-    [Range(0f, 150f)]
+    [Range(0f, 50f)]
     private float myMinFieldOfView;
     [SerializeField]
-    [Range(0f, 150f)]
+    [Range(0f, 50f)]
     private float myMaxFieldOfView;
-    //How fast does move to the player when zooming out
-    [SerializeField]
-    [Range (0f, 10f)]
-    private float myCameraFollowZoomOutSpeed;
-    [SerializeField]
-    Camera myCamera;
+
 
 
     private void Start()
     {
-        myCurrentMovementSpeed = myMovementSpeed;
+        myCurrentMovementSpeed = myMinMovementSpeed;
     }
     void Update()
     {
-        Debug.Log("Camera Speed: " + myCurrentMovementSpeed);
         CheckPlayerScreenLocation();
         Move();
 
-        if (myCamera.fieldOfView > myMaxFieldOfView)
+        if (myCamera.orthographicSize > myMaxFieldOfView)
         {
-            myCamera.fieldOfView = myMaxFieldOfView;
+            myCamera.orthographicSize = myMaxFieldOfView;
         }
     }
-
-    
 
     private void CheckPlayerScreenLocation()
     {
         Vector3 screenPoint = myCamera.WorldToViewportPoint(myPlayer.transform.position);
-        
-        bool isTouchingLeftBound = screenPoint.x < myDistanceAllowedFromEdge/100;
-        bool isTouchingZoomOutBound = screenPoint.x > myDistanceBeforeZoomingOut/100;
 
-        bool isTouchingSpeedUpBound = screenPoint.x > myDistanceBeforeSpeedingUp / 100;
-        bool isTouchingSlowDownBound = screenPoint.x < myDistanceBeforeSlowingDown / 100;
+        bool isTouchingLeftBound = screenPoint.x < myDistanceAllowedFromEdge;
+        bool isTouchingZoomOutBound = screenPoint.x > myDistanceBeforeZoomingOut;
+        bool isTouchingSpeedUpBound = screenPoint.x > myDistanceBeforeSpeedingUp;
+        bool isTouchingSlowDownBound = screenPoint.x < myDistanceBeforeSlowingDown;
 
         if (isTouchingLeftBound)
         {
             //Kill Player
-            //Destroy(myPlayer);
             Debug.Log("Touching Left Bound");
         }
         if (isTouchingZoomOutBound)
@@ -89,39 +97,49 @@ public class CameraMovement : MonoBehaviour
             Debug.Log("Touching ZoomOut Bound");
             ZoomOut();
         }
-        if ((myCamera.fieldOfView > myMinFieldOfView))
-        {
-            ZoomIn();
-        }
+
         if (isTouchingSpeedUpBound)
         {
             Debug.Log("Touching SpeedUp Bound");
-            myCurrentMovementSpeed = (int)Mathf.Lerp(myCurrentMovementSpeed, myMaxMovementSpeed, myCameraFollowZoomOutSpeed * Time.deltaTime);
-           
+            ZoomOut();
+            myCurrentMovementSpeed += myCameraFollowAcceleration * Time.deltaTime * screenPoint.x;
+            if (myCurrentMovementSpeed > myMaxMovementSpeed)
+            {
+                myCurrentMovementSpeed = myMaxMovementSpeed;
+            }
         }
-        if(isTouchingSlowDownBound)
+        if (isTouchingSlowDownBound)
         {
+            ZoomIn();
+            myCurrentMovementSpeed -= myCameraFollowDeceleration * Time.deltaTime;
+            if (myCurrentMovementSpeed < myMinMovementSpeed)
+            {
+                myCurrentMovementSpeed = myMinMovementSpeed;
+            }
             Debug.Log("Touching SlowDown Bound");
-            myCurrentMovementSpeed = (int)Mathf.Lerp(myCurrentMovementSpeed, myMovementSpeed, myCameraFollowZoomOutSpeed * Time.deltaTime);
         }
-
-        
-
     }
     private void Move()
     {
-        transform.Translate(new Vector3(myCurrentMovementSpeed * Time.deltaTime, 0, 0));
 
+        transform.Translate(new Vector3(myCurrentMovementSpeed * Time.deltaTime, 0, 0));
 
     }
     private void ZoomIn()
     {
-        myCamera.fieldOfView -= myZoomInSpeed * Time.deltaTime;
+        myCamera.orthographicSize -= myZoomInSpeed * Time.deltaTime;
+        if (myCamera.orthographicSize < myMinFieldOfView)
+        {
+            myCamera.orthographicSize = myMinFieldOfView;
+        }
     }
 
     private void ZoomOut()
     {
-        myCamera.fieldOfView += myZoomOutSpeed * Time.deltaTime;
-        
+        myCamera.orthographicSize += myZoomOutSpeed * Time.deltaTime;
+        if (myCamera.orthographicSize > myMaxFieldOfView)
+        {
+            myCamera.orthographicSize = myMaxFieldOfView;
+        }
     }
 }
