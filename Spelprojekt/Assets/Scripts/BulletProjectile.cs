@@ -4,21 +4,40 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
-    private float bulletSpeed = 20;
+    public float myBulletSpeed;
+    public float myBulletDamage;
+    public float myDamage;
+    public BulletManager myBulletManager;
+    public GameManager myGameManager;
 
-    // Start is called before the first frame update
-    void Start()
+
+
+
+    void Update()
     {
+        
+        Move();
+ 
+    }
+
+    //Moves Bullet forward
+    private void Move()
+    {
+        transform.Translate(0f, 0f, myBulletSpeed * Time.deltaTime);
+    }
+
+    //Checks if bullet hits
+    private void CheckIfHit()
+    {
+        RaycastHit2D hits = Physics2D.Raycast(transform.position, -transform.right, myBulletSpeed*Time.deltaTime);
+
+        if (hits.collider.GetComponent<Player>() != null)
+        {
+            hits.collider.GetComponent<Player>().TakeDamage(myDamage);
+            myBulletManager.ReturnBullet(this);
+        }
 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        transform.Translate(0f, 0f, bulletSpeed * Time.deltaTime);
-
-        RaycastHit2D hits = Physics2D.Raycast(transform.position, Vector2.right);
-
-    }
 
 }

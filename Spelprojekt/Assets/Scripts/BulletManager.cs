@@ -4,42 +4,67 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-    public static BulletManager SharedInstance;
-    public List<GameObject> pooledBullets;
-    public GameObject myBullets;
-    public int amountBullets;
+    List<BulletProjectile> myActiveBullets;
+    List<BulletProjectile> myPassiveBullets;
+    int myBulletAmount = 100;
 
-    void Awake()
-    {
-        SharedInstance = this;
-    }
+    [SerializeField]
+    GameManager myGameManager;
+    [SerializeField]
+    BulletProjectile myBulletPrefab;
 
     // Start is called before the first frame update
-    private void Start()
+    void Start()
     {
-        //List containing bullets
-        pooledBullets = new List<GameObject>();
-        //Instantiate myBullets according to number in amountBullets
-        //Bullets set to inactive state before adding them to list
-        for(int i = 0; i < amountBullets; i++)
-        {
-            GameObject bullet = (GameObject)Instantiate(myBullets);
-            bullet.SetActive(false);
-            pooledBullets.Add(bullet);
-        }
+        myActiveBullets = new List<BulletProjectile>(myBulletAmount);
+        myPassiveBullets = new List<BulletProjectile>(myBulletAmount);
+        InitializeBullets(myGameManager);
     }
 
-    //Called from other scripts to utilize the Bullet Pool
-    //Allows other scripts to set objects as active/inactive during runtime
-    public GameObject GetPooledObject()
+    //Vrf Ref till GameManageR?
+    void InitializeBullets(GameManager aGameManager)
     {
-        for(int i = 0; i < pooledBullets.Count; i++)
+        for (int bulletIndex = 0; bulletIndex < myBulletAmount; bulletIndex++)
         {
-            if (!pooledBullets[i].activeInHierarchy)
-            {
-                return pooledBullets[i];
-            }
+            BulletProjectile bullet = Instantiate(myBulletPrefab, Vector3.zero, Quaternion.identity, transform);
+            bullet.myBulletManager = this;
+            myPassiveBullets.Add(bullet);
+            bullet.myGameManager = aGameManager;
+            bullet.gameObject.SetActive(false);
         }
-        return null;
+    }
+    void AddBulletsToPassiveList()
+    {
+        for (int bulletIndex = 0; bulletIndex < myBulletAmount; bulletIndex++)
+        {
+            myPassiveBullets.Add(myActiveBullets[bulletIndex]);
+            myActiveBullets.Remove(myActiveBullets[bulletIndex]);
+        }
+        DisableBullets();
+    }
+    void DisableBullets()
+    {
+        for (int bulletIndex = 0; bulletIndex < myBulletAmount; bulletIndex++)
+        {
+            myPassiveBullets[bulletIndex].gameObject.SetActive(false);
+        }
+    }
+    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage)
+    {
+        myPassiveBullets[myPassiveBullets.Count - 1].gameObject.SetActive(true);
+        myPassiveBullets[myPassiveBullets.Count - 1].transform.position = aPosition;
+        myPassiveBullets[myPassiveBullets.Count - 1].transform.rotation = aRotation;
+        myPassiveBullets[myPassiveBullets.Count - 1].myBulletSpeed = aSpeed;
+        myPassiveBullets[myPassiveBullets.Count - 1].myBulletDamage = aDamage;
+
+        myActiveBullets.Add(myPassiveBullets[myPassiveBullets.Count - 1]);
+        myPassiveBullets.RemoveAt(myPassiveBullets.Count - 1);
+    }
+    public void ReturnBullet(BulletProjectile aBullet)
+    {
+        aBullet.transform.position = Vector3.zero;
+        myActiveBullets.Remove(aBullet);
+        myPassiveBullets.Add(aBullet);
+        aBullet.gameObject.SetActive(false);
     }
 }

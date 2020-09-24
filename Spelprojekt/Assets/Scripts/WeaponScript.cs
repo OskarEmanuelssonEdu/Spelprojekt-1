@@ -4,32 +4,37 @@ using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
+    [SerializeField]
+    float damage = 10f;
+    [SerializeField]
+    float range = 100f;
+    [SerializeField]
+    float mySpeed = 10;
+    [SerializeField]
+    float myTimeInBetweenShots = 2;
+    float myTimerInBetweenshots = 0;
 
-    public Rigidbody bulletPrefab;
-    public Transform Weapon;
+    [SerializeField]
+    BulletManager myBulletManager;
+    [SerializeField]
+    GameManager myGameManager;
 
     void Start()
     {
-        InvokeRepeating("Shoot", 0f, 1f);
-    }
-
-    void Shoot()
-    {
-        GameObject bullet = BulletManager.SharedInstance.GetPooledObject();
-        if(bullet != null)
-        {
-            bullet.transform.position = Weapon.transform.position;
-            bullet.transform.rotation = Weapon.transform.rotation;
-            bullet.SetActive(true);
-        }
 
 
     }
 
     void Update()
     {
-        
+        if (myTimerInBetweenshots >= myTimeInBetweenShots)
+        {
+            myBulletManager.GetBullet(transform.position, Quaternion.identity, mySpeed, damage);
+            myTimerInBetweenshots = 0;
+        }
+        else
+        {
+            myTimerInBetweenshots = myTimerInBetweenshots + Time.deltaTime;
+        }
     }
 }
