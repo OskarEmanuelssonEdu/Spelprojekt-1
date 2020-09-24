@@ -66,6 +66,18 @@ public class PlayerMovement : MonoBehaviour
     bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
+
+    public Vector3 CurrentSpeed
+    {
+        get
+        {
+            return myCurrentVelocity;
+        }
+        set
+        {
+            myCurrentVelocity = value;
+        }
+    }
     enum JumpState
     {
         none,
@@ -96,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
 
         DoPhysics();
     }
-    void ApplyForce(Vector3 aTargetVelocity)
+    public void ApplyForce(Vector3 aTargetVelocity)
     {
         myCurrentVelocity = myCurrentVelocity + aTargetVelocity;
 
