@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, transform.localScale, 0, Vector3.down, 0.1f, myLayerMask))
+        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 1, transform.localScale.z * 0.9f), 0, Vector3.down, 0.1f, myLayerMask))
         {
             return true;
         }
