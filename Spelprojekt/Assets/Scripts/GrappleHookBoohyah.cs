@@ -101,9 +101,9 @@ public class GrappleHookBoohyah : MonoBehaviour
      
 
 
-                myPlayerMovement.MyCurrentVelocity = Vector3.Lerp(myPlayerMovement.MyCurrentVelocity, Vector3.Project(myPlayerMovement.MyCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
-                myPlayerMovement.MyCurrentVelocity += ((transform.position - myGrapplePosition).normalized * myGrappleDistance) * (myRopeStrength * (myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude)) * Time.fixedDeltaTime;
-                myPlayerMovement.MyCurrentVelocity += myPlayerMovement.MyCurrentVelocity.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
+                myPlayerMovement.CurrentSpeed = Vector3.Lerp(myPlayerMovement.CurrentSpeed, Vector3.Project(myPlayerMovement.CurrentSpeed, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
+                myPlayerMovement.CurrentSpeed += ((transform.position - myGrapplePosition).normalized * myGrappleDistance) * (myRopeStrength * (myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude)) * Time.fixedDeltaTime;
+                myPlayerMovement.CurrentSpeed += myPlayerMovement.CurrentSpeed.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
 
                 print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
             }
