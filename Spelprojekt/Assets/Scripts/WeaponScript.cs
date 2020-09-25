@@ -4,32 +4,66 @@ using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
+    [Header("Bullet Settings")]
+    [Range(0, 25)]
+    [Tooltip("This variable will decide the damage the bullet will do to the player")]
+    [SerializeField]
+    float damage = 10f;
+    [Range(1, 25)]
+    [Tooltip("This variable decide the speed of the bullet")]
+    [SerializeField]
+    float mySpeed = 10;
+    [Header("Weapon Settings")]
+    [Range(1, 10)]
+    [Tooltip("This variable will decide how many seconds will take before the next bullet will shoot")]
+    [SerializeField]
+    float myTimeInBetweenShots = 2;
+    float myTimerInBetweenshots = 0;
+    [Range(10, 30)]
+    [Tooltip("This variable will decide when the weapon will start to fire")]
+    [SerializeField]
+    float myDistanceToActivate = 20;
 
-    public Rigidbody bulletPrefab;
-    public Transform Weapon;
+    [Header("References")]
+    [SerializeField]
+    BulletManager myBulletManager;
+    [SerializeField]
+    GameManager myGameManager;
 
     void Start()
     {
-        InvokeRepeating("Shoot", 0f, 1f);
-    }
-
-    void Shoot()
-    {
-        GameObject bullet = BulletManager.SharedInstance.GetPooledObject();
-        if(bullet != null)
-        {
-            bullet.transform.position = Weapon.transform.position;
-            bullet.transform.rotation = Weapon.transform.rotation;
-            bullet.SetActive(true);
-        }
 
 
     }
 
     void Update()
     {
-        
+        //if (CheckPlayerDistance())
+        //{
+        //   Shoot();
+        //}
     }
+
+    void Shoot()
+    {
+        if (myTimerInBetweenshots >= myTimeInBetweenShots)
+        {
+            myBulletManager.GetBullet(transform.position, Quaternion.identity, mySpeed, damage);
+            myTimerInBetweenshots = 0;
+        }
+        else
+        {
+            myTimerInBetweenshots = myTimerInBetweenshots + Time.deltaTime;
+        }
+    }
+
+    //bool CheckPlayerDistance()
+    //{
+    //    float distanceToPlayer = Vector3.Distance(transform.position,)
+    //    if (distanceToPlayer < distanceToActivate)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 }

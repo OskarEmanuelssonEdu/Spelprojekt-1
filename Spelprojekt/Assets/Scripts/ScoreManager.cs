@@ -4,27 +4,43 @@ using UnityEngine;
 using TMPro;
 public class ScoreManager : MonoBehaviour
 {
-
     float myTotalTime = 0;
+    bool myStartCounter = false;
+
+    [Header("Score text")]
     [SerializeField]
     TextMeshProUGUI myScoreTextMesh;
-    
-    
-    void Start()
+
+    public float TotalTime
     {
-        
+        get
+        {
+            return myTotalTime;
+        }
     }
+
+    public bool StartCounter
+    {
+        set
+        {
+            myStartCounter = value;
+        }
+    }
+
     void Update()
     {
-
+        if (myStartCounter)
+        {
+            UpdateTextMeshTotalTime();
+        }
     }
     float CountTime()
     {
-        return myTotalTime = myTotalTime + Time.deltaTime;        
+        return myTotalTime = myTotalTime + Time.deltaTime;
     }
-    void UpdateTextMeshTotalTime ()
+    void UpdateTextMeshTotalTime()
     {
-        myScoreTextMesh.SetText(CountTime().ToString("2")); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
+        myScoreTextMesh.SetText(CountTime().ToString("0.00")); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
     }
 
 }
