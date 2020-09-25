@@ -39,17 +39,29 @@ public class CameraMovement : MonoBehaviour
     //How close to the edge of the screen can the player get before dying
     [SerializeField]
     [Range(0f, 1f)]
-    private float myDistanceAllowedFromEdge;
+    private float myDistanceAllowedFromLeftEdge;
     //How far to the right can the player run before the camera starts zooming out
     [SerializeField]
     [Range(0f, 1f)]
-    private float myDistanceBeforeZoomingOut;
+    private float myDistanceToRightBeforeZoomingOut;
     [SerializeField]
     [Range(0f, 1f)]
-    private float myDistanceBeforeSpeedingUp;
+    private float myDistanceUpBeforeZoomingOut;
     [SerializeField]
     [Range(0f, 1f)]
-    private float myDistanceBeforeSlowingDown;
+    private float myDistanceToRightBeforeSpeedingUp;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myDistanceUpBeforeSpeedingUp;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myDistanceFromLeftBeforeSlowingDown;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myDistanceToRightBeforeSuperSpeedingUp;
+    [SerializeField]
+    [Range(-10f, 10f)]
+    private float myPlayerVerticalCameraPosition;
 
 
     [Header("FOV Settings")]
@@ -66,12 +78,15 @@ public class CameraMovement : MonoBehaviour
     [Range(0f, 200f)]
     private float myMaxFieldOfView;
 
+
+
     bool touchedSlowDownBoundLastFrame = false;
     bool touchedLeftBoundLastFrame = false;
+    bool touchedSpeedUpBoundLastFrame = false;
 
     private void Start()
     {
-        AudioManager.Instance.PlayMusicWithFade(myAudioWhenNearScreen, 0.5f);
+        
         myCurrentMovementSpeed = myMinMovementSpeed;
     }
     void Update()
@@ -79,29 +94,55 @@ public class CameraMovement : MonoBehaviour
         CheckPlayerScreenLocation();
         Move();
 
-        if (myCamera.fieldOfView > myMaxFieldOfView)
+        if (myCamera.orthographicSize > myMaxFieldOfView)
         {
-            myCamera.fieldOfView = myMaxFieldOfView;
+            myCamera.orthographicSize = myMaxFieldOfView;
         }
     }
 
     private void CheckPlayerScreenLocation()
     {
         Vector3 screenPoint = myCamera.WorldToViewportPoint(myPlayer.transform.position);
+        Vector3 playerWorldPoint = myCamera.ViewportToWorldPoint(myPlayer.transform.position);
 
-        bool isTouchingLeftBound = screenPoint.x < myDistanceAllowedFromEdge;
-        bool isTouchingZoomOutBound = screenPoint.x > myDistanceBeforeZoomingOut;
-        bool isTouchingSpeedUpBound = screenPoint.x > myDistanceBeforeSpeedingUp;
-        bool isTouchingSlowDownBound = screenPoint.x < myDistanceBeforeSlowingDown;
+        bool isTouchingLeftBound = screenPoint.x < myDistanceAllowedFromLeftEdge;
+        bool isTouchingRightZoomOutBound = screenPoint.x > myDistanceToRightBeforeZoomingOut;
+        bool isTouchingRightSpeedUpBound = screenPoint.x > myDistanceToRightBeforeSpeedingUp;
+        bool isTouchingLeftSlowDownBound = screenPoint.x < myDistanceFromLeftBeforeSlowingDown;
+
+        bool isTouchingRightSuperSpeedUpBound = screenPoint.x > myDistanceToRightBeforeSuperSpeedingUp;
         LeftBound(isTouchingLeftBound);
-        if (isTouchingZoomOutBound)
+        RightZoomOutBound(isTouchingRightZoomOutBound);
+
+        RightSpeedUpBound(screenPoint, isTouchingRightSpeedUpBound);
+        if (screenPoint.x > myDistanceToRightBeforeSuperSpeedingUp)
+        {
+            float positionDifference = myPlayer.transform.position.x - transform.position.x;
+            transform.position += new Vector3(10/positionDifference,0,0);
+            Debug.Log("Touching Super Speed");
+        }
+        LeftSlowDownBound(isTouchingLeftSlowDownBound);
+    }
+
+    private void RightZoomOutBound(bool isTouchingRightZoomOutBound)
+    {
+        if (isTouchingRightZoomOutBound)
         {
             Debug.Log("Touching ZoomOut Bound");
             ZoomOut();
         }
+    }
 
+    private void RightSpeedUpBound(Vector3 screenPoint, bool isTouchingSpeedUpBound)
+    {
         if (isTouchingSpeedUpBound)
         {
+            if (!touchedSpeedUpBoundLastFrame)
+            {
+                //AudioManager.Instance.FadeOutMusicVolume(2, 0.1f);
+            }
+            touchedSpeedUpBoundLastFrame = true;
+
             Debug.Log("Touching SpeedUp Bound");
             ZoomOut();
             myCurrentMovementSpeed += myCameraFollowAcceleration * Time.deltaTime * screenPoint.x;
@@ -110,7 +151,10 @@ public class CameraMovement : MonoBehaviour
                 myCurrentMovementSpeed = myMaxMovementSpeed;
             }
         }
-        SlowDownBound(isTouchingSlowDownBound);
+        else
+        {
+            touchedSpeedUpBoundLastFrame = false;
+        }
     }
 
     private void LeftBound(bool isTouchingLeftBound)
@@ -131,14 +175,14 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    private void SlowDownBound(bool isTouchingSlowDownBound)
+    private void LeftSlowDownBound(bool isTouchingSlowDownBound)
     {
         
         if (isTouchingSlowDownBound)
         {
             if (!touchedSlowDownBoundLastFrame)
             {
-                AudioManager.Instance.FadeInMusicVolume(2f, 0.6f);
+                //AudioManager.Instance.FadeInMusicVolume(2f, 0.6f);
             }
             
 
@@ -154,7 +198,7 @@ public class CameraMovement : MonoBehaviour
         }
         else
         {
-            AudioManager.Instance.FadeOutMusicVolume(2, 0.1f);
+            //AudioManager.Instance.FadeOutMusicVolume(2, 0.1f);
             touchedSlowDownBoundLastFrame = false;
         }
     }
@@ -163,21 +207,22 @@ public class CameraMovement : MonoBehaviour
     {
 
         transform.Translate(new Vector3(myCurrentMovementSpeed * Time.deltaTime, 0, 0));
+        transform.position = new Vector3(transform.position.x, myPlayer.transform.position.y-myPlayerVerticalCameraPosition, transform.position.z);
 
     }
     private void ZoomIn()
     {
-        myCamera.fieldOfView -= myZoomInSpeed * Time.deltaTime;
-        if (myCamera.fieldOfView < myMinFieldOfView)
+        myCamera.orthographicSize -= myZoomInSpeed * Time.deltaTime;
+        if (myCamera.orthographicSize < myMinFieldOfView)
         {
-            myCamera.fieldOfView = myMinFieldOfView;
+            myCamera.orthographicSize = myMinFieldOfView;
         }
     }
 
     private void ZoomOut()
     {
-        myCamera.fieldOfView += myZoomOutSpeed * Time.deltaTime;
-        if (myCamera.fieldOfView > myMaxFieldOfView)
+        myCamera.orthographicSize += myZoomOutSpeed * Time.deltaTime;
+        if (myCamera.orthographicSize > myMaxFieldOfView)
         {
             myCamera.fieldOfView = myMaxFieldOfView;
         }

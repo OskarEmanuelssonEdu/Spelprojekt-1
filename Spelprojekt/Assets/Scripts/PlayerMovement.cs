@@ -6,6 +6,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private AudioClip myJumpSound;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myJumpSoundVolume;
 
     [Header("Speed settings")]
     
@@ -145,7 +148,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(mySlideKey))
         {
-            AudioManager.Instance.PlaySFX(myJumpSound);
             DoEnterSlide();
 
         }
@@ -322,6 +324,7 @@ public class PlayerMovement : MonoBehaviour
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
+                    AudioManager.Instance.PlaySFX(myJumpSound, myJumpSoundVolume);
                     myJumpState = JumpState.jumping;
 
 
