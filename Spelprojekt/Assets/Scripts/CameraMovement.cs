@@ -6,6 +6,11 @@ using UnityEditor;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
+    private AudioClip myAudioWhenNearScreen;
+    [SerializeField]
+    private AudioClip myAudioDeath;
+
+    [SerializeField]
     Camera myCamera;
     [SerializeField]
     private GameObject myPlayer;
@@ -55,16 +60,18 @@ public class CameraMovement : MonoBehaviour
     [Range(0f, 50f)]
     private float myZoomInSpeed;
     [SerializeField]
-    [Range(0f, 50f)]
+    [Range(0f, 200f)]
     private float myMinFieldOfView;
     [SerializeField]
-    [Range(0f, 50f)]
+    [Range(0f, 200f)]
     private float myMaxFieldOfView;
 
-
+    bool touchedSlowDownBoundLastFrame = false;
+    bool touchedLeftBoundLastFrame = false;
 
     private void Start()
     {
+        AudioManager.Instance.PlayMusicWithFade(myAudioWhenNearScreen, 0.5f);
         myCurrentMovementSpeed = myMinMovementSpeed;
     }
     void Update()
@@ -72,9 +79,9 @@ public class CameraMovement : MonoBehaviour
         CheckPlayerScreenLocation();
         Move();
 
-        if (myCamera.orthographicSize > myMaxFieldOfView)
+        if (myCamera.fieldOfView > myMaxFieldOfView)
         {
-            myCamera.orthographicSize = myMaxFieldOfView;
+            myCamera.fieldOfView = myMaxFieldOfView;
         }
     }
 
@@ -86,12 +93,7 @@ public class CameraMovement : MonoBehaviour
         bool isTouchingZoomOutBound = screenPoint.x > myDistanceBeforeZoomingOut;
         bool isTouchingSpeedUpBound = screenPoint.x > myDistanceBeforeSpeedingUp;
         bool isTouchingSlowDownBound = screenPoint.x < myDistanceBeforeSlowingDown;
-
-        if (isTouchingLeftBound)
-        {
-            //Kill Player
-            Debug.Log("Touching Left Bound");
-        }
+        LeftBound(isTouchingLeftBound);
         if (isTouchingZoomOutBound)
         {
             Debug.Log("Touching ZoomOut Bound");
@@ -108,8 +110,39 @@ public class CameraMovement : MonoBehaviour
                 myCurrentMovementSpeed = myMaxMovementSpeed;
             }
         }
+        SlowDownBound(isTouchingSlowDownBound);
+    }
+
+    private void LeftBound(bool isTouchingLeftBound)
+    {
+        if (isTouchingLeftBound)
+        {
+            if (!touchedLeftBoundLastFrame)
+            {
+                AudioManager.Instance.PlaySFX(myAudioDeath);
+            }
+            //Kill Player
+            Debug.Log("Touching Left Bound");
+            touchedLeftBoundLastFrame = true;
+        }
+        else
+        {
+            touchedLeftBoundLastFrame = false;
+        }
+    }
+
+    private void SlowDownBound(bool isTouchingSlowDownBound)
+    {
+        
         if (isTouchingSlowDownBound)
         {
+            if (!touchedSlowDownBoundLastFrame)
+            {
+                AudioManager.Instance.FadeInMusicVolume(2f, 0.6f);
+            }
+            
+
+
             ZoomIn();
             myCurrentMovementSpeed -= myCameraFollowDeceleration * Time.deltaTime;
             if (myCurrentMovementSpeed < myMinMovementSpeed)
@@ -117,8 +150,15 @@ public class CameraMovement : MonoBehaviour
                 myCurrentMovementSpeed = myMinMovementSpeed;
             }
             Debug.Log("Touching SlowDown Bound");
+            touchedSlowDownBoundLastFrame = true;
+        }
+        else
+        {
+            AudioManager.Instance.FadeOutMusicVolume(2, 0.1f);
+            touchedSlowDownBoundLastFrame = false;
         }
     }
+
     private void Move()
     {
 
@@ -127,19 +167,19 @@ public class CameraMovement : MonoBehaviour
     }
     private void ZoomIn()
     {
-        myCamera.orthographicSize -= myZoomInSpeed * Time.deltaTime;
-        if (myCamera.orthographicSize < myMinFieldOfView)
+        myCamera.fieldOfView -= myZoomInSpeed * Time.deltaTime;
+        if (myCamera.fieldOfView < myMinFieldOfView)
         {
-            myCamera.orthographicSize = myMinFieldOfView;
+            myCamera.fieldOfView = myMinFieldOfView;
         }
     }
 
     private void ZoomOut()
     {
-        myCamera.orthographicSize += myZoomOutSpeed * Time.deltaTime;
-        if (myCamera.orthographicSize > myMaxFieldOfView)
+        myCamera.fieldOfView += myZoomOutSpeed * Time.deltaTime;
+        if (myCamera.fieldOfView > myMaxFieldOfView)
         {
-            myCamera.orthographicSize = myMaxFieldOfView;
+            myCamera.fieldOfView = myMaxFieldOfView;
         }
     }
 }

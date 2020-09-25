@@ -28,7 +28,7 @@ public class AudioManagerTest : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            AudioManager.Instance.PlayMusicWithFade(myMusic1);
+            AudioManager.Instance.PlayMusicWithFade(myMusic1, 5f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -36,7 +36,7 @@ public class AudioManagerTest : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            AudioManager.Instance.PlayMusicWithCrossFade(myMusic1,3.0f);
+            AudioManager.Instance.PlayMusicWithCrossFade(myMusic1, 3.0f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {

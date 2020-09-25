@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myJumpSound;
 
     [Header("Speed settings")]
     
@@ -128,10 +130,12 @@ public class PlayerMovement : MonoBehaviour
         {
             myInputDirectionY = 0;
         }
+        
+        
 
         if (Input.GetKeyDown(mySlideKey))
         {
-
+            AudioManager.Instance.PlaySFX(myJumpSound);
             DoEnterSlide();
 
         }
@@ -331,6 +335,7 @@ public class PlayerMovement : MonoBehaviour
 
                 }
                 ApplyForce(new Vector3(0, myJumpForce * Time.deltaTime, 0));
+                
 
                 myJumpTimer += Time.fixedDeltaTime;
 
