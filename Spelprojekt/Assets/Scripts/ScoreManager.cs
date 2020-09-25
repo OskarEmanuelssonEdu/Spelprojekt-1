@@ -42,5 +42,9 @@ public class ScoreManager : MonoBehaviour
     {
         myScoreTextMesh.SetText(CountTime().ToString("0.00")); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
     }
+    public void ResetTimer()
+    {
+         myTotalTime = 0;
+    }
 
 }
