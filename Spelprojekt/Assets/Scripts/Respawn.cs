@@ -11,6 +11,8 @@ public class Respawn : MonoBehaviour
     BoxCollider2D myCollider2D;
     [SerializeField]
     LayerMask myLayerMask;
+    [SerializeField]
+    ScoreManager scoreManager;
     void Update()
     {
         CheckBox();
@@ -21,7 +23,7 @@ public class Respawn : MonoBehaviour
         if (hitInfo)
         {
             Debug.Log("Respawn");
-            
+            scoreManager.ResetTimer();
             hitInfo.collider.transform.position = myRespawnPosition.position;          
         }
     }

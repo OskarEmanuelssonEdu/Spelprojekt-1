@@ -32,6 +32,8 @@ public class GrappelHook : MonoBehaviour
     PlayerMovement myPlayerMovement;
     [SerializeField]
     LineRenderer myLineRenderer;
+    [SerializeField]
+    Camera myCamera;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -54,7 +56,7 @@ public class GrappelHook : MonoBehaviour
     }
     void ShootRay()
     {
-        myMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        myMousePosition = myCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mouseDir = transform.position - new Vector3(myMousePosition.x, myMousePosition.y , 0);
         RaycastHit2D hitInfo = Physics2D.Raycast(myShootPosition.position, -mouseDir.normalized, myRange, myLayerMask);
 
