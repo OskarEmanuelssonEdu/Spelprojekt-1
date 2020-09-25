@@ -100,19 +100,6 @@ public class PlayerMovement : MonoBehaviour
         {
             myXDierction = -1;
         }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a2144a16494d1d5df51e0d2e443fbe7d9f704d0
-=======
-        print(myCurrentVelocity.magnitude);
->>>>>>> parent of 7a2144a... Merge branch 'Grapple'
-=======
-        print(myCurrentVelocity.magnitude);
->>>>>>> parent of 7a2144a... Merge branch 'Grapple'
     }
     void FixedUpdate()
     {
