@@ -23,6 +23,15 @@ public class GrappleHookBoohyah : MonoBehaviour
     bool myGrappling;
 
     [SerializeField]
+    float myRopeStrength;
+
+    [SerializeField]
+    float myGrappleSpeedIncrease;
+
+    [SerializeField]
+    float mySwingCorrection;
+
+    [SerializeField]
     Camera myOrtograpicCamera;
 
 
@@ -55,7 +64,6 @@ public class GrappleHookBoohyah : MonoBehaviour
         myMousePosition = myOrtograpicCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, myMousePosition - transform.position, myGrappleMaxDistance, myGrappleLayer);
 
-        Debug.DrawRay(transform.position, transform.position - myMousePosition, Color.red);
 
         if (Input.GetKeyDown(myGrappleKey) && hit.collider != null)
         {
@@ -88,12 +96,23 @@ public class GrappleHookBoohyah : MonoBehaviour
             myLineRenderer.SetPosition(1, myGrapplePosition);
 
 
+            if ((myPlayerMovement.transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
+            {
+     
 
-            print(myGrapplePosition);
-            print(myGrappleDistance);
+
+                myPlayerMovement.MyCurrentVelocity = Vector3.Lerp(myPlayerMovement.MyCurrentVelocity, Vector3.Project(myPlayerMovement.MyCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
+                myPlayerMovement.MyCurrentVelocity += ((transform.position - myGrapplePosition).normalized * myGrappleDistance) * (myRopeStrength * (myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude)) * Time.fixedDeltaTime;
+                myPlayerMovement.MyCurrentVelocity += myPlayerMovement.MyCurrentVelocity.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
+
+                print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
+            }
 
 
-                myPlayerMovement.MyCurrentVelocity = Vector3.Project(myPlayerMovement.MyCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized));
+
+
+            Debug.DrawRay(myGrapplePosition, ((myGrapplePosition - transform.position).normalized) * myGrappleDistance, Color.red);
+
 
         }
         else
