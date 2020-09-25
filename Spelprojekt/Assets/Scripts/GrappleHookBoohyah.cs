@@ -34,7 +34,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     void Start()
     {
-        
+
     }
     private void Update()
     {
@@ -92,8 +92,8 @@ public class GrappleHookBoohyah : MonoBehaviour
             print(myGrapplePosition);
             print(myGrappleDistance);
 
-            myPlayerMovement.MyCurrentVelocity = Vector3.Project(myPlayerMovement.MyCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized));
 
+                myPlayerMovement.MyCurrentVelocity = Vector3.Project(myPlayerMovement.MyCurrentVelocity, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized));
 
         }
         else
