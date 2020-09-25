@@ -22,7 +22,8 @@ public class GrappleHookBoohyah : MonoBehaviour
     float myGrappleStartSlack;
     bool myGrappling;
 
-
+    [SerializeField]
+    Camera myOrtograpicCamera;
 
 
     [SerializeField]
@@ -51,7 +52,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     void GetInputs()
     {
 
-        myMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        myMousePosition = myOrtograpicCamera.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, myMousePosition - transform.position, myGrappleMaxDistance, myGrappleLayer);
 
         Debug.DrawRay(transform.position, transform.position - myMousePosition, Color.red);
