@@ -14,7 +14,11 @@ public class GrappelHook : MonoBehaviour
     [Range(0, 5)]
     [SerializeField]
     float myRangeToBreak = 2.5f;
-   
+
+    [Range(0,1)]
+     [SerializeField]
+    float myUpAcceleration = 1;
+    float offsetToStartAddUpAcceleration = 4f;
     bool myDoGrappel = false;
     Vector3 myHitPosition;
     Vector3 myMousePosition;
@@ -54,10 +58,10 @@ public class GrappelHook : MonoBehaviour
         Vector3 mouseDir = transform.position - new Vector3(myMousePosition.x, myMousePosition.y , 0);
         RaycastHit2D hitInfo = Physics2D.Raycast(myShootPosition.position, -mouseDir.normalized, myRange, myLayerMask);
 
-        if (hitInfo.collider != null && myLayerMask != 0)
+        if (hitInfo.collider != null && hitInfo.collider.gameObject.layer != 0)
         {
             myLineRenderer.enabled = true;
-            myHitPosition = hitInfo.centroid;
+            myHitPosition = hitInfo.point;
             myDoGrappel = true;
         }
     }
@@ -67,20 +71,21 @@ public class GrappelHook : MonoBehaviour
         Vector3 directionToPivot = transform.position - myHitPosition;
         Debug.DrawLine(transform.position, myHitPosition);
 
-        if (myHitPosition.y >= transform.position.y - 2)
+
+        if (directionToPivot.y >= -offsetToStartAddUpAcceleration && directionToPivot.y <=  offsetToStartAddUpAcceleration && myPlayerMovement.CurrentSpeed.y > 0)
         {
-            myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce + (Vector3.up / 4));
+            myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce + (Vector3.up * myUpAcceleration) * directionToPivot.magnitude * myUpAcceleration );
 
         }
         else
         {
-            myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce);
+            myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce * Mathf.Clamp( directionToPivot.magnitude, 1 , directionToPivot.magnitude * 0.1f));
         }
         //Line renderer points
         myLineRenderer.SetPosition(0, transform.position);
         myLineRenderer.SetPosition(1, myHitPosition);
 
-        if (directionToPivot.magnitude >= myRange + 5 || directionToPivot.magnitude <= myRangeToBreak)
+        if (directionToPivot.magnitude >= myRange + 7 || directionToPivot.magnitude <= myRangeToBreak )
         {
             myLineRenderer.enabled = false;
             myDoGrappel = false;

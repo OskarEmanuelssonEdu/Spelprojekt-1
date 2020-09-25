@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float myMaxHlaeth = 10;
     public float myCurrentHealth = 0;
 
+    [SerializeField]
+    GameManager myGameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,10 @@ public class Player : MonoBehaviour
     public void TakeDamage(float someDanmage)
     {
         myCurrentHealth = myCurrentHealth - someDanmage;
+        if (myCurrentHealth <= 0)
+        {
+          
+        }
     }
 
     public void GiveHealth(float someHealthToGive)

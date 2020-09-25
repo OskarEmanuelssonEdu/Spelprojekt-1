@@ -101,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
             myXDierction = -1;
         }
 
-        print(myCurrentVelocity.magnitude);
+
     }
     void FixedUpdate()
     {
