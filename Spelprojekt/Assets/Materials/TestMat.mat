@@ -24,10 +24,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: cbb543c334bcf95438a6f75071968609, type: 3}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         m_Scale: {x: 2000, y: 2000}
 =======
         m_Scale: {x: 100, y: 100}
 >>>>>>> 7a2144a16494d1d5df51e0d2e443fbe7d9f704d0
+=======
+        m_Scale: {x: 100, y: 1}
+>>>>>>> parent of 7a2144a... Merge branch 'Grapple'
 =======
         m_Scale: {x: 100, y: 1}
 >>>>>>> parent of 7a2144a... Merge branch 'Grapple'
@@ -44,10 +48,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: cbb543c334bcf95438a6f75071968609, type: 3}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         m_Scale: {x: 2000, y: 2000}
 =======
         m_Scale: {x: 100, y: 100}
 >>>>>>> 7a2144a16494d1d5df51e0d2e443fbe7d9f704d0
+=======
+        m_Scale: {x: 100, y: 1}
+>>>>>>> parent of 7a2144a... Merge branch 'Grapple'
 =======
         m_Scale: {x: 100, y: 1}
 >>>>>>> parent of 7a2144a... Merge branch 'Grapple'
