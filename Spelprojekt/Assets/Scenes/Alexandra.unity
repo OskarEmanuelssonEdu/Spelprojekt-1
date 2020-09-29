@@ -432,7 +432,7 @@ PrefabInstance:
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myGravity
-      value: 1
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -467,7 +467,7 @@ PrefabInstance:
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myJumpStartForce
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301531, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -517,7 +517,7 @@ PrefabInstance:
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myRopeStrength
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -532,12 +532,12 @@ PrefabInstance:
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myGrappleSpeedIncrease
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myGrappleMaxDistance
-      value: 45
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301535, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -1454,12 +1454,12 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 470.5
+      value: 470.7
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -160
+      value: -164.6
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -1514,7 +1514,7 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 62.559746
+      value: 59.514965
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044591, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -1893,9 +1893,7 @@ MonoBehaviour:
   myCameraFollowDeceleration: 20
   myDistanceAllowedFromLeftEdge: 0
   myDistanceToRightBeforeZoomingOut: 0.578
-  myDistanceUpBeforeZoomingOut: 0.515
   myDistanceToRightBeforeSpeedingUp: 0.246
-  myDistanceUpBeforeSpeedingUp: 0
   myDistanceFromLeftBeforeSlowingDown: 0.35
   myDistanceToRightBeforeSuperSpeedingUp: 0.805
   myPlayerVerticalCameraPosition: 0
@@ -2614,12 +2612,12 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 376
+      value: 376.58
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -114.1
+      value: -114.86
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -2674,7 +2672,7 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.4077334
+      value: 7.7686305
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044591, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -2804,7 +2802,7 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -175.19
+      value: -175.45
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -2854,7 +2852,7 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.1454096
+      value: 0.78491485
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -3638,8 +3636,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038735033}
   m_LocalRotation: {x: -0, y: -0, z: 0.70710576, w: 0.70710784}
-  m_LocalPosition: {x: 316.8, y: 189.7, z: 0}
-  m_LocalScale: {x: 4.6877756, y: 10.020626, z: 1}
+  m_LocalPosition: {x: 316.8, y: 199.3, z: 0}
+  m_LocalScale: {x: 4.6877756, y: 32.20028, z: 1}
   m_Children: []
   m_Father: {fileID: 1814226671}
   m_RootOrder: 1
@@ -3866,12 +3864,12 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 393.03
+      value: 391.35
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -114.134
+      value: -114.27
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -3926,7 +3924,7 @@ PrefabInstance:
     - target: {fileID: 6801172936643044578, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.4077334
+      value: 0.6120138
       objectReference: {fileID: 0}
     - target: {fileID: 6801172936643044591, guid: fe1173f800496494aa6d3a7a2527883d,
         type: 3}
@@ -6616,7 +6614,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 15
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
