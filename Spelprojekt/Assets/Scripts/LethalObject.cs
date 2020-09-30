@@ -32,6 +32,7 @@ public class LethalObject : MonoBehaviour
             rectangleOneTopSide > rectangleTwoBottomSide &&
             rectangleOneBottomSide < rectangleTwoTopSide)
         {
+            Debug.Log("Intersecting");
             myPlayer.TakeDamage(myDamage * Time.deltaTime);
         }
     }

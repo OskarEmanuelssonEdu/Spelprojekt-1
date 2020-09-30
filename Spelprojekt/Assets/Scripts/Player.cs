@@ -22,9 +22,10 @@ public class Player : MonoBehaviour
 
     }
 
-    public void TakeDamage(float someDanmage)
+    public void TakeDamage(float someDamage)
     {
-        myCurrentHealth = myCurrentHealth - someDanmage;
+        Debug.Log("Player took " + someDamage);
+        myCurrentHealth = myCurrentHealth - someDamage;
         if (myCurrentHealth <= 0)
         {
           
