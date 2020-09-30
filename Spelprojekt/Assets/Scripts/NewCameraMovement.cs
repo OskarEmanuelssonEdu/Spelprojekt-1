@@ -15,7 +15,7 @@ public class NewCameraMovement : MonoBehaviour
     private GameObject myPlayer;
 
     
-
+    //TODO Add boundary so player can go outside of screen
 
 
     [Header("BOUNDARY Settings")]
@@ -53,6 +53,7 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myDistanceBetweenCameraAndPlayer;
     
     Vector3 positionToMoveTo;
+    Vector3 screenPoint;
 
     private void Start()
     {
@@ -70,7 +71,7 @@ public class NewCameraMovement : MonoBehaviour
         {
             ZoomIn();
         }
-        Move();
+        Move(screenPoint);
         CheckPlayerScreenLocation();
     }
 
@@ -81,35 +82,21 @@ public class NewCameraMovement : MonoBehaviour
         myPlayerPrevPos = myPlayerNewPos;
     }
 
-    private void Move()
+    private void Move(Vector3 aScreenpoint)
     {
         positionToMoveTo = new Vector3(myPlayer.transform.position.x + myPlayerCurrentVelocity.x-myPlayerHorizontalCameraPosition, 
                                         myPlayer.transform.position.y + myPlayerCurrentVelocity.y+myPlayerVerticalCameraPosition, 
                                         transform.position.z);
-        transform.position =  Vector3.Lerp(transform.position,positionToMoveTo,Time.deltaTime);
+        if (aScreenpoint.x > 300 && aScreenpoint.y > 200 && aScreenpoint.x < Screen.width-300 && screenPoint.y < Screen.height-200)
+        {
+            transform.position = Vector3.Lerp(transform.position, positionToMoveTo, Time.deltaTime);
+        }
+        
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void CheckPlayerScreenLocation()
     {
-        Vector3 screenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);
-
-        
-       
-
-        
-        
+        screenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);
     }
    
 
