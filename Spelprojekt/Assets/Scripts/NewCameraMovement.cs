@@ -4,21 +4,28 @@ using UnityEngine;
 
 public class NewCameraMovement : MonoBehaviour
 {
-    //[SerializeField]
-    //private AudioClip myAudioWhenNearScreen;
-    //[SerializeField]
-    //private AudioClip myAudioDeath;
+  
 
     [SerializeField]
     Camera myCamera;
-    [SerializeField]
-    private GameObject myPlayer;
-
     
-    //TODO Add boundary so player can go outside of screen
-
+    private Player myPlayer;
 
     [Header("BOUNDARY Settings")]
+    [SerializeField]
+    [Range(0f, 900)]
+    private int myPixelsAllowedFromRight = 200;
+    [SerializeField]
+    [Range(0f, 900)]
+    private int myPixelsAllowedFromLeft = 200;
+    [SerializeField]
+    [Range(0f, 500)]
+    private int myPixelsAllowedFromUp = 100;
+    [SerializeField]
+    [Range(0f, 500)]
+    private int myPixelsAllowedFromDown = 100;
+
+    [Header("POSITION Settings")]
     [SerializeField]
     [Range(-30f, 30f)]
     private float myPlayerHorizontalCameraPosition;
@@ -29,11 +36,11 @@ public class NewCameraMovement : MonoBehaviour
 
     [Header("FOV Settings")]
     [SerializeField]
-    [Range(0f, 50f)]
-    private float myZoomOutSpeed;
+    [Range(0f, 3f)]
+    private float myZoomOutSpeed = 0.1f;
     [SerializeField]
-    [Range(0f, 50f)]
-    private float myZoomInSpeed;
+    [Range(0f, 20f)]
+    private float myZoomInSpeed = 5f;
     [SerializeField]
     [Range(0f, 200f)]
     private float myMinFieldOfView;
@@ -41,25 +48,34 @@ public class NewCameraMovement : MonoBehaviour
     [Range(0f, 200f)]
     private float myMaxFieldOfView;
 
+    [Header("SPEED Settings")]
+    [SerializeField]
+    [Range(0f, 3f)]
+    private float myVerticalSpeed = 0.5f;
+    [SerializeField]
+    [Range(0f, 3f)]
+    private float myHorizontalSpeed = 1f;
 
-
-    bool touchedSlowDownBoundLastFrame = false;
-    bool touchedLeftBoundLastFrame = false;
-    bool touchedSpeedUpBoundLastFrame = false;
 
     Vector3 myPlayerCurrentVelocity;
     Vector3 myPlayerPrevPos;
     Vector3 myPlayerNewPos;
-    Vector3 myDistanceBetweenCameraAndPlayer;
     
     Vector3 positionToMoveTo;
     Vector3 screenPoint;
 
     private void Start()
     {
-       
+       if (myCamera == null)
+        {
+            myCamera = Camera.main;
+        }
         myPlayerPrevPos = myPlayer.transform.position;
       
+    }
+    private void OnValidate()
+    {
+        myPlayer = FindObjectOfType<Player>();
     }
     void FixedUpdate()
     {
@@ -84,18 +100,32 @@ public class NewCameraMovement : MonoBehaviour
 
     private void Move(Vector3 aScreenpoint)
     {
-        positionToMoveTo = new Vector3(myPlayer.transform.position.x + myPlayerCurrentVelocity.x-myPlayerHorizontalCameraPosition, 
-                                        myPlayer.transform.position.y + myPlayerCurrentVelocity.y+myPlayerVerticalCameraPosition, 
+        positionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x*myHorizontalSpeed)-myPlayerHorizontalCameraPosition, 
+                                        myPlayer.transform.position.y + (myPlayerCurrentVelocity.y*myVerticalSpeed)-myPlayerVerticalCameraPosition, 
                                         transform.position.z);
-        if (aScreenpoint.x > 300 && aScreenpoint.y > 200 && aScreenpoint.x < Screen.width-300 && screenPoint.y < Screen.height-200)
+        if (aScreenpoint.x > myPixelsAllowedFromLeft &&  aScreenpoint.x < Screen.width-myPixelsAllowedFromRight )
         {
-            transform.position = Vector3.Lerp(transform.position, positionToMoveTo, Time.deltaTime);
+            
+            transform.position = Vector3.Lerp(transform.position, new Vector3(positionToMoveTo.x,transform.position.y,transform.position.z), Time.deltaTime);
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(myPlayer.transform.position.x,myPlayer.transform.position.y,transform.position.z), Time.deltaTime);
+            
+                transform.position = Vector3.Lerp(transform.position, new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z), Time.deltaTime/1000);
+            
         }
-        
+        if(aScreenpoint.y > myPixelsAllowedFromDown && screenPoint.y < Screen.height - myPixelsAllowedFromUp)
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, positionToMoveTo.y, transform.position.z), Time.deltaTime);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, myPlayer.transform.position.y, transform.position.z), Time.deltaTime / 1000);
+
+        }
+
+
+
     }
 
     private void CheckPlayerScreenLocation()
