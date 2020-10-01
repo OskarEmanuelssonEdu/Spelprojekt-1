@@ -152,7 +152,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7160de9cc48bd8340866e3cb7afcd22a, type: 2}
+      objectReference: {fileID: 2100000, guid: 13b9af2b4e501ee42ba983db84665867, type: 2}
     - target: {fileID: 8456444071370301531, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
@@ -166,7 +166,12 @@ PrefabInstance:
     - target: {fileID: 8456444071370301531, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: m_Time
-      value: 1
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456444071370301531, guid: d96d1354cd6865d4986a4fd7db2df3cc,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -1578,6 +1583,27 @@ Transform:
   m_Father: {fileID: 1814226671}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1287350884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8456444071370301528, guid: d96d1354cd6865d4986a4fd7db2df3cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 61216802}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1287350890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287350884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d93dba16f7e114fabb0ef08b2eaef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMarginal: 0.5
+  myTrailFadeIn: 0.5
+  myTrailFadeAway: 1
 --- !u!1 &1437773697
 GameObject:
   m_ObjectHideFlags: 0
