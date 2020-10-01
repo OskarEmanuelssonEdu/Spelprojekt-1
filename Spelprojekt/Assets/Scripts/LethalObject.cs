@@ -6,7 +6,7 @@ public class LethalObject : MonoBehaviour
 {
     public float myDamage;
 
-    [SerializeField]
+  
     Player myPlayer;
 
     [Header("Debug Options")]
@@ -24,6 +24,11 @@ public class LethalObject : MonoBehaviour
     bool myLogCollision;
     bool myHasLoggedCollision;
 
+
+    void OnValidate()
+    {
+        myPlayer = FindObjectOfType<Player>();
+    }
     private void Start()
     {
         if (myName == "")

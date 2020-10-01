@@ -213,6 +213,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+<<<<<<< HEAD
 --- !u!1 &983338559
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,6 +457,8 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+=======
+>>>>>>> ResetScirpt
 --- !u!1 &1957534043
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +468,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1957534044}
+<<<<<<< HEAD
   - component: {fileID: 1957534045}
+=======
+>>>>>>> ResetScirpt
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -481,12 +487,17 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957534043}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 0, y: 0, z: 0}
+=======
+  m_LocalPosition: {x: 50.298653, y: -37.817, z: 81.87955}
+>>>>>>> ResetScirpt
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!114 &1957534045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +516,8 @@ MonoBehaviour:
   myTotalTimeText: {fileID: 0}
   myScoreManager: {fileID: 0}
   myPlayer: {fileID: 0}
+=======
+>>>>>>> ResetScirpt
 --- !u!1 &2114215788
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,8 +529,11 @@ GameObject:
   - component: {fileID: 2114215791}
   - component: {fileID: 2114215790}
   - component: {fileID: 2114215789}
+<<<<<<< HEAD
   - component: {fileID: 2114215793}
   - component: {fileID: 2114215792}
+=======
+>>>>>>> ResetScirpt
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -584,6 +600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114215788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 0, y: 1, z: -17.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -736,3 +753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d96d1354cd6865d4986a4fd7db2df3cc, type: 3}
+=======
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> ResetScirpt
