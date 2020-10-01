@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class NewCameraMovement : MonoBehaviour
 {
-  
+
 
     [SerializeField]
     Camera myCamera;
-    
+
     private Player myPlayer;
 
     [Header("BOUNDARY Settings")]
@@ -28,10 +28,10 @@ public class NewCameraMovement : MonoBehaviour
     [Header("POSITION Settings")]
     [SerializeField]
     [Range(-30f, 30f)]
-    private float myPlayerHorizontalCameraPosition;
+    private float myPlayerHorizontalCameraPosition = -5f;
     [SerializeField]
     [Range(-20f, 20f)]
-    private float myPlayerVerticalCameraPosition;
+    private float myPlayerVerticalCameraPosition = -8f;
 
 
     [Header("FOV Settings")]
@@ -43,10 +43,10 @@ public class NewCameraMovement : MonoBehaviour
     private float myZoomInSpeed = 5f;
     [SerializeField]
     [Range(0f, 200f)]
-    private float myMinFieldOfView;
+    private float myMinFieldOfView = 70f;
     [SerializeField]
     [Range(0f, 200f)]
-    private float myMaxFieldOfView;
+    private float myMaxFieldOfView = 80f;
 
     [Header("SPEED Settings")]
     [SerializeField]
@@ -60,18 +60,18 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myPlayerCurrentVelocity;
     Vector3 myPlayerPrevPos;
     Vector3 myPlayerNewPos;
-    
+
     Vector3 positionToMoveTo;
     Vector3 screenPoint;
 
     private void Start()
     {
-       if (myCamera == null)
+        if (myCamera == null)
         {
             myCamera = Camera.main;
         }
         myPlayerPrevPos = myPlayer.transform.position;
-      
+
     }
     private void OnValidate()
     {
@@ -100,21 +100,21 @@ public class NewCameraMovement : MonoBehaviour
 
     private void Move(Vector3 aScreenpoint)
     {
-        positionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x*myHorizontalSpeed)-myPlayerHorizontalCameraPosition, 
-                                        myPlayer.transform.position.y + (myPlayerCurrentVelocity.y*myVerticalSpeed)-myPlayerVerticalCameraPosition, 
+        positionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x * myHorizontalSpeed) - myPlayerHorizontalCameraPosition,
+                                        myPlayer.transform.position.y + (myPlayerCurrentVelocity.y * myVerticalSpeed) - myPlayerVerticalCameraPosition,
                                         transform.position.z);
-        if (aScreenpoint.x > myPixelsAllowedFromLeft &&  aScreenpoint.x < Screen.width-myPixelsAllowedFromRight )
+        if (aScreenpoint.x > myPixelsAllowedFromLeft && aScreenpoint.x < Screen.width - myPixelsAllowedFromRight)
         {
-            
-            transform.position = Vector3.Lerp(transform.position, new Vector3(positionToMoveTo.x,transform.position.y,transform.position.z), Time.deltaTime);
+
+            transform.position = Vector3.Lerp(transform.position, new Vector3(positionToMoveTo.x, transform.position.y, transform.position.z), Time.deltaTime);
         }
         else
         {
-            
-                transform.position = Vector3.Lerp(transform.position, new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z), Time.deltaTime/1000);
-            
+
+            transform.position = Vector3.Lerp(transform.position, new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z), Time.deltaTime / 1000);
+
         }
-        if(aScreenpoint.y > myPixelsAllowedFromDown && screenPoint.y < Screen.height - myPixelsAllowedFromUp)
+        if (aScreenpoint.y > myPixelsAllowedFromDown && screenPoint.y < Screen.height - myPixelsAllowedFromUp)
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, positionToMoveTo.y, transform.position.z), Time.deltaTime);
         }
@@ -132,7 +132,7 @@ public class NewCameraMovement : MonoBehaviour
     {
         screenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);
     }
-   
+
 
     private void ZoomIn()
     {
@@ -151,5 +151,5 @@ public class NewCameraMovement : MonoBehaviour
             myCamera.fieldOfView = myMaxFieldOfView;
         }
     }
-  
+
 }
