@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class CameraMovement : MonoBehaviour
+public class OldCameraMovement : MonoBehaviour
 {
     [SerializeField]
     private AudioClip myAudioWhenNearScreen;
@@ -145,12 +145,6 @@ public class CameraMovement : MonoBehaviour
         if (isTouchingRightSuperSpeedUpBound)
         {
             float myDistanceToMove = screenPoint.x - myDistanceToRightBeforeSuperSpeedingUp;
-
-
-            Debug.Log("myDistanceToMove." + (myDistanceToMove));
-            Debug.Log("Screenpoint: " + screenPoint.x + "\nDistance beforespeedingup: " + myDistanceToRightBeforeSuperSpeedingUp
-                + "\ndifference" + (screenPoint.x - myDistanceToRightBeforeSuperSpeedingUp));
-
             transform.position += new Vector3(myDistanceToMove * Time.deltaTime, 0, 0);
         }
     }
