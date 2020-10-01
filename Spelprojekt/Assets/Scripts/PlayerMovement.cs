@@ -416,7 +416,6 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
-
     void DoJump()
     {
 
