@@ -19,12 +19,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
 
-    [Header("Reference Settings")]
-    [SerializeField]
+    
+    
     ScoreManager myScoreManager;
-    [SerializeField]
+    
     Player myPlayer;
     Vector3 startPos;
+   
+    void OnValidate()
+    {
+        myPlayer = FindObjectOfType<Player>();
+        myScoreManager = FindObjectOfType<ScoreManager>();
+    }
     void Start()
     {
         startPos = myPlayer.transform.position;        
