@@ -8,6 +8,10 @@ public class GrappleHookBoohyah : MonoBehaviour
     [SerializeField]
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
+
+    [SerializeField]
+    float myProjectileLifeTime = 3;
+    float myProjectileLifeTimer = 0;
     Vector3 myMousePosition;
     Vector3 myMouseDirection;
     Vector3 myGrapplePosition;
@@ -36,8 +40,8 @@ public class GrappleHookBoohyah : MonoBehaviour
     float mySwingCorrection;
     [Range(10, 100)]
     [SerializeField]
-    float projectileSpeed;
-    float myAliveTime = 2;
+    float myProjectileSpeed;
+   
     [SerializeField]
     Camera myOrtograpicCamera;
     [SerializeField]
@@ -69,10 +73,25 @@ public class GrappleHookBoohyah : MonoBehaviour
     }
     void Update()
     {
-
         GetInputs();
         
-        Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, projectileSpeed, myGrappleLayer);
+       
+        if (!myHit && myProjectile.gameObject.activeSelf)
+        {
+            if (myProjectileLifeTimer >= myProjectileLifeTime)
+            {
+                myProjectile.gameObject.SetActive(false);
+                myProjectileLifeTimer = 0;
+                Debug.Log("Lifetime out");
+            }
+            else
+            {
+                myProjectileLifeTimer += Time.deltaTime * myProjectileSpeed;
+                Debug.Log("Run Counter , Timer: " + myProjectileLifeTimer);
+            }
+        }
+        Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, myProjectileSpeed, myGrappleLayer);
+        
         if (tempGrapplingPos != Vector3.zero&& !myGrappling) 
         {           
             myGrapplePosition = tempGrapplingPos;
@@ -100,9 +119,10 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (Input.GetKeyDown(myGrappleKey))
         {
+            myProjectileLifeTimer = 0;
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
-         
+            myHit = false;
             myMousePosition = myOrtograpicCamera.ScreenToWorldPoint(Input.mousePosition);
             myMouseDirection = new Vector3(myMousePosition.x, myMousePosition.y, 0) - transform.position;
           
