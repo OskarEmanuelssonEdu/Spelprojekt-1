@@ -9,6 +9,10 @@ public class LethalObject : MonoBehaviour
     [SerializeField]
     Player myPlayer;
 
+    [Header("Debug Options")]
+
+    [Tooltip("This will determine the \"name\" of the object when logging messages.")]
+    public string myName;
     [SerializeField]
     [Tooltip("Boolean indicating wether a white frame shall be rendered showing the hitbox of the lethal object.")]
     bool myShowHitbox;
@@ -19,6 +23,14 @@ public class LethalObject : MonoBehaviour
     [Tooltip("Tick to log when the LethalObject collides with the player.")]
     bool myLogCollision;
     bool myHasLoggedCollision;
+
+    private void Start()
+    {
+        if (myName == "")
+        {
+            myName = "Unnamed Lethal Object";
+        }
+    }
 
     private void Update()
     {
@@ -43,15 +55,16 @@ public class LethalObject : MonoBehaviour
             && rectangleOneBottomSide < rectangleTwoTopSide
             && rectangleOneTopSide > rectangleTwoBottomSide)
         {
-            if (myLogCollision && myHasLoggedCollision)
+            if (myLogCollision && !myHasLoggedCollision)
             {
-                Debug.Log(string.Format("Started intersecting Player at: (X: {0} | Y: {1} | Z: {2})", transform.position.x, transform.position.y, transform.position.z));
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                myHasLoggedCollision = true;
             }
-            myPlayer.TakeDamage(myDamage * Time.deltaTime);
+            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
         }
         else if (myHasLoggedCollision)
         {
-            Debug.Log(string.Format("Stopped intersecting Player at: (X: {0} | Y: {1} | Z: {2})", transform.position.x, transform.position.y, transform.position.z));
+            Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             myHasLoggedCollision = false;
         }
     }
