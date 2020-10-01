@@ -22,13 +22,16 @@ public class GameManager : MonoBehaviour
     
     
     ScoreManager myScoreManager;
-    
+    PlayerMovement myPlayerMovement;
+    GrappleHookBoohyah grappleHook;
     Player myPlayer;
     Vector3 startPos;
    
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        grappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
     }
     void Start()
@@ -59,13 +62,21 @@ public class GameManager : MonoBehaviour
             myCountDownTimer += Time.deltaTime;
         }
     }
-    void LevelComplete()
+    public void LevelComplete()
     {
+        myPlayer.transform.position = startPos;
+
+        grappleHook.enabled = false;
+        myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
     }
-    void GameOver()
+    public void GameOver()
     {
+        myPlayer.transform.position = startPos;
+
+        grappleHook.enabled = false;
+        myPlayerMovement.enabled = false;
         myGameOverScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
 
@@ -81,8 +92,15 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame()
     {
+        grappleHook.enabled = true;
+        myPlayerMovement.enabled = true;
+        myGameOverScreen.SetActive(false);
+        myLevelCompleteScreen.SetActive(false);
         myScoreManager.ResetTimer();
-        myPlayer.transform.position = startPos;
 
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

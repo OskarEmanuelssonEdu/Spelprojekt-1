@@ -11,8 +11,16 @@ public class Respawn : MonoBehaviour
     BoxCollider2D myCollider2D;
     [SerializeField]
     LayerMask myLayerMask;
+
     [SerializeField]
-    ScoreManager scoreManager;
+    bool myIsLevelCompleteCollider = false;
+    ScoreManager myScoreManager;
+    GameManager myGameManager;
+    private void OnValidate()
+    {
+        myScoreManager = FindObjectOfType<ScoreManager>();
+        myGameManager = FindObjectOfType<GameManager>();
+    }
     void Update()
     {
         CheckBox();
@@ -22,11 +30,16 @@ public class Respawn : MonoBehaviour
         RaycastHit2D hitInfo = Physics2D.BoxCast(transform.position, transform.localScale + Vector3.one, 0,Vector3.up, 0 , myLayerMask);
         if (hitInfo)
         {
-            Debug.Log("Respawn");
-            scoreManager.ResetTimer();
-            hitInfo.collider.transform.position = myRespawnPosition.position;          
+            if (myIsLevelCompleteCollider)
+            {
+                myGameManager.LevelComplete();
+            }
+            else
+            {
+                myGameManager.GameOver();
+
+            }
         }
     }
-
 
 }
