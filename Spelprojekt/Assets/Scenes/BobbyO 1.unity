@@ -1519,12 +1519,12 @@ PrefabInstance:
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myGravity
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myMaxSpeed
-      value: 20.3
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -1539,12 +1539,22 @@ PrefabInstance:
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myJumpForce
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myDecceleration
-      value: 0.5
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
+        type: 3}
+      propertyPath: myJumpStartForce
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456444071370301530, guid: d96d1354cd6865d4986a4fd7db2df3cc,
+        type: 3}
+      propertyPath: myJumpTime
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301531, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -1609,7 +1619,7 @@ PrefabInstance:
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: myGrappleSpeedIncrease
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301534, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
@@ -1619,12 +1629,12 @@ PrefabInstance:
     - target: {fileID: 8456444071370301535, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.9
+      value: 80.36
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301535, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.4
+      value: -0.21
       objectReference: {fileID: 0}
     - target: {fileID: 8456444071370301535, guid: d96d1354cd6865d4986a4fd7db2df3cc,
         type: 3}
