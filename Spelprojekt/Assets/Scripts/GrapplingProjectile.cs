@@ -9,7 +9,7 @@ public class GrapplingProjectile : MonoBehaviour
     GrappleHookBoohyah grapplingHook;
     [SerializeField]
     TrailRenderer trailRenderer;
-    public  GrappleHookBoohyah GrapplingHook
+    public GrappleHookBoohyah GrapplingHook
     {
         set
         {

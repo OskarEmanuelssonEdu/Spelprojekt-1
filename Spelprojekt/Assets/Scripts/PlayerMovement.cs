@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
     bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
-
+    [SerializeField]
     Animator animator;
     private void OnValidate()
     {

@@ -14,7 +14,9 @@ public class Respawn : MonoBehaviour
 
     [SerializeField]
     bool myIsLevelCompleteCollider = false;
+    [SerializeField]
     ScoreManager myScoreManager;
+    [SerializeField]
     GameManager myGameManager;
     private void OnValidate()
     {

@@ -23,7 +23,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     [SerializeField]
     LayerMask myGrappleLayer;
-
+    [SerializeField]
     PlayerMovement myPlayerMovement;
 
     [SerializeField]

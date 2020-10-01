@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public float myMaxHlaeth = 10;
     public float myCurrentHealth = 0;
 
-   
+    [SerializeField]
     GameManager myGameManager;
 
     void OnValidate()

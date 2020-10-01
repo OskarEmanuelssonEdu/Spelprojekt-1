@@ -8,7 +8,7 @@ public class NewCameraMovement : MonoBehaviour
 
     [SerializeField]
     Camera myCamera;
-
+    [SerializeField]
     private Player myPlayer;
 
     [Header("BOUNDARY Settings")]

@@ -20,10 +20,13 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI myTotalTimeText;
 
     
-    
+    [SerializeField]
     ScoreManager myScoreManager;
+    [SerializeField]
     PlayerMovement myPlayerMovement;
+    [SerializeField]
     GrappleHookBoohyah grappleHook;
+    [SerializeField]
     Player myPlayer;
     Vector3 startPos;
    
@@ -36,6 +39,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        grappleHook.enabled = true;
+        myPlayerMovement.enabled = true;
         startPos = myPlayer.transform.position;        
     }
     void Update()
