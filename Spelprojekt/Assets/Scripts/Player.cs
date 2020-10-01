@@ -8,8 +8,15 @@ public class Player : MonoBehaviour
     public float myMaxHlaeth = 10;
     public float myCurrentHealth = 0;
 
-    [SerializeField]
+   
     GameManager myGameManager;
+
+    void OnValidate()
+    {
+        myGameManager = FindObjectOfType<GameManager>();
+
+
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +29,14 @@ public class Player : MonoBehaviour
 
     }
 
-    public void TakeDamage(float someDamage)
+    public void TakeDamage(float someDanmage)
     {
-        Debug.Log("Player took " + someDamage);
-        myCurrentHealth = myCurrentHealth - someDamage;
+        myCurrentHealth = myCurrentHealth - someDanmage;
+        
         if (myCurrentHealth <= 0)
         {
-          
+            myGameManager.ResetGame();
+        
         }
     }
 
