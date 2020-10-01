@@ -24,12 +24,18 @@ public class GameManager : MonoBehaviour
     ScoreManager myScoreManager;
     [SerializeField]
     Player myPlayer;
-   
-
+    Vector3 startPos;
+    void Start()
+    {
+        startPos = myPlayer.transform.position;        
+    }
     void Update()
     {
         CountDownToStart();
-       
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetGame();
+        }
         if (myPlayer.myCurrentHealth <= 0)
         {
             GameOver();
@@ -68,6 +74,12 @@ public class GameManager : MonoBehaviour
         {
             myScoreManager.StartCounter = true;
         }
+
+    }
+    public void ResetGame()
+    {
+        myScoreManager.ResetTimer();
+        myPlayer.transform.position = startPos;
 
     }
 }
