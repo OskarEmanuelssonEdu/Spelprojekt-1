@@ -91,6 +91,10 @@ public class NewCameraMovement : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, positionToMoveTo, Time.deltaTime);
         }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(myPlayer.transform.position.x,myPlayer.transform.position.y,transform.position.z), Time.deltaTime);
+        }
         
     }
 
