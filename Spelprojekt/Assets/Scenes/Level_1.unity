@@ -1160,7 +1160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54943477}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -96.5, y: 311, z: 10}
+  m_LocalPosition: {x: -96.5, y: 319.82, z: 10}
   m_LocalScale: {x: 5, y: 100, z: 5}
   m_Children: []
   m_Father: {fileID: 886293156}
@@ -15529,7 +15529,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855888390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -110.99999, y: 311, z: 10}
+  m_LocalPosition: {x: -110.99999, y: 324.7, z: 10}
   m_LocalScale: {x: 5, y: 100, z: 5}
   m_Children: []
   m_Father: {fileID: 886293156}
@@ -33953,6 +33953,10 @@ MonoBehaviour:
   myLevelCompleteScreen: {fileID: 1988964576}
   myGameOverScreen: {fileID: 1878549231}
   myTotalTimeText: {fileID: 1354511411}
+  myScoreManager: {fileID: 1957534046}
+  myPlayerMovement: {fileID: 2001341410}
+  grappleHook: {fileID: 2001341409}
+  myPlayer: {fileID: 2001341408}
 --- !u!114 &1957534046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35099,6 +35103,42 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1067334937526255287}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2001341408 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3573941355867871267, guid: cb1bcbc45284a2e4e88d098c0f797215,
+    type: 3}
+  m_PrefabInstance: {fileID: 1067334937526255287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001341407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee01d94bab0ee54eb886a8d56619110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2001341409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3573941355867871266, guid: cb1bcbc45284a2e4e88d098c0f797215,
+    type: 3}
+  m_PrefabInstance: {fileID: 1067334937526255287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001341407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eadf28be0c20284298e2db7d6e2afdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2001341410 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3573941355867871265, guid: cb1bcbc45284a2e4e88d098c0f797215,
+    type: 3}
+  m_PrefabInstance: {fileID: 1067334937526255287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001341407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727af76fbb23aba44a5efc4ddb0839ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2001341411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4238696588129944223, guid: cb1bcbc45284a2e4e88d098c0f797215,
@@ -37219,6 +37259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCamera: {fileID: 2114215790}
+  myPlayer: {fileID: 2001341408}
   myPixelsAllowedFromRight: 200
   myPixelsAllowedFromLeft: 200
   myPixelsAllowedFromUp: 100
@@ -38257,6 +38298,11 @@ PrefabInstance:
       propertyPath: myProjectileSpeed
       value: 85.3
       objectReference: {fileID: 0}
+    - target: {fileID: 3573941355867871266, guid: cb1bcbc45284a2e4e88d098c0f797215,
+        type: 3}
+      propertyPath: myPlayerMovement
+      value: 
+      objectReference: {fileID: 2001341410}
     - target: {fileID: 3573941355867871269, guid: cb1bcbc45284a2e4e88d098c0f797215,
         type: 3}
       propertyPath: m_Name
