@@ -8,7 +8,10 @@ public class GrappleHookBoohyah : MonoBehaviour
     [SerializeField]   
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
-    
+    [SerializeField]
+    [Tooltip("Berättar vart skottet kommer att skjutas från")]
+    Transform myShootPosition;
+
     [Tooltip("Definerar hur snabbt projektilen kommer att färdas")]
     [Range(10, 100)]
     [SerializeField]
@@ -23,8 +26,10 @@ public class GrappleHookBoohyah : MonoBehaviour
     Vector3 myMouseDirection;
     Vector3 myGrapplePosition;
 
+
     float myGrappleDistance;
 
+    [Header("Rope settings")]
     [SerializeField]
     LayerMask myGrappleLayer;
     [SerializeField]
@@ -44,8 +49,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     float mySwingCorrection;
    
    
-    [SerializeField]
-    Transform myShootPosition;
+
     [SerializeField]
     Camera myOrtograpicCamera;
     [SerializeField]
