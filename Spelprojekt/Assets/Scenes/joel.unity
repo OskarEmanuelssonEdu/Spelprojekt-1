@@ -1131,19 +1131,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cb56652adebf44c885addcff43b94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myMovementSpeed: 10
-  myMaxMovementSpeed: 29.89
+  myAudioWhenNearScreen: {fileID: 8300000, guid: 255ae0b0d86d38e48a23f39cbaa9fa94,
+    type: 3}
+  myAudioDeath: {fileID: 8300000, guid: 06ba56f3c408a034889891528309d147, type: 3}
+  myCamera: {fileID: 1573791194}
   myPlayer: {fileID: 349822191}
+  myMinMovementSpeed: 10
+  myMaxMovementSpeed: 20
+  myCurrentMovementSpeed: 0
+  myCameraFollowAcceleration: 20
+  myCameraFollowDeceleration: 10
   myDistanceAllowedFromEdge: 0
-  myDistanceBeforeZoomingOut: 20.9
-  myDistanceBeforeSpeedingUp: 49.7
-  myDistanceBeforeSlowingDown: 33
+  myDistanceBeforeZoomingOut: 0.6
+  myDistanceBeforeSpeedingUp: 0.5
+  myDistanceBeforeSlowingDown: 0.2
   myZoomOutSpeed: 22.15
   myZoomInSpeed: 3.5
   myMinFieldOfView: 50
   myMaxFieldOfView: 60
-  myCameraFollowZoomOutSpeed: 0.1
-  myCamera: {fileID: 1573791194}
 --- !u!114 &1573791197
 MonoBehaviour:
   m_ObjectHideFlags: 0
