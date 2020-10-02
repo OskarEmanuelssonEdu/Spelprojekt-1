@@ -20,7 +20,7 @@ public class GrapplingProjectile : MonoBehaviour
     {
         trailRenderer.Clear();
     }
-    public Vector3 MoveProjectile(Vector3 aDirection, float aProjectileSpeed, LayerMask aLayer)
+    public Vector3 MoveProjectile(Vector3 aDirection, float aProjectileSpeed, LayerMask aLayer, float aProjectileMaxDistance)
     {
 
         transform.Translate(aDirection.normalized * aProjectileSpeed * Time.deltaTime);
@@ -29,17 +29,25 @@ public class GrapplingProjectile : MonoBehaviour
         if (hit.collider != null && hit.collider.gameObject.layer != 0)
         {
             gameObject.SetActive(false);
-            grapplingHook.Hit = true;
+         
             return new Vector3(hit.point.x, hit.point.y, 0);
             
         }
         else
         {
+            float dist = Vector3.Distance(transform.position, grapplingHook.transform.position);
+            if (dist >= aProjectileMaxDistance)
+            {
+                gameObject.SetActive(false);
+              
+                return Vector3.zero;
+            }
+
             if (hit.collider != null && hit.collider.gameObject.layer == 0)
             {
                gameObject.SetActive(false);
             }
-            grapplingHook.Hit = false;
+          
             return Vector3.zero;
         }
 
