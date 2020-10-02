@@ -5,16 +5,18 @@ using UnityEngine;
 public class ObjectFalling : MonoBehaviour
 {
     private bool isGrounded;
-    private bool isFalling;
+    Vector3 velocity = new Vector3(0, 0, 0);
 
-    [Tooltip("Adjusts the falling speed of the lethal object")]
+    [Tooltip("Adjusts the falling speed/gravity of the falling object")]
     [SerializeField]
-    float speed;
+    public float gravity;
 
-    [Tooltip("Adjusts the distance which the player has to be from the falling object to trigger fall")]
+    [Tooltip("Distance from falling object to player to trigger fall")]
     [SerializeField]
-    float myDistanceToActivate = 10;
+    float myDistanceToActivate;
 
+    [SerializeField]
+    [Tooltip ("Assigned in script under OnValidate")]
     GameManager myGameManager;
 
     private void OnValidate()
@@ -22,15 +24,16 @@ public class ObjectFalling : MonoBehaviour
         myGameManager = FindObjectOfType<GameManager>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-
         if (CheckPlayerDistance())
         {
             CheckGrounded();
             if (!isGrounded)
             {
-                transform.position -= new Vector3(0, speed * Time.deltaTime, 0);
+                velocity.y -= gravity * Time.fixedDeltaTime;
+                Debug.Log("Current velocity Y = " + velocity.y);
+                transform.position += velocity * Time.fixedDeltaTime;
             }
         }
     }
@@ -50,7 +53,7 @@ public class ObjectFalling : MonoBehaviour
 
     void CheckGrounded()
     {
-        RaycastHit2D boxResult = Physics2D.BoxCast(transform.position, new Vector3(1, 0.5f), 0f, new Vector2(0, -1), 0.25f);
+        RaycastHit2D boxResult = Physics2D.BoxCast(transform.position, new Vector3(1, 1f), 0f,Vector3.down, velocity.y * Time.fixedDeltaTime);
         if (boxResult.collider != null)
         {
             isGrounded = true;
