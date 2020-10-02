@@ -79,7 +79,12 @@ public class PlayerMovement : MonoBehaviour
     bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
-
+    [SerializeField]
+    Animator animator;
+    private void OnValidate()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     public Vector3 CurrentSpeed
     {
         get
@@ -97,12 +102,10 @@ public class PlayerMovement : MonoBehaviour
         jumping,
         falling
     }
-    void Start()
-    {
-
-    }
+  
     void Update()
     {
+        Animate();
         myIsGrounded = CheckGround();
         GetInputs();
         if (myCurrentVelocity.x > 0)
@@ -359,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
             case JumpState.none:
 
                 ApplyForce(new Vector3(0, -myGravity, 0));
-
+                
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
@@ -367,8 +370,8 @@ public class PlayerMovement : MonoBehaviour
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
+                    animator.SetTrigger("JumpTrigger");
                     myJumpState = JumpState.jumping;
-
 
                 }
                 else if (!myIsGrounded)
@@ -382,7 +385,7 @@ public class PlayerMovement : MonoBehaviour
 
             case JumpState.jumping:
 
-
+                
                 if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
                 {
 
@@ -401,7 +404,8 @@ public class PlayerMovement : MonoBehaviour
 
                 if (myIsGrounded)
                 {
-
+                    Debug.Log("Land");
+                    animator.SetTrigger("LandTrigger");
                     myJumpState = JumpState.none;
 
 
@@ -416,14 +420,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
-    void DoJump()
-    {
 
-        myCurrentVelocity.y = 0;
-        ApplyForce(new Vector3(0, myJumpForce, 0));
-
-
-    }
     void DoEnterSlide()
     {
         myIsSliding = true;
@@ -503,5 +500,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+    }
+    void Animate()
+    {
+        animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
     }
 }
