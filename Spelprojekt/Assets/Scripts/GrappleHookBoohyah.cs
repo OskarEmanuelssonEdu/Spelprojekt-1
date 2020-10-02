@@ -9,9 +9,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
 
-    [SerializeField]
-    float myProjectileLifeTime = 3;
-    float myProjectileLifeTimer = 0;
+
     Vector3 myMousePosition;
     Vector3 myMouseDirection;
     Vector3 myGrapplePosition;
@@ -52,14 +50,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     [SerializeField]
     KeyCode myGrappleKey = KeyCode.Mouse0;
 
-    bool myHit = true;
-    public bool Hit
-    {
-        set
-        {
-            myHit = value;
-        }
-    }
+ 
 
     void Start()
     {
@@ -75,28 +66,13 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         GetInputs();
         
-       
-        if (!myHit && myProjectile.gameObject.activeSelf)
-        {
-            if (myProjectileLifeTimer >= myProjectileLifeTime)
-            {
-                myProjectile.gameObject.SetActive(false);
-                myProjectileLifeTimer = 0;
-                Debug.Log("Lifetime out");
-            }
-            else
-            {
-                myProjectileLifeTimer += Time.deltaTime * myProjectileSpeed;
-                Debug.Log("Run Counter , Timer: " + myProjectileLifeTimer);
-            }
-        }
-        Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, myProjectileSpeed, myGrappleLayer);
+        Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, myProjectileSpeed, myGrappleLayer, myGrappleMaxDistance);
         
         if (tempGrapplingPos != Vector3.zero&& !myGrappling) 
         {           
             myGrapplePosition = tempGrapplingPos;
             myGrappleDistance = (tempGrapplingPos - transform.position).magnitude + myGrappleStartSlack;
-            myHit = false;
+            
             myProjectile.gameObject.SetActive(false);
 
             myGrappling = true;
@@ -117,12 +93,12 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     void GetInputs()
     {
-        if (Input.GetKeyDown(myGrappleKey))
+        if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
-            myProjectileLifeTimer = 0;
+           
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
-            myHit = false;
+            
             myMousePosition = myOrtograpicCamera.ScreenToWorldPoint(Input.mousePosition);
             myMouseDirection = new Vector3(myMousePosition.x, myMousePosition.y, 0) - transform.position;
           
