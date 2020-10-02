@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class LethalObject : MonoBehaviour
 {
-    public float myDamage;
+    [Header("General Settings")]
 
     [SerializeField]
+    [Tooltip("Damage applied to the player each frame the player collides with this Lethal Object")]
+    float myDamage;
+    public float Damage
+    {
+        get { return myDamage; }
+    }
+
+    [SerializeField]
+    [Tooltip("The Player.cs used as player position.\nThis should be autofilled by OnValidate()")]
     Player myPlayer;
 
     [Header("Debug Options")]
@@ -30,6 +39,11 @@ public class LethalObject : MonoBehaviour
         {
             myName = "Unnamed Lethal Object";
         }
+    }
+
+    private void OnValidate()
+    {
+        myPlayer = FindObjectOfType<Player>();
     }
 
     private void Update()
