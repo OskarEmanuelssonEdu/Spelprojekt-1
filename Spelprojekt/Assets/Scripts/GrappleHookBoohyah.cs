@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class GrappleHookBoohyah : MonoBehaviour
 {
-
-    [SerializeField]
+    [Header("Projectile Settings")]
+    [SerializeField]   
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
-
+    
+    [Tooltip("Definerar hur snabbt projektilen kommer att färdas")]
+    [Range(10, 100)]
+    [SerializeField]
+    float myProjectileSpeed;
+    
+    [Range(10, 100)]
+    [Tooltip("Max distansen som pojektilen kommer att färdas (I UNITS)")]
+    [SerializeField]
+    float myGrappleMaxDistance;
 
     Vector3 myMousePosition;
     Vector3 myMouseDirection;
     Vector3 myGrapplePosition;
-
-    [SerializeField]
-    float myGrappleMaxDistance;
 
     float myGrappleDistance;
 
@@ -36,14 +42,12 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     [SerializeField]
     float mySwingCorrection;
-    [Range(10, 100)]
-    [SerializeField]
-    float myProjectileSpeed;
+   
    
     [SerializeField]
-    Camera myOrtograpicCamera;
-    [SerializeField]
     Transform myShootPosition;
+    [SerializeField]
+    Camera myOrtograpicCamera;
     [SerializeField]
     LineRenderer myLineRenderer;
 
@@ -152,5 +156,10 @@ public class GrappleHookBoohyah : MonoBehaviour
 
 
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(myShootPosition.position, myGrappleMaxDistance);
 
+    }
 }
