@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 100)]
     float myJumpForce = 15;
     [SerializeField]
-    [Range(0, 1)]
+    [Range(0, 10)]
     float myGravity = 1f;
     [SerializeField]
     [Range(0, 2)]

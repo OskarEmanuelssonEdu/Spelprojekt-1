@@ -65,7 +65,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (myProjectile == null)
         {
-            myProjectile = Instantiate(myProjectilePrefab, Vector3.zero, Quaternion.identity, transform);
+            myProjectile = Instantiate(myProjectilePrefab, Vector3.zero, Quaternion.identity);
             myProjectile.GrapplingHook = this;
 
         }
