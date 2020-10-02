@@ -92,7 +92,10 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
-        myScoreManager.StartCounter = true;
+        if (myScoreManager != null)
+        {
+            myScoreManager.StartCounter = true;
+        }
 
     }
     public void ResetGame()
