@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myJumpSound1;
+    [SerializeField]
+    private AudioClip myJumpSound2;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myJumpSoundVolume = 1f;
 
     [Header("Speed settings")]
 
@@ -357,7 +364,8 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-
+                    AudioManager.Instance.PlaySFX(myJumpSound1, myJumpSoundVolume);
+                    AudioManager.Instance.PlaySFX(myJumpSound2, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));

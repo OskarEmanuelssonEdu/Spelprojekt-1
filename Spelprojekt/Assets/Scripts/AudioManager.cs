@@ -35,6 +35,12 @@ public class AudioManager : MonoBehaviour
     private bool myFirstMusicSourceIsPlaying;
 
     #endregion
+
+    [SerializeField]
+    private float myMinMusicVolume;
+    [SerializeField]
+    private float myMaxMusicVolume = 1f;
+
     private void Awake()
     {
         //Make sure we dont destroy this instance
@@ -53,7 +59,7 @@ public class AudioManager : MonoBehaviour
         AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
 
         activeSource.clip = aMusicClip;
-        activeSource.volume = 1;
+        activeSource.volume = myMinMusicVolume;
         activeSource.Play();
     }
     public void PlayMusicWithFade(AudioClip aNewClip, float aTransitionTime = 1.0f)
@@ -167,8 +173,24 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusicVolume(float aVolume)
     {
-        myMusicSource.volume = aVolume;
-        myMusicSource2.volume = aVolume;
+
+        myMusicSource.volume += aVolume;
+        myMusicSource2.volume += aVolume;
+        if (myMusicSource.volume < myMinMusicVolume || myMusicSource2.volume < myMinMusicVolume)
+        {
+            myMusicSource.volume = myMinMusicVolume;
+            myMusicSource2.volume = myMinMusicVolume;
+        }
+        else if (myMusicSource.volume > myMaxMusicVolume || myMusicSource2.volume > myMaxMusicVolume)
+        {
+            myMusicSource.volume = myMaxMusicVolume;
+            myMusicSource2.volume = myMaxMusicVolume;
+        }
+    }
+    public void SetMusicPitch(float aPitch)
+    {
+        myMusicSource.pitch = aPitch;
+        myMusicSource2.pitch = aPitch;
     }
     public void FadeOutMusicVolume(float aTransitionTime, float aVolume)
     {
@@ -182,7 +204,12 @@ public class AudioManager : MonoBehaviour
     }
     public void SetSFXVolume(float aVolume)
     {
-        mySfxSource.volume = aVolume;
+        //mySfxSource.volume = aVolume;
+        mySfxSource.volume += aVolume;
+        if (mySfxSource.volume < myMinMusicVolume)
+        {
+            mySfxSource.volume = myMinMusicVolume;
+        }
     }
     
 }

@@ -14,16 +14,16 @@ public class NewCameraMovement : MonoBehaviour
     [Header("BOUNDARY Settings")]
     [SerializeField]
     [Range(0f, 900)]
-    private int myPixelsAllowedFromRight = 200;
+    private int myPixelsAllowedFromRight = 100;
     [SerializeField]
     [Range(0f, 900)]
-    private int myPixelsAllowedFromLeft = 200;
+    private int myPixelsAllowedFromLeft = 100;
     [SerializeField]
     [Range(0f, 500)]
-    private int myPixelsAllowedFromUp = 100;
+    private int myPixelsAllowedFromUp = 50;
     [SerializeField]
     [Range(0f, 500)]
-    private int myPixelsAllowedFromDown = 100;
+    private int myPixelsAllowedFromDown = 50;
 
     [Header("POSITION Settings")]
     [SerializeField]
@@ -82,6 +82,11 @@ public class NewCameraMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
+        
+        AudioManager.Instance.SetMusicVolume((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime*0.04f));
+        AudioManager.Instance.SetMusicVolume(Time.deltaTime * -0.2f);
+        AudioManager.Instance.SetSFXVolume((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime * 0.02f));
+        AudioManager.Instance.SetSFXVolume(Time.deltaTime * -0.2f);
         CheckPlayerVelocity();
         //Debug.Log("Player velocity: " + myPlayerCurrentVelocity);
 

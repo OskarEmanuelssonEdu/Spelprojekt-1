@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class GrappleHookBoohyah : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myGrappleSound1;
+    [SerializeField]
+    private AudioClip myGrappleSound2;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myGrappleSoundVolume = 1f;
+
     [Header("Projectile Settings")]
     [SerializeField]   
     GrapplingProjectile myProjectilePrefab;
@@ -103,7 +111,8 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
-           
+            AudioManager.Instance.PlaySFX(myGrappleSound1, myGrappleSoundVolume);
+            AudioManager.Instance.PlaySFX(myGrappleSound2, myGrappleSoundVolume);
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
             

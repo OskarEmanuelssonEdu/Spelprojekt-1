@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Player myPlayer;
     Vector3 startPos;
+
+    [SerializeField]
+    NewCameraMovement myCamera;
    
     void OnValidate()
     {
@@ -36,6 +40,7 @@ public class GameManager : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
         grappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
+        myCamera = FindObjectOfType<NewCameraMovement>();
     }
     void Start()
     {
@@ -79,11 +84,12 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         myPlayer.transform.position = startPos;
-
+        myCamera.ResetCameraPosition();
         grappleHook.enabled = false;
         myPlayerMovement.enabled = false;
-        myGameOverScreen.SetActive(true);
-        myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+        //myGameOverScreen.SetActive(true);
+        //myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+        
 
     }
     public Vector3 PlayerPosition()
@@ -100,11 +106,13 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame()
     {
+        
         grappleHook.enabled = true;
         myPlayerMovement.enabled = true;
         myGameOverScreen.SetActive(false);
         myLevelCompleteScreen.SetActive(false);
-        myScoreManager.ResetTimer();
+        myScoreManager.ResetTimer(); 
+        myCamera.ResetCameraPosition();
 
     }
     public void QuitGame()

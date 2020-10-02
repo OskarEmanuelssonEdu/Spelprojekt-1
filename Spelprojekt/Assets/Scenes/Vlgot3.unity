@@ -1569,6 +1569,21 @@ PrefabInstance:
       propertyPath: myMaxSpeed
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 3573941355867871265, guid: cb1bcbc45284a2e4e88d098c0f797215,
+        type: 3}
+      propertyPath: myJumpSound1
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a7843c9f5469ac4aa9610f7065720b1, type: 3}
+    - target: {fileID: 3573941355867871265, guid: cb1bcbc45284a2e4e88d098c0f797215,
+        type: 3}
+      propertyPath: myJumpSound2
+      value: 
+      objectReference: {fileID: 8300000, guid: 4208612f75f1fa3408b6f9208453b501, type: 3}
+    - target: {fileID: 3573941355867871265, guid: cb1bcbc45284a2e4e88d098c0f797215,
+        type: 3}
+      propertyPath: myJumpSoundVolume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3573941355867871266, guid: cb1bcbc45284a2e4e88d098c0f797215,
         type: 3}
       propertyPath: myPlayerMovement
