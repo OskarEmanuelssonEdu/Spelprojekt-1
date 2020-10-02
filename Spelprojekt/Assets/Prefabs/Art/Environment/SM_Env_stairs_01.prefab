@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1399324819732060666}
   - component: {fileID: 2649450388147361375}
   - component: {fileID: 225261752606761621}
-  - component: {fileID: 5118036894781564308}
   m_Layer: 0
   m_Name: SM_Env_stairs_01
   m_TagString: Untagged
@@ -80,23 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!68 &5118036894781564308
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738589768862925632}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -300.28928, y: 199.98267}
-  - {x: -282.75702, y: 197.6076}
-  - {x: 0.38518715, y: 0.05824685}
-  - {x: 0.25704718, y: -28.655972}
