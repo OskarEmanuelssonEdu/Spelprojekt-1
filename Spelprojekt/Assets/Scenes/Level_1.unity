@@ -38236,7 +38236,7 @@ PrefabInstance:
     - target: {fileID: 3573941355867871265, guid: cb1bcbc45284a2e4e88d098c0f797215,
         type: 3}
       propertyPath: myFriction
-      value: 1.1
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3573941355867871265, guid: cb1bcbc45284a2e4e88d098c0f797215,
         type: 3}

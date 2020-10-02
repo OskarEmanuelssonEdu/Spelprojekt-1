@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     float myDecceleration = 1;
 
     [SerializeField]
-    [Range(1, 10)]
+    [Range(0.01f, 10)] 
     float myFriction;
     [SerializeField]
     [Range(0.0f, 1)]
