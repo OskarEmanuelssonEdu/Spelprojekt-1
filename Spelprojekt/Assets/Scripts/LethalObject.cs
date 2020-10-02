@@ -24,14 +24,14 @@ public class LethalObject : MonoBehaviour
     bool myLogCollision;
     bool myHasLoggedCollision;
 
- HEAD
+
 
 
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
     }
-master
+
     private void Start()
     {
         if (myName == "")
@@ -62,17 +62,6 @@ master
             && rectangleOneLeftSide > rectangleTwoRightSide
             && rectangleOneBottomSide < rectangleTwoTopSide
             && rectangleOneTopSide > rectangleTwoBottomSide)
-HEAD
-        {
-            if (myLogCollision && !myHasLoggedCollision)
-            {
-                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
-                myHasLoggedCollision = true;
-            }
-            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
-        }
-        else if (myHasLoggedCollision)
-        {
 
         {
             if (myLogCollision && !myHasLoggedCollision)
@@ -84,7 +73,18 @@ HEAD
         }
         else if (myHasLoggedCollision)
         {
-master
+
+        
+            if (myLogCollision && !myHasLoggedCollision)
+            {
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                myHasLoggedCollision = true;
+            }
+            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
+        }
+        else if (myHasLoggedCollision)
+        {
+
             Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             myHasLoggedCollision = false;
         }
