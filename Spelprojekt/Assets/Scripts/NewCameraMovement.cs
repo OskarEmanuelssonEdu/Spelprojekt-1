@@ -62,7 +62,10 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myPlayerNewPos;
 
     Vector3 positionToMoveTo;
-    Vector3 screenPoint;
+    Vector3 myPlayerScreenPoint;
+    Vector3 myCameraStartPosition;
+
+    Vector3 bld2;
 
     private void Start()
     {
@@ -71,7 +74,7 @@ public class NewCameraMovement : MonoBehaviour
             myCamera = Camera.main;
         }
         myPlayerPrevPos = myPlayer.transform.position;
-
+        myCameraStartPosition = transform.position;
     }
     private void OnValidate()
     {
@@ -87,10 +90,15 @@ public class NewCameraMovement : MonoBehaviour
         {
             ZoomIn();
         }
-        Move(screenPoint);
+        Move();
         CheckPlayerScreenLocation();
-    }
 
+
+    }
+    public void ResetCameraPosition()
+    {
+        transform.position = myCameraStartPosition;
+    }
     private void CheckPlayerVelocity()
     {
         myPlayerNewPos = myPlayer.transform.position;
@@ -98,39 +106,79 @@ public class NewCameraMovement : MonoBehaviour
         myPlayerPrevPos = myPlayerNewPos;
     }
 
-    private void Move(Vector3 aScreenpoint)
+    private void Move()
     {
         positionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x * myHorizontalSpeed) - myPlayerHorizontalCameraPosition,
                                         myPlayer.transform.position.y + (myPlayerCurrentVelocity.y * myVerticalSpeed) - myPlayerVerticalCameraPosition,
                                         transform.position.z);
-        if (aScreenpoint.x > myPixelsAllowedFromLeft && aScreenpoint.x < Screen.width - myPixelsAllowedFromRight)
+
+        Vector3 targetPosition = transform.position;
+        Vector3 temp;
+
+        if (myPlayerScreenPoint.x > myPixelsAllowedFromLeft && myPlayerScreenPoint.x < Screen.width - myPixelsAllowedFromRight)
         {
-
-            transform.position = Vector3.Lerp(transform.position, new Vector3(positionToMoveTo.x, transform.position.y, transform.position.z), Time.deltaTime);
+            targetPosition.x = positionToMoveTo.x;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime);
         }
-        else
+        else if (myPlayerScreenPoint.x < myPixelsAllowedFromLeft)
         {
-
-            transform.position = Vector3.Lerp(transform.position, new Vector3(myPlayer.transform.position.x, transform.position.y, transform.position.z), Time.deltaTime / 1000);
-
+            temp = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPlayerScreenPoint.y, myPlayerScreenPoint.z));
+            targetPosition.x = temp.x;
+            transform.position = Vector3.Lerp(transform.position, targetPosition,  0.01f *Time.deltaTime);
         }
-        if (aScreenpoint.y > myPixelsAllowedFromDown && screenPoint.y < Screen.height - myPixelsAllowedFromUp)
+        else if (myPlayerScreenPoint.x > Screen.width - myPixelsAllowedFromRight)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, positionToMoveTo.y, transform.position.z), Time.deltaTime);
+            temp = myCamera.ScreenToWorldPoint(new Vector3(Screen.width - myPixelsAllowedFromRight, myPlayerScreenPoint.y, myPlayerScreenPoint.z));
+            targetPosition.x = temp.x;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 0.01f * Time.deltaTime);
         }
-        else
+        if (myPlayerScreenPoint.y > myPixelsAllowedFromDown && myPlayerScreenPoint.y < Screen.height - myPixelsAllowedFromUp)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, myPlayer.transform.position.y, transform.position.z), Time.deltaTime / 1000);
-
+            targetPosition.y = positionToMoveTo.y;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime);
         }
+        else if (myPlayerScreenPoint.y < myPixelsAllowedFromDown)
+        {
+            temp = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.y, myPixelsAllowedFromDown, myPlayerScreenPoint.z));
+            targetPosition.y = temp.y;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 0.01f * Time.deltaTime);
+        }
+        else if (myPlayerScreenPoint.y > Screen.height - myPixelsAllowedFromUp)
+        {
+            temp = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.y, Screen.height - myPixelsAllowedFromUp, myPlayerScreenPoint.z));
+            targetPosition.y = temp.y;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 0.01f * Time.deltaTime);
+        }
+    }
+    [ExecuteInEditMode]
+    private void OnDrawGizmos()
+    {
+        CheckPlayerScreenLocation();
 
+        Vector3 screenie = myCamera.ScreenToWorldPoint(myPlayerScreenPoint);
+        Vector3 bld = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPixelsAllowedFromDown, -transform.position.z));
+        Vector3 bru = myCamera.ScreenToWorldPoint(new Vector3(Screen.width - myPixelsAllowedFromRight, Screen.height - myPixelsAllowedFromUp, -transform.position.z));
 
-
+        Gizmos.color = Color.cyan;
+        // ScreenPoint X
+        Gizmos.DrawLine(new Vector3(screenie.x, -500, 0), new Vector3(screenie.x, 500, 0));
+        // ScreenPoint Y
+        Gizmos.DrawLine(new Vector3(-500, screenie.y, 0), new Vector3(500, screenie.y, 0));
+        Gizmos.color = Color.red;
+        // Boundary Left
+        Gizmos.DrawLine(new Vector3(bld.x, -500, 0), new Vector3(bld.x, 500, 0));
+        // Boundary Right
+        Gizmos.DrawLine(new Vector3(bru.x, -500, 0), new Vector3(bru.x, 500, 0));
+        // Boundary Down
+        Gizmos.DrawLine(new Vector3(-500, bld.y, 0), new Vector3(500, bld.y, 0));
+        // Boundary Up
+        Gizmos.DrawLine(new Vector3(-500, bru.y, 0), new Vector3(500, bru.y, 0));
     }
 
     private void CheckPlayerScreenLocation()
     {
-        screenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);
+        myPlayerScreenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);
+        Vector3 bld2 = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPlayerScreenPoint.y, -transform.position.z));
     }
 
 
