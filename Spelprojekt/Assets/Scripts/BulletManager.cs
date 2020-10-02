@@ -6,8 +6,12 @@ public class BulletManager : MonoBehaviour
 {
     List<BulletProjectile> myActiveBullets;
     List<BulletProjectile> myPassiveBullets;
+    [Header("Bullet Settings")]
+    [Range(1,300)]
+    [SerializeField]
     int myBulletAmount = 100;
 
+    [Header("References")]
     [SerializeField]
     GameManager myGameManager;
     [SerializeField]
