@@ -95,5 +95,8 @@ MonoBehaviour:
   myBulletSpeed: 5
   myBulletDamage: 10
   myDamage: 10
+  myLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   myBulletManager: {fileID: 0}
   myGameManager: {fileID: 0}

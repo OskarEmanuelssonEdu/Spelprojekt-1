@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class GrappleHookBoohyah : MonoBehaviour
 {
-
-    [SerializeField]
+    [Header("Projectile Settings")]
+    [SerializeField]   
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
+    [SerializeField]
+    [Tooltip("Berättar vart skottet kommer att skjutas från")]
+    Transform myShootPosition;
+
+    [Tooltip("Definerar hur snabbt projektilen kommer att färdas")]
+    [Range(10, 100)]
+    [SerializeField]
+    float myProjectileSpeed;
+    
+    [Range(10, 100)]
+    [Tooltip("Max distansen som pojektilen kommer att färdas (I UNITS)")]
+    [SerializeField]
+    float myGrappleMaxDistance;
+
     Vector3 myMousePosition;
     Vector3 myMouseDirection;
     Vector3 myGrapplePosition;
 
-    [SerializeField]
-    float myGrappleMaxDistance;
 
     float myGrappleDistance;
 
+    [Header("Rope settings")]
     [SerializeField]
     LayerMask myGrappleLayer;
-
+    [SerializeField]
     PlayerMovement myPlayerMovement;
 
     [SerializeField]
@@ -34,34 +47,24 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     [SerializeField]
     float mySwingCorrection;
-    [Range(10, 100)]
-    [SerializeField]
-    float projectileSpeed;
-    float myAliveTime = 2;
+   
+   
+
     [SerializeField]
     Camera myOrtograpicCamera;
-    [SerializeField]
-    Transform myShootPosition;
     [SerializeField]
     LineRenderer myLineRenderer;
 
     [SerializeField]
     KeyCode myGrappleKey = KeyCode.Mouse0;
 
-    bool myHit = true;
-    public bool Hit
-    {
-        set
-        {
-            myHit = value;
-        }
-    }
+ 
 
     void Start()
     {
         if (myProjectile == null)
         {
-            myProjectile = Instantiate(myProjectilePrefab, Vector3.zero, Quaternion.identity, transform);
+            myProjectile = Instantiate(myProjectilePrefab, Vector3.zero, Quaternion.identity);
             myProjectile.GrapplingHook = this;
 
         }
@@ -69,15 +72,15 @@ public class GrappleHookBoohyah : MonoBehaviour
     }
     void Update()
     {
-
         GetInputs();
         
-        Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, projectileSpeed, myGrappleLayer);
+        Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, myProjectileSpeed, myGrappleLayer, myGrappleMaxDistance);
+        
         if (tempGrapplingPos != Vector3.zero&& !myGrappling) 
         {           
             myGrapplePosition = tempGrapplingPos;
             myGrappleDistance = (tempGrapplingPos - transform.position).magnitude + myGrappleStartSlack;
-            myHit = false;
+            
             myProjectile.gameObject.SetActive(false);
 
             myGrappling = true;
@@ -98,11 +101,12 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     void GetInputs()
     {
-        if (Input.GetKeyDown(myGrappleKey))
+        if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
+           
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
-         
+            
             myMousePosition = myOrtograpicCamera.ScreenToWorldPoint(Input.mousePosition);
             myMouseDirection = new Vector3(myMousePosition.x, myMousePosition.y, 0) - transform.position;
           
@@ -156,5 +160,10 @@ public class GrappleHookBoohyah : MonoBehaviour
 
 
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(myShootPosition.position, myGrappleMaxDistance);
 
+    }
 }
