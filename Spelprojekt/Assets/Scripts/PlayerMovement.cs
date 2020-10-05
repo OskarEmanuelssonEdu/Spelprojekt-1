@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,9 +17,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 50)]
     float myDecceleration = 1;
+
+    [SerializeField]
+    [Range(0.01f, 10)] 
+    float myFriction;
+    [SerializeField]
+    [Range(0.0f, 1)]
+    float mySlidingFrictionFraction;
     [SerializeField]
     [Range(0.1f, 1)]
-    float myDrag = 0.1f;
+    float myAirControlFraction;
+    [SerializeField]
+    [Range(0.1f, 1)]
+    float mySlideControlFraction;
+    float myCurrentControlFraction;
 
     [Header("Jump settings")]
 
@@ -25,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 100)]
     float myJumpForce = 15;
     [SerializeField]
-    [Range(1, 100)]
+    [Range(0, 10)]
     float myGravity = 1f;
     [SerializeField]
     [Range(0, 2)]
@@ -55,29 +68,42 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     KeyCode mySlideKey = KeyCode.LeftShift;
 
-
     [Header("DO NOT TOUCH")]
     [SerializeField]
     LayerMask myLayerMask;
+
+
     bool myIsGrounded;
     bool myIsSliding;
     Vector3 myCurrentVelocity;
-
-    public Vector3 MyCurrentVelocity { get { return myCurrentVelocity;  } set { myCurrentVelocity = value; } }
-
     JumpState myJumpState;
+    [SerializeField]
+    Animator animator;
+    private void OnValidate()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
+    public Vector3 CurrentSpeed
+    {
+        get
+        {
+            return myCurrentVelocity;
+        }
+        set
+        {
+            myCurrentVelocity = value;
+        }
+    }
     enum JumpState
     {
         none,
         jumping,
         falling
     }
-    void Start()
-    {
-
-    }
+  
     void Update()
     {
+        Animate();
         myIsGrounded = CheckGround();
         GetInputs();
         if (myCurrentVelocity.x > 0)
@@ -88,22 +114,19 @@ public class PlayerMovement : MonoBehaviour
         {
             myXDierction = -1;
         }
-
     }
     void FixedUpdate()
     {
 
         DoPhysics();
     }
-    void ApplyForce(Vector3 aTargetVelocity)
+    public void ApplyForce(Vector3 aTargetVelocity)
     {
         myCurrentVelocity = myCurrentVelocity + aTargetVelocity;
 
     }
     void GetInputs()
     {
-
-
         if (Input.GetKey(myMoveLeftKey) && Input.GetKey(myMoveRightKey))
         {
             myInputDirectionX = 0;
@@ -150,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 1, transform.localScale.z * 0.9f), 0, Vector3.down, 0.1f, myLayerMask))
+        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 1, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
         {
             return true;
         }
@@ -197,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
         {
 
 
-            if (hitNormals.y < 1 && hitNormals.y > 0 && myIsSliding)
+            if (hitNormals.y < 1 && hitNormals.y > 0 && myIsSliding && myIsGrounded)
             {
 
                 DoSlideDownSlope(hitNormals);
@@ -217,10 +240,10 @@ public class PlayerMovement : MonoBehaviour
 
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
-        if (hitNormals.x > 0 && myCurrentVelocity.x < 0) //going left
+        if (hitNormals.x > 0 && myCurrentVelocity.x < 0 && myIsGrounded) //going left
         {
 
-            if (hitNormals.x > 0 && hitNormals.x < 0.6)
+            if (hitNormals.x > 0 && hitNormals.x < 0.6f)
             {
 
 
@@ -246,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
         if (hitNormals.x < 0 && myCurrentVelocity.x > 0) //going right
         {
 
-            if (hitNormals.x < 0 && hitNormals.x > -0.6)
+            if (hitNormals.x < 0 && hitNormals.x > -0.6 && myIsGrounded)
             {
 
 
@@ -264,36 +287,65 @@ public class PlayerMovement : MonoBehaviour
 
                 //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
-
-
-
-
         }
-
-
-
     }
     void DoPhysics()
     {
+
+        if (myIsGrounded)
+        {
+            if (myIsSliding)
+            {
+
+                myCurrentControlFraction = mySlideControlFraction;
+
+            }
+            else
+            {
+
+                mySlideControlFraction = 1;
+
+            }
+
+        }
+        else
+        {
+
+            myCurrentControlFraction = myAirControlFraction;
+
+        }
 
         if (myCurrentVelocity.magnitude < myMaxSpeed && !myIsSliding)
         {
             ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
         }
-        else
+        
+        if(myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
         {
-            if (myXDierction == 1)
+
+            Deccelerate();
+
+        }
+        //if (myInputDirectionX == 0 && !myIsSliding)
+        //{
+        //    Deccelerate();
+        //}
+
+        if (myIsGrounded)
+        {
+            if (myIsSliding)
             {
-                myCurrentVelocity.x -= myDrag;
+                ApplyForce((myCurrentVelocity * -1) * (mySlidingFrictionFraction * myFriction) * Time.fixedDeltaTime);
+
             }
             else
             {
-                myCurrentVelocity.x += myDrag;
+
+                ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
+
             }
-        }
-        if (myInputDirectionX == 0 && !myIsSliding && myIsGrounded)
-        {
-            Deccelerate();
+
+
         }
 
         switch (myJumpState)
@@ -301,16 +353,16 @@ public class PlayerMovement : MonoBehaviour
             case JumpState.none:
 
                 ApplyForce(new Vector3(0, -myGravity, 0));
-
+                
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-                    DoExitSlide();
+
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
+                    animator.SetTrigger("JumpTrigger");
                     myJumpState = JumpState.jumping;
-
 
                 }
                 else if (!myIsGrounded)
@@ -324,7 +376,7 @@ public class PlayerMovement : MonoBehaviour
 
             case JumpState.jumping:
 
-
+                
                 if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
                 {
 
@@ -343,7 +395,8 @@ public class PlayerMovement : MonoBehaviour
 
                 if (myIsGrounded)
                 {
-
+                    Debug.Log("Land");
+                    animator.SetTrigger("LandTrigger");
                     myJumpState = JumpState.none;
 
 
@@ -353,18 +406,12 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+
         CastBox();
 
         transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
-    void DoJump()
-    {
 
-        myCurrentVelocity.y = 0;
-        ApplyForce(new Vector3(0, myJumpForce, 0));
-
-
-    }
     void DoEnterSlide()
     {
         myIsSliding = true;
@@ -374,7 +421,7 @@ public class PlayerMovement : MonoBehaviour
     void DoExitSlide()
     {
 
-        transform.Translate(new Vector3(0, myColliderSize.y - myCurrentColliderSize.y, 0));
+        transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
 
         myIsSliding = false;
         myCurrentColliderSize = myColliderSize;
@@ -443,6 +490,10 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, myCurrentColliderSize);
+        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+    }
+    void Animate()
+    {
+        animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
     }
 }

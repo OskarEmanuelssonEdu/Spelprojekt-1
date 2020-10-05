@@ -30,25 +30,19 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     GameManager myGameManager;
 
-    void Start()
-    {
-
-
-    }
-
     void Update()
     {
-        //if (CheckPlayerDistance())
-        //{
-        //   Shoot();
-        //}
+        if (CheckPlayerDistance())
+        {
+          Shoot();
+        }
     }
 
     void Shoot()
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
-            myBulletManager.GetBullet(transform.position, Quaternion.identity, mySpeed, damage);
+            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage);
             myTimerInBetweenshots = 0;
         }
         else
@@ -57,13 +51,13 @@ public class WeaponScript : MonoBehaviour
         }
     }
 
-    //bool CheckPlayerDistance()
-    //{
-    //    float distanceToPlayer = Vector3.Distance(transform.position,)
-    //    if (distanceToPlayer < distanceToActivate)
-    //    {
-    //        return true;
-    //    }
-    //    return false;
-    //}
+    bool CheckPlayerDistance()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, myGameManager.PlayerPosition());
+        if (distanceToPlayer < myDistanceToActivate)
+        {
+            return true;
+        }
+        return false;
+    }
 }

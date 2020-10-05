@@ -7,17 +7,16 @@ public class BulletProjectile : MonoBehaviour
     public float myBulletSpeed;
     public float myBulletDamage;
     public float myDamage;
+    [SerializeField]
+    LayerMask myLayerMask;
     public BulletManager myBulletManager;
     public GameManager myGameManager;
 
-
-
-
     void Update()
     {
-        
+        CheckIfHit();
         Move();
- 
+
     }
 
     //Moves Bullet forward
@@ -29,11 +28,11 @@ public class BulletProjectile : MonoBehaviour
     //Checks if bullet hits
     private void CheckIfHit()
     {
-        RaycastHit2D hits = Physics2D.Raycast(transform.position, -transform.right, myBulletSpeed*Time.deltaTime);
+        RaycastHit2D hits = Physics2D.Raycast(transform.position, transform.forward, myBulletSpeed * Time.deltaTime, myLayerMask);
 
-        if (hits.collider.GetComponent<Player>() != null)
+
+        if (hits.collider != null)
         {
-            hits.collider.GetComponent<Player>().TakeDamage(myDamage);
             myBulletManager.ReturnBullet(this);
         }
 
