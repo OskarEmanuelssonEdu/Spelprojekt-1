@@ -180,8 +180,9 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 1, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
+        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
         {
+
             return true;
         }
         else
@@ -247,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
 
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
-        if (hitNormals.x > 0 && myCurrentVelocity.x < 0 && myIsGrounded) //going left
+        if (hitNormals.x > 0 && myCurrentVelocity.x < 0) //going left
         {
 
             if (hitNormals.x > 0 && hitNormals.x < 0.6f)
@@ -498,7 +499,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f));
     }
     void Animate()
     {
