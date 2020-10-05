@@ -257,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
             {
 
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f)
+                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
                 {
                     print(hitInfo[1].point.y - hitInfo[0].point.y);
 
@@ -296,7 +296,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f)
+                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
                 {
                     print(hitInfo[1].point.y - hitInfo[0].point.y);
 
