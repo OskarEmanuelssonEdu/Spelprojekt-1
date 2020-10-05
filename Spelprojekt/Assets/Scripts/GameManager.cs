@@ -20,19 +20,27 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI myTotalTimeText;
 
     
-    
+    [SerializeField]
     ScoreManager myScoreManager;
-    
+    [SerializeField]
+    PlayerMovement myPlayerMovement;
+    [SerializeField]
+    GrappleHookBoohyah grappleHook;
+    [SerializeField]
     Player myPlayer;
     Vector3 startPos;
    
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        grappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
     }
     void Start()
     {
+        grappleHook.enabled = true;
+        myPlayerMovement.enabled = true;
         startPos = myPlayer.transform.position;        
     }
     void Update()
@@ -59,13 +67,21 @@ public class GameManager : MonoBehaviour
             myCountDownTimer += Time.deltaTime;
         }
     }
-    void LevelComplete()
+    public void LevelComplete()
     {
+        myPlayer.transform.position = startPos;
+
+        grappleHook.enabled = false;
+        myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
     }
-    void GameOver()
+    public void GameOver()
     {
+        myPlayer.transform.position = startPos;
+
+        grappleHook.enabled = false;
+        myPlayerMovement.enabled = false;
         myGameOverScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
 
@@ -76,13 +92,23 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
-        myScoreManager.StartCounter = true;
+        if (myScoreManager != null)
+        {
+            myScoreManager.StartCounter = true;
+        }
 
     }
     public void ResetGame()
     {
+        grappleHook.enabled = true;
+        myPlayerMovement.enabled = true;
+        myGameOverScreen.SetActive(false);
+        myLevelCompleteScreen.SetActive(false);
         myScoreManager.ResetTimer();
-        myPlayer.transform.position = startPos;
 
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

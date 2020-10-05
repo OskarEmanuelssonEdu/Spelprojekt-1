@@ -25,10 +25,13 @@ public class LethalObject : MonoBehaviour
     bool myHasLoggedCollision;
 
 
+
+
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
     }
+
     private void Start()
     {
         if (myName == "")
@@ -59,6 +62,7 @@ public class LethalObject : MonoBehaviour
             && rectangleOneLeftSide > rectangleTwoRightSide
             && rectangleOneBottomSide < rectangleTwoTopSide
             && rectangleOneTopSide > rectangleTwoBottomSide)
+
         {
             if (myLogCollision && !myHasLoggedCollision)
             {
@@ -69,6 +73,18 @@ public class LethalObject : MonoBehaviour
         }
         else if (myHasLoggedCollision)
         {
+
+        
+            if (myLogCollision && !myHasLoggedCollision)
+            {
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                myHasLoggedCollision = true;
+            }
+            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
+        }
+        else if (myHasLoggedCollision)
+        {
+
             Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             myHasLoggedCollision = false;
         }

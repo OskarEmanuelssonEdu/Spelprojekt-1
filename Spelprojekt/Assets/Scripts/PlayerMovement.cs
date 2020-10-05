@@ -17,11 +17,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 50)]
     float myDecceleration = 1;
+
     [SerializeField]
-    [Range(0.1f, 1)]
-    float myDrag = 0.1f;
-    [SerializeField]
-    [Range(1, 10)]
+    [Range(0.01f, 10)] 
     float myFriction;
     [SerializeField]
     [Range(0.0f, 1)]
@@ -40,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 100)]
     float myJumpForce = 15;
     [SerializeField]
-    [Range(0, 1)]
+    [Range(0, 10)]
     float myGravity = 1f;
     [SerializeField]
     [Range(0, 2)]
@@ -79,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
-
+    [SerializeField]
     Animator animator;
     private void OnValidate()
     {
@@ -175,8 +173,9 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 1, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
+        if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
         {
+
             return true;
         }
         else
@@ -242,10 +241,10 @@ public class PlayerMovement : MonoBehaviour
 
             //ApplyForce(myCurrentVelocity.magnitude * temp);
         }
-        if (hitNormals.x > 0 && myCurrentVelocity.x < 0 && myIsGrounded) //going left
+        if (hitNormals.x > 0 && myCurrentVelocity.x < 0) //going left
         {
 
-            if (hitNormals.x > 0 && hitNormals.x < 0.6)
+            if (hitNormals.x > 0 && hitNormals.x < 0.6f)
             {
 
 
@@ -289,14 +288,7 @@ public class PlayerMovement : MonoBehaviour
 
                 //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
-
-
-
-
         }
-
-
-
     }
     void DoPhysics()
     {
@@ -499,7 +491,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, transform.localScale);
+        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f));
     }
     void Animate()
     {

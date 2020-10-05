@@ -8,7 +8,7 @@ public class NewCameraMovement : MonoBehaviour
 
     [SerializeField]
     Camera myCamera;
-
+    [SerializeField]
     private Player myPlayer;
 
     [Header("BOUNDARY Settings")]
@@ -80,7 +80,7 @@ public class NewCameraMovement : MonoBehaviour
     void FixedUpdate()
     {
         CheckPlayerVelocity();
-        Debug.Log("Player velocity: " + myPlayerCurrentVelocity);
+        //Debug.Log("Player velocity: " + myPlayerCurrentVelocity);
 
         ZoomOut();
         if (Mathf.Abs(myPlayerCurrentVelocity.x) < 1)
