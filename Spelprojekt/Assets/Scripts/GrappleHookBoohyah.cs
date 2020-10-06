@@ -54,6 +54,8 @@ public class GrappleHookBoohyah : MonoBehaviour
     Camera myOrtograpicCamera;
     [SerializeField]
     LineRenderer myLineRenderer;
+    [SerializeField]
+    Animator animator;
 
     [SerializeField]
     KeyCode myGrappleKey = KeyCode.Mouse0;
@@ -62,6 +64,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
         if (myProjectile == null)
         {
             myProjectile = Instantiate(myProjectilePrefab, Vector3.zero, Quaternion.identity);
@@ -126,6 +129,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
         if (myGrappling)
         {
+            animator.SetBool("isGrappling", true);
             myLineRenderer.enabled = true;
             myLineRenderer.SetPosition(0, transform.position);
             myLineRenderer.SetPosition(1, myGrapplePosition);
@@ -152,6 +156,7 @@ public class GrappleHookBoohyah : MonoBehaviour
         }
         else
         {
+            animator.SetBool("isGrappling", false);
 
             myLineRenderer.enabled = false;
 
