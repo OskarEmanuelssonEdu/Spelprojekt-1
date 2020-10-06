@@ -3,7 +3,12 @@ guid: 84c57847305e87e4db3aa6db8c29e3bb
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Icy_gradient
+    second: {fileID: 2100000, guid: b1b49fdddf411c048997b801e21ce987, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
