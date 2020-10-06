@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     float myDecceleration = 1;
 
     [SerializeField]
-    [Range(0.01f, 10)] 
+    [Range(0.01f, 10)]
     float myFriction;
     [SerializeField]
     [Range(0.0f, 1)]
@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
         jumping,
         falling
     }
-  
+
     void Update()
     {
         Animate();
@@ -244,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
         if (hitNormals.x > 0 && myCurrentVelocity.x < 0) //going left
         {
 
-            if (hitNormals.x > 0 && hitNormals.x < 0.6f)
+            if (hitNormals.x >= 0 && hitNormals.x < 0.6f)
             {
 
 
@@ -256,13 +256,29 @@ public class PlayerMovement : MonoBehaviour
             else
             {
 
-                myCurrentVelocity.x = 0;
-                for (int i = 0; i < hitInfo.Length; i++)
+
+                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
                 {
-                    transform.position = hitInfo[i].centroid;
+                    print(hitInfo[1].point.y - hitInfo[0].point.y);
+
+                }
+                else
+                {
+                    myCurrentVelocity.x = 0;
+
+                    for (int i = 0; i < hitInfo.Length; i++)
+                    {
+                        transform.position = hitInfo[i].centroid;
+                    }
+
                 }
 
-                //ApplyForce(myCurrentVelocity.magnitude * temp);
+
+
+
+
+
+                //ApplyForce(new Vector3(0, 0.2f, 0));
             }
 
 
@@ -280,11 +296,27 @@ public class PlayerMovement : MonoBehaviour
             else
             {
 
-                myCurrentVelocity.x = 0;
-                for (int i = 0; i < hitInfo.Length; i++)
+                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
                 {
-                    transform.position = hitInfo[i].centroid;
+                    print(hitInfo[1].point.y - hitInfo[0].point.y);
+
                 }
+                else
+                {
+                    myCurrentVelocity.x = 0;
+
+                    for (int i = 0; i < hitInfo.Length; i++)
+                    {
+                        transform.position = hitInfo[i].centroid;
+                    }
+
+                }
+
+                //myCurrentVelocity.x = 0;
+                //for (int i = 0; i < hitInfo.Length; i++)
+                //{
+                //    transform.position = hitInfo[i].centroid;
+                //}
 
                 //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
@@ -320,8 +352,8 @@ public class PlayerMovement : MonoBehaviour
         {
             ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
         }
-        
-        if(myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
+
+        if (myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
         {
 
             Deccelerate();
@@ -354,7 +386,7 @@ public class PlayerMovement : MonoBehaviour
             case JumpState.none:
 
                 ApplyForce(new Vector3(0, -myGravity, 0));
-                
+
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
@@ -377,7 +409,7 @@ public class PlayerMovement : MonoBehaviour
 
             case JumpState.jumping:
 
-                
+
                 if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
                 {
 
@@ -491,7 +523,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position + myCurrentVelocity * Time.fixedDeltaTime, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f));
+        Gizmos.DrawCube(transform.position + myCurrentVelocity, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f));
     }
     void Animate()
     {
