@@ -25,13 +25,13 @@ public class NewCameraMovement : MonoBehaviour
     [Range(0f, 500)]
     private int myPixelsAllowedFromDown = 100;
 
-    [Header("POSITION Settings")]
+    [Header("RESTING POSITION Settings")]
     [SerializeField]
-    [Range(-30f, 30f)]
-    private float myPlayerHorizontalCameraPosition = -5f;
+    [Range(-10f, 10f)]
+    private float myPlayerHorizontalCameraPosition = 0f;
     [SerializeField]
-    [Range(-20f, 20f)]
-    private float myPlayerVerticalCameraPosition = -8f;
+    [Range(-10f, 10f)]
+    private float myPlayerVerticalCameraPosition = -3f;
 
 
     [Header("FOV Settings")]
@@ -48,13 +48,13 @@ public class NewCameraMovement : MonoBehaviour
     [Range(0f, 200f)]
     private float myMaxFieldOfView = 80f;
 
-    [Header("SPEED Settings")]
+    [Header("ACCELERATION Settings")]
     [SerializeField]
-    [Range(0f, 3f)]
-    private float myVerticalSpeed = 0.5f;
+    [Range(0f, 2f)]
+    private float myVerticalAcceleration = 0.3f;
     [SerializeField]
-    [Range(0f, 3f)]
-    private float myHorizontalSpeed = 1f;
+    [Range(0f, 2f)]
+    private float myHorizontalAcceleration = 0.6f;
 
 
     Vector3 myPlayerCurrentVelocity;
@@ -67,7 +67,7 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myBoundaryWorldPoint;
     Vector3 myCenterWorldPoint;
 
-    Vector3 bld2;
+    Vector3 myCameraStartPosition;
 
     private void Start()
     {
@@ -76,6 +76,7 @@ public class NewCameraMovement : MonoBehaviour
             myCamera = Camera.main;
         }
         myPlayerPrevPos = myPlayer.transform.position;
+        myCameraStartPosition = transform.position;
     }
     private void OnValidate()
     {
@@ -84,28 +85,20 @@ public class NewCameraMovement : MonoBehaviour
     void FixedUpdate()
     {
         CheckPlayerVelocity();
-        //Debug.Log("Player velocity: " + myPlayerCurrentVelocity);
 
         ZoomOut();
         if (Mathf.Abs(myPlayerCurrentVelocity.x) < 1)
         {
             ZoomIn();
         }
-        Move();
         CheckPlayerScreenLocation();
-
-
+        Move();
+        
     }
     public void ResetCameraPosition()
     {
-        Debug.Log("Player velocity before reset: " + myPlayerCurrentVelocity);
-        myPlayerCurrentVelocity = Vector3.zero;
-        transform.position = new Vector3(myPlayer.gameObject.transform.position.x, myPlayer.gameObject.transform.position.y, transform.position.z);
-        transform.position = new Vector3(myPlayer.gameObject.transform.position.x, myPlayer.gameObject.transform.position.y, transform.position.z);
-        transform.position = new Vector3(myPlayer.gameObject.transform.position.x, myPlayer.gameObject.transform.position.y, transform.position.z);
-        transform.position = new Vector3(myPlayer.gameObject.transform.position.x, myPlayer.gameObject.transform.position.y, transform.position.z);
-        transform.position = new Vector3(myPlayer.gameObject.transform.position.x, myPlayer.gameObject.transform.position.y, transform.position.z);
-        Debug.Log("Player velocity after reset: " + myPlayerCurrentVelocity);
+        myPlayerCurrentVelocity = new Vector3(1,0,0);
+        transform.position = myCameraStartPosition;
     }
     private void CheckPlayerVelocity()
     {
@@ -116,13 +109,13 @@ public class NewCameraMovement : MonoBehaviour
 
     private void Move()
     {
-        myPositionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x * myHorizontalSpeed) - myPlayerHorizontalCameraPosition,
-                                        myPlayer.transform.position.y + (myPlayerCurrentVelocity.y * myVerticalSpeed) - myPlayerVerticalCameraPosition,
+        myPositionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x * myHorizontalAcceleration) - myPlayerHorizontalCameraPosition,
+                                        myPlayer.transform.position.y + (myPlayerCurrentVelocity.y * myVerticalAcceleration) - myPlayerVerticalCameraPosition,
                                         transform.position.z);
 
         myTargetPosition = transform.position;
         
-        if (myPlayerScreenPoint.x > myPixelsAllowedFromLeft && myPlayerScreenPoint.x < Screen.width - myPixelsAllowedFromRight)
+        if (myPlayerScreenPoint.x >= myPixelsAllowedFromLeft && myPlayerScreenPoint.x < Screen.width - myPixelsAllowedFromRight)
         {
             myTargetPosition.x = myPositionToMoveTo.x;
             transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.deltaTime);
@@ -143,7 +136,7 @@ public class NewCameraMovement : MonoBehaviour
             myTargetPosition.x = myPlayer.transform.position.x + dif;
             transform.position = myTargetPosition;
         }
-        if (myPlayerScreenPoint.y > myPixelsAllowedFromDown && myPlayerScreenPoint.y < Screen.height - myPixelsAllowedFromUp)
+        if (myPlayerScreenPoint.y >= myPixelsAllowedFromDown && myPlayerScreenPoint.y < Screen.height - myPixelsAllowedFromUp)
         {
             myTargetPosition.y = myPositionToMoveTo.y;
             transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.deltaTime);
