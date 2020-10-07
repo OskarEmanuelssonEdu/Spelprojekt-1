@@ -5,24 +5,24 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     #region
-    private static AudioManager myInstance;
-    public static AudioManager Instance
+    private static AudioManager ourPrivateInstance;
+    public static AudioManager ourPublicInstance
     {
         get
         {
-            if (myInstance == null)
+            if (ourPrivateInstance == null)
             {
-                myInstance = FindObjectOfType<AudioManager>();
-                if (myInstance == null)
+                ourPrivateInstance = FindObjectOfType<AudioManager>();
+                if (ourPrivateInstance == null)
                 {
-                    myInstance = new GameObject("Spawned AudioManager", typeof(AudioManager)).GetComponent<AudioManager>();
+                    ourPrivateInstance = new GameObject("Spawned AudioManager", typeof(AudioManager)).GetComponent<AudioManager>();
                 }
             }
-            return myInstance;
+            return ourPrivateInstance;
         }
         private set
         {
-            myInstance = value;
+            ourPrivateInstance = value;
         }
     }
     #endregion
@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
     private AudioSource myMusicSource;
     private AudioSource myMusicSource2;
     private AudioSource mySfxSource;
+    private AudioReverbFilter myMusicReverbFilter;
+    private AudioReverbFilter mySFXReverbFilter;
 
     private bool myFirstMusicSourceIsPlaying;
 
@@ -40,6 +42,12 @@ public class AudioManager : MonoBehaviour
     private float myMinMusicVolume;
     [SerializeField]
     private float myMaxMusicVolume = 1f;
+    [SerializeField]
+    private float myMaxReverbDryLevel = 0f;
+    [SerializeField]
+    private float myMinReverbDryLevel = -1000f;
+
+
 
     private void Awake()
     {
@@ -49,6 +57,7 @@ public class AudioManager : MonoBehaviour
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
         mySfxSource = this.gameObject.AddComponent<AudioSource>();
 
+        myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
         //Loop the music tracks
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
@@ -209,6 +218,18 @@ public class AudioManager : MonoBehaviour
         if (mySfxSource.volume < myMinMusicVolume)
         {
             mySfxSource.volume = myMinMusicVolume;
+        }
+    }
+    public void SetMusicReverb(float aNumber)
+    {
+        myMusicReverbFilter.dryLevel += aNumber;
+        if (myMusicReverbFilter.dryLevel < myMinReverbDryLevel)
+        {
+            myMusicReverbFilter.dryLevel = myMinReverbDryLevel;
+        }
+        else if (myMusicReverbFilter.dryLevel > myMaxReverbDryLevel)
+        {
+            myMusicReverbFilter.dryLevel = myMaxReverbDryLevel;
         }
     }
     
