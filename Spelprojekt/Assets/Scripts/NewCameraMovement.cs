@@ -68,6 +68,7 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myCenterWorldPoint;
 
     Vector3 myCameraStartPosition;
+    float myCameraStartFOV;
 
     private void Start()
     {
@@ -77,6 +78,7 @@ public class NewCameraMovement : MonoBehaviour
         }
         myPlayerPrevPos = myPlayer.transform.position;
         myCameraStartPosition = transform.position;
+        myCameraStartFOV = myCamera.fieldOfView;
     }
     private void OnValidate()
     {
@@ -98,6 +100,7 @@ public class NewCameraMovement : MonoBehaviour
     public void ResetCameraPosition()
     {
         myPlayerCurrentVelocity = new Vector3(1,0,0);
+        myCamera.fieldOfView = myCameraStartFOV;
         transform.position = myCameraStartPosition;
     }
     private void CheckPlayerVelocity()
