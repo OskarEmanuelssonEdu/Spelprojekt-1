@@ -365,8 +365,7 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-                    AudioManager.Instance.PlaySFX(myJumpSound1, myJumpSoundVolume);
-                    AudioManager.Instance.PlaySFX(myJumpSound2, myJumpSoundVolume);
+                    AudioManager.ourPublicInstance.PlaySFX(myJumpSound1, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));

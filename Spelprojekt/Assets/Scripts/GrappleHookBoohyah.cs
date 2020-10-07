@@ -111,8 +111,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
-            AudioManager.Instance.PlaySFX(myGrappleSound1, myGrappleSoundVolume);
-            AudioManager.Instance.PlaySFX(myGrappleSound2, myGrappleSoundVolume);
+            AudioManager.ourPublicInstance.PlaySFX(myGrappleSound1, myGrappleSoundVolume);
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
             

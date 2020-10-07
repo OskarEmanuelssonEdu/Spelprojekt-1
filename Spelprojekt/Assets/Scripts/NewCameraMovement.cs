@@ -65,7 +65,6 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myPlayerScreenPoint;
     Vector3 myCameraStartPosition;
 
-    Vector3 bld2;
 
     private void Start()
     {
@@ -83,10 +82,13 @@ public class NewCameraMovement : MonoBehaviour
     void FixedUpdate()
     {
         
-        AudioManager.Instance.SetMusicVolume((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime*0.04f));
-        AudioManager.Instance.SetMusicVolume(Time.deltaTime * -0.2f);
-        AudioManager.Instance.SetSFXVolume((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime * 0.02f));
-        AudioManager.Instance.SetSFXVolume(Time.deltaTime * -0.2f);
+        AudioManager.ourPublicInstance.SetMusicVolume((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime*0.04f));
+        AudioManager.ourPublicInstance.SetMusicVolume(Time.deltaTime * -0.2f);
+        AudioManager.ourPublicInstance.SetSFXVolume((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime * 0.02f));
+        AudioManager.ourPublicInstance.SetSFXVolume(Time.deltaTime * -0.2f);
+        AudioManager.ourPublicInstance.SetMusicReverb((Mathf.Abs(myPlayerCurrentVelocity.magnitude) * Time.deltaTime * 400f));
+        AudioManager.ourPublicInstance.SetMusicReverb(Time.deltaTime * -200f);
+
         CheckPlayerVelocity();
         //Debug.Log("Player velocity: " + myPlayerCurrentVelocity);
 
