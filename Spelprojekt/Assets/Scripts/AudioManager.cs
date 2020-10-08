@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource myMusicSource;
     private AudioSource myMusicSource2;
     private AudioSource mySfxSource;
+    private AudioSource myRunningSoundSource;
     private AudioReverbFilter myMusicReverbFilter;
     private AudioReverbFilter mySFXReverbFilter;
 
@@ -39,9 +40,13 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private float myMinMusicVolume;
+    private float myMinMusicVolume = 0.3f;
     [SerializeField]
     private float myMaxMusicVolume = 1f;
+    [SerializeField]
+    private float myMinRunningVolume = 0.3f;
+    [SerializeField]
+    private float myMaxRunningVolume = 1f;
     [SerializeField]
     private float myMaxReverbDryLevel = 0f;
     [SerializeField]
@@ -56,11 +61,15 @@ public class AudioManager : MonoBehaviour
         myMusicSource = this.gameObject.AddComponent<AudioSource>();
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
         mySfxSource = this.gameObject.AddComponent<AudioSource>();
+        myRunningSoundSource = this.gameObject.AddComponent<AudioSource>();
 
         myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
         //Loop the music tracks
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
+        myRunningSoundSource.loop = false;
+        myRunningSoundSource.volume = myMaxRunningVolume;
+
     }
     public void PlayMusic(AudioClip aMusicClip)
     {
@@ -179,7 +188,36 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource.PlayOneShot(aClip, aVolume);
     }
+    public void PlayRunningSound(AudioClip aClip)
+    {
+        myRunningSoundSource.clip = aClip;
+        if (!myRunningSoundSource.isPlaying)
+        {
+            myRunningSoundSource.Play();
+        }
+        myRunningSoundSource.loop = true;
+       
 
+        myRunningSoundSource.volume += Time.deltaTime;
+        
+
+
+
+        if (myRunningSoundSource.volume < myMinRunningVolume)
+        {
+            myRunningSoundSource.volume = myMinRunningVolume;
+        }
+        else if (myRunningSoundSource.volume > myMaxRunningVolume)
+        {
+            myRunningSoundSource.volume = myMaxRunningVolume;
+        }
+    }
+    public void StopRunningSound()
+    {
+        myRunningSoundSource.volume -= Time.deltaTime;
+        myRunningSoundSource.loop = false;
+
+    }
     public void SetMusicVolume(float aVolume)
     {
 

@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private AudioClip myJumpSound2;
     [SerializeField]
+    private AudioClip myRunningSound;
+    [SerializeField]
     [Range(0, 1.0f)]
     private float myJumpSoundVolume = 1f;
 
@@ -359,8 +361,23 @@ public class PlayerMovement : MonoBehaviour
     void DoPhysics()
     {
 
+        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 0) && !myIsSliding && myIsGrounded)
+        {
+
+            AudioManager.ourPublicInstance.PlayRunningSound(myRunningSound);
+        }
+        else
+        {
+            AudioManager.ourPublicInstance.StopRunningSound();
+        }
         if (myIsGrounded)
         {
+            
+            
+           
+            
+                
+            
             animator.SetBool("isGrounded", true);
 
             if (myIsSliding)
