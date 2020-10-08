@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     Animator animator;
     Transform modelTransform;
+    bool walkingUpSlope = false;
 
     [SerializeField]
     float myTurnSpeed;
@@ -136,9 +137,9 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
+        modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
 
-        
+
         DoPhysics();
 
     }
@@ -270,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
             if (hitNormals.x >= 0 && hitNormals.x < 0.6f)
             {
 
-
+                walkingUpSlope = true;
                 DoMoveAlongSlope(hitNormals);
 
 
@@ -278,7 +279,7 @@ public class PlayerMovement : MonoBehaviour
 
             else
             {
-
+                walkingUpSlope = false;
 
                 if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
                 {
@@ -313,14 +314,14 @@ public class PlayerMovement : MonoBehaviour
             if (hitNormals.x < 0 && hitNormals.x > -0.6 && myIsGrounded)
             {
 
-
+                walkingUpSlope = true;
                 DoMoveAlongSlope(hitNormals);
 
             }
             else
             {
 
-
+                walkingUpSlope = false;
 
                 if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
                 {
@@ -413,7 +414,12 @@ public class PlayerMovement : MonoBehaviour
         {
             case JumpState.none:
 
-                ApplyForce(new Vector3(0, -myGravity, 0));
+                if (walkingUpSlope == false)
+                {
+                    ApplyForce(new Vector3(0, -myGravity, 0));
+
+                }
+
 
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
@@ -440,7 +446,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
                 {
-                    
+
                     myJumpState = JumpState.falling;
 
                 }
