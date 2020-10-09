@@ -52,7 +52,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private float myMinReverbDryLevel = -1000f;
 
-
+    [SerializeField]
+    private AudioClip myRunningSound;
 
     private void Awake()
     {
@@ -69,6 +70,7 @@ public class AudioManager : MonoBehaviour
         myMusicSource2.loop = true;
         myRunningSoundSource.loop = false;
         myRunningSoundSource.volume = myMaxRunningVolume;
+        myRunningSoundSource.clip = myRunningSound;
 
     }
     public void PlayMusic(AudioClip aMusicClip)
@@ -188,35 +190,37 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource.PlayOneShot(aClip, aVolume);
     }
-    public void PlayRunningSound(AudioClip aClip)
+    public void PlayRunningSound()
     {
-        myRunningSoundSource.clip = aClip;
+        
         if (!myRunningSoundSource.isPlaying)
         {
             myRunningSoundSource.Play();
         }
+        if (myRunningSoundSource.isPlaying)
+        {
+            Debug.Log("Playing running sound");
+        }
+
         myRunningSoundSource.loop = true;
-       
 
         myRunningSoundSource.volume += Time.deltaTime;
+
         
-
-
-
-        if (myRunningSoundSource.volume < myMinRunningVolume)
-        {
-            myRunningSoundSource.volume = myMinRunningVolume;
-        }
-        else if (myRunningSoundSource.volume > myMaxRunningVolume)
+        if (myRunningSoundSource.volume > myMaxRunningVolume)
         {
             myRunningSoundSource.volume = myMaxRunningVolume;
         }
     }
     public void StopRunningSound()
     {
-        myRunningSoundSource.volume -= Time.deltaTime;
-        myRunningSoundSource.loop = false;
 
+        myRunningSoundSource.volume -= Time.deltaTime*0.5f;
+        myRunningSoundSource.loop = false;
+        if (myRunningSoundSource.volume < myMinRunningVolume)
+        {
+            myRunningSoundSource.volume = myMinRunningVolume;
+        }
     }
     public void SetMusicVolume(float aVolume)
     {
