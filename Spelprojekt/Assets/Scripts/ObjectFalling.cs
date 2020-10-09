@@ -19,9 +19,30 @@ public class ObjectFalling : MonoBehaviour
     [Tooltip ("Assigned in script under OnValidate")]
     GameManager myGameManager;
 
+    // Private variables
+    Vector3 myStartPosition;
+    Quaternion myStartRotation;
+    Vector3 myStartScale;
+    
+
     private void OnValidate()
     {
         myGameManager = FindObjectOfType<GameManager>();
+        gameObject.tag = "FallingObject";
+    }
+
+    private void Start()
+    {
+        myStartPosition = transform.position;
+        myStartRotation = transform.rotation;
+        myStartScale = transform.localScale;
+    }
+
+    public void ResetMe()
+    {
+        transform.position = myStartPosition;
+        transform.rotation = myStartRotation;
+        transform.localScale = myStartScale;
     }
 
     void FixedUpdate()
