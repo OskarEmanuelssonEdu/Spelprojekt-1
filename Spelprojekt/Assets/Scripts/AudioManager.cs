@@ -30,8 +30,11 @@ public class AudioManager : MonoBehaviour
     #region Fields
     private AudioSource myMusicSource;
     private AudioSource myMusicSource2;
-    private AudioSource mySfxSource;
+    private AudioSource mySfxSource1;
+    private AudioSource mySfxSource2;
+
     private AudioSource myRunningSoundSource;
+    private AudioSource myGrappleHitSoundSource;
     private AudioReverbFilter myMusicReverbFilter;
     private AudioReverbFilter mySFXReverbFilter;
 
@@ -61,8 +64,10 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         myMusicSource = this.gameObject.AddComponent<AudioSource>();
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
-        mySfxSource = this.gameObject.AddComponent<AudioSource>();
+        mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
+        mySfxSource2 = this.gameObject.AddComponent<AudioSource>();
         myRunningSoundSource = this.gameObject.AddComponent<AudioSource>();
+        myGrappleHitSoundSource = this.gameObject.AddComponent<AudioSource>();
 
         myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
         //Loop the music tracks
@@ -71,6 +76,7 @@ public class AudioManager : MonoBehaviour
         myRunningSoundSource.loop = false;
         myRunningSoundSource.volume = myMaxRunningVolume;
         myRunningSoundSource.clip = myRunningSound;
+        myGrappleHitSoundSource.loop = false;
 
     }
     public void PlayMusic(AudioClip aMusicClip)
@@ -184,11 +190,15 @@ public class AudioManager : MonoBehaviour
     }
     public void PlaySFX(AudioClip aClip)
     {
-        mySfxSource.PlayOneShot(aClip);
+        mySfxSource1.PlayOneShot(aClip);
     }
-    public void PlaySFX(AudioClip aClip, float aVolume)
+    public void PlaySFX1(AudioClip aClip, float aVolume)
     {
-        mySfxSource.PlayOneShot(aClip, aVolume);
+        mySfxSource1.PlayOneShot(aClip, aVolume);
+    }
+    public void PlaySFX2(AudioClip aClip, float aVolume)
+    {
+        mySfxSource2.PlayOneShot(aClip, aVolume);
     }
     public void PlayRunningSound()
     {
@@ -215,13 +225,24 @@ public class AudioManager : MonoBehaviour
     public void StopRunningSound()
     {
 
-        myRunningSoundSource.volume -= Time.deltaTime*0.5f;
+        myRunningSoundSource.volume -= Time.deltaTime;
         myRunningSoundSource.loop = false;
         if (myRunningSoundSource.volume < myMinRunningVolume)
         {
             myRunningSoundSource.volume = myMinRunningVolume;
         }
     }
+    public void PlayGrappleSound(AudioClip aShootClip)
+    {
+       
+    }
+    public void StopGrappleHitSound()
+    {
+
+        
+        
+    }
+
     public void SetMusicVolume(float aVolume)
     {
 
@@ -256,10 +277,10 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float aVolume)
     {
         //mySfxSource.volume = aVolume;
-        mySfxSource.volume += aVolume;
-        if (mySfxSource.volume < myMinMusicVolume)
+        mySfxSource1.volume += aVolume;
+        if (mySfxSource1.volume < myMinMusicVolume)
         {
-            mySfxSource.volume = myMinMusicVolume;
+            mySfxSource1.volume = myMinMusicVolume;
         }
     }
     public void SetMusicReverb(float aNumber)

@@ -6,8 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private AudioClip myJumpSound1;
-    [SerializeField]
-    private AudioClip myJumpSound2;
     //[SerializeField]
     //private AudioClip myRunningSound;
     [SerializeField]
@@ -361,7 +359,7 @@ public class PlayerMovement : MonoBehaviour
     void DoPhysics()
     {
 
-        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 0) && !myIsSliding && myIsGrounded)
+        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
         {
 
             AudioManager.ourPublicInstance.PlayRunningSound();

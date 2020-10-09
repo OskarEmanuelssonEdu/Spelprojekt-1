@@ -70,7 +70,7 @@ public class GrappelHook : MonoBehaviour
             myLineRenderer.enabled = true;
             myHitPosition = hitInfo.point;
             myDoGrappel = true;
-            AudioManager.ourPublicInstance.PlaySFX(myGrappleSound, myGrappleSoundVolume);
+            AudioManager.ourPublicInstance.PlaySFX1(myGrappleSound, myGrappleSoundVolume);
         }
     }
     void DoGrappelPhysics()

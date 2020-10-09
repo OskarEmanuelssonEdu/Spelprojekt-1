@@ -5,12 +5,16 @@ using UnityEngine;
 public class GrappleHookBoohyah : MonoBehaviour
 {
     [SerializeField]
-    private AudioClip myGrappleSound1;
-    [SerializeField]
-    private AudioClip myGrappleSound2;
+    private AudioClip myGrappleShootSound;
     [SerializeField]
     [Range(0, 1.0f)]
-    private float myGrappleSoundVolume = 1f;
+    private float myGrappleShootSoundVolume = 1f;
+    [SerializeField]
+    private AudioClip myGrappleHitSound;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myGrappleHitSoundVolume = 1f;
+
 
     [Header("Projectile Settings")]
     [SerializeField]   
@@ -103,6 +107,7 @@ public class GrappleHookBoohyah : MonoBehaviour
             myProjectile.gameObject.SetActive(false);
 
             myGrappling = true;
+            AudioManager.ourPublicInstance.PlaySFX1(myGrappleHitSound, myGrappleHitSoundVolume);
         }
         
     }
@@ -122,7 +127,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
-            AudioManager.ourPublicInstance.PlaySFX(myGrappleSound1, myGrappleSoundVolume);
+            AudioManager.ourPublicInstance.PlaySFX1(myGrappleShootSound, myGrappleShootSoundVolume);
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
             
@@ -145,6 +150,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
         if (myGrappling)
         {
+            
             animator.SetBool("isGrappling", true);
             myLineRenderer.enabled = true;
             myLineRenderer.SetPosition(0, myShootPosition.position + myPlayerMovement.CurrentSpeed * Time.fixedDeltaTime);
@@ -155,7 +161,7 @@ public class GrappleHookBoohyah : MonoBehaviour
             {
 
 
-
+               
                 myPlayerMovement.CurrentSpeed = Vector3.Lerp(myPlayerMovement.CurrentSpeed, Vector3.Project(myPlayerMovement.CurrentSpeed, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
                 myPlayerMovement.CurrentSpeed += ((myGrapplePosition - transform.position).normalized/* * myGrappleDistance*/) * Mathf.Pow(myRopeStrength, Mathf.Abs((myGrappleDistance - (myGrapplePosition - myPlayerMovement.transform.position).magnitude)) * Time.fixedDeltaTime);
                 myPlayerMovement.CurrentSpeed += myPlayerMovement.CurrentSpeed.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
@@ -167,7 +173,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
 
             Debug.DrawRay(myGrapplePosition, ((myGrapplePosition - transform.position).normalized) * myGrappleDistance, Color.red);
-
+            
 
         }
         else

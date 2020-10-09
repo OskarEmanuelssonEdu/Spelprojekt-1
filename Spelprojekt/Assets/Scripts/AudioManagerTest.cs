@@ -16,7 +16,7 @@ public class AudioManagerTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            AudioManager.ourPublicInstance.PlaySFX(myButtonClickSFX, 1);
+            AudioManager.ourPublicInstance.PlaySFX1(myButtonClickSFX, 1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
