@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TestMat
+  m_Name: FlagMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 0296426a455699145a3376c74b37a74f,
     type: 3}
   m_ShaderKeywords: 
