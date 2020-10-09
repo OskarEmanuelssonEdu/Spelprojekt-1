@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9024280093497606740
+--- !u!1 &8041773486948218183
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8536430441513457902}
-  - component: {fileID: 4744724552187287371}
-  - component: {fileID: 7366853931581989761}
-  - component: {fileID: 1095639594064772387}
+  - component: {fileID: 7264815056188321789}
+  - component: {fileID: 6016269623287914584}
+  - component: {fileID: 8402276618044462226}
+  - component: {fileID: 4602684219199412641}
   m_Layer: 0
-  m_Name: SM_Env_bridgeMid_01
+  m_Name: SM_Prop_LargeMushroom_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8536430441513457902
+--- !u!4 &7264815056188321789
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9024280093497606740}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 8041773486948218183}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4744724552187287371
+--- !u!33 &6016269623287914584
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9024280093497606740}
-  m_Mesh: {fileID: 1282767773443298479, guid: cb5bbf703011c82408baf6ad0386d6b2, type: 3}
---- !u!23 &7366853931581989761
+  m_GameObject: {fileID: 8041773486948218183}
+  m_Mesh: {fileID: 6042856960970450051, guid: 852c566dc2b948541b8da86a0d8860e9, type: 3}
+--- !u!23 &8402276618044462226
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9024280093497606740}
+  m_GameObject: {fileID: 8041773486948218183}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: cb5bbf703011c82408baf6ad0386d6b2, type: 3}
+  - {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,20 +80,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!61 &1095639594064772387
+--- !u!61 &4602684219199412641
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9024280093497606740}
+  m_GameObject: {fileID: 8041773486948218183}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -600, y: -10}
+  m_Offset: {x: 0.019268513, y: 1.7049097}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -104,5 +104,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1200, y: 30}
+  m_Size: {x: 2.2078776, y: 3.4325168}
   m_EdgeRadius: 0
