@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7905223775299924851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.12, y: 0, z: 0}
-  m_LocalScale: {x: 0.2745, y: 0.2745, z: 0.2745}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -94,9 +94,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myBulletSpeed: 5
   myBulletDamage: 1
-  myDamage: 1
   myLayerMask:
     serializedVersion: 2
     m_Bits: 512
   myBulletManager: {fileID: 0}
   myGameManager: {fileID: 0}
+  myPlayer: {fileID: 0}
