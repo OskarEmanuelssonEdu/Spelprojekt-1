@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 53f2d5a457c806748b0b6fb6e0366391
+guid: 444d352953deb70438349228227d8304
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: GradientCastle
+      name: Assets_GradientCastle
     second: {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   materials:
     materialImportMode: 1
