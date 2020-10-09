@@ -6,11 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private AudioClip myJumpSound1;
-    //[SerializeField]
-    //private AudioClip myRunningSound;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myJumpSoundVolume = 1f;
+    
 
     [Header("Speed settings")]
 
@@ -123,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-
+        
 
         Animate();
         myIsGrounded = CheckGround();
@@ -143,7 +142,16 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-
+        if ((Input.GetKey(mySlideKey)) && (Mathf.Abs(myCurrentVelocity.x) > 1) && (myIsGrounded))
+        {
+            Debug.Log("Playing Slide sound");
+            AudioManager.ourPublicInstance.PlaySlidingSound();
+        }
+        else
+        {
+            Debug.Log("Playing Stop sound");
+            AudioManager.ourPublicInstance.StopSlidingSound();
+        }
         modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
 
 
@@ -511,6 +519,7 @@ public class PlayerMovement : MonoBehaviour
         modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y + 0.75f, modelTransform.position.z);
 
         animator.SetBool("SlideBool", true);
+        
 
     }
     void DoExitSlide()
@@ -523,6 +532,7 @@ public class PlayerMovement : MonoBehaviour
         myCurrentColliderSize = myColliderSize;
 
         animator.SetBool("SlideBool", false);
+        
     }
     void DoMoveAlongSlope(Vector3 someNormals)
     {

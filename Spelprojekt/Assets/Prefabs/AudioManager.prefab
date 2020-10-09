@@ -52,6 +52,8 @@ MonoBehaviour:
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
   myRunningSound: {fileID: 8300000, guid: 9e1ad1cfe14f2c84e89cdac9469b2497, type: 3}
+  mySlidingSound: {fileID: 0}
+  mySlideSoundVolume: 0.619
 --- !u!114 &6262629178547667585
 MonoBehaviour:
   m_ObjectHideFlags: 0

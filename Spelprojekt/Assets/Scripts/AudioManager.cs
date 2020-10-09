@@ -35,6 +35,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource myRunningSoundSource;
     private AudioSource myGrappleHitSoundSource;
+    private AudioSource mySlidingSoundSource;
     private AudioReverbFilter myMusicReverbFilter;
     private AudioReverbFilter mySFXReverbFilter;
 
@@ -57,7 +58,11 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     private AudioClip myRunningSound;
-
+    [SerializeField]
+    private AudioClip mySlidingSound;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myMaxSlidingVolume = 1f;
     private void Awake()
     {
         //Make sure we dont destroy this instance
@@ -68,15 +73,25 @@ public class AudioManager : MonoBehaviour
         mySfxSource2 = this.gameObject.AddComponent<AudioSource>();
         myRunningSoundSource = this.gameObject.AddComponent<AudioSource>();
         myGrappleHitSoundSource = this.gameObject.AddComponent<AudioSource>();
+        mySlidingSoundSource = this.gameObject.AddComponent<AudioSource>();
+        myMusicSource.priority = 0; 
+        myMusicSource2.priority = 1;
+        mySfxSource1.priority = 50;
+        mySfxSource2.priority = 70;
+        myRunningSoundSource.priority = 80;
+        myGrappleHitSoundSource.priority = 90;
+        mySlidingSoundSource.priority = 100;
 
         myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
-        //Loop the music tracks
+        
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
-        myRunningSoundSource.loop = false;
+        myRunningSoundSource.loop = true;
         myRunningSoundSource.volume = myMaxRunningVolume;
         myRunningSoundSource.clip = myRunningSound;
         myGrappleHitSoundSource.loop = false;
+        mySlidingSoundSource.loop = true;
+        mySlidingSoundSource.clip = mySlidingSound;
 
     }
     public void PlayMusic(AudioClip aMusicClip)
@@ -212,7 +227,7 @@ public class AudioManager : MonoBehaviour
             Debug.Log("Playing running sound");
         }
 
-        myRunningSoundSource.loop = true;
+        
 
         myRunningSoundSource.volume += Time.deltaTime;
 
@@ -226,10 +241,9 @@ public class AudioManager : MonoBehaviour
     {
 
         myRunningSoundSource.volume -= Time.deltaTime;
-        myRunningSoundSource.loop = false;
-        if (myRunningSoundSource.volume < myMinRunningVolume)
+        if (myRunningSoundSource.volume == 0)
         {
-            myRunningSoundSource.volume = myMinRunningVolume;
+            myRunningSoundSource.Stop();
         }
     }
     public void PlayGrappleSound(AudioClip aShootClip)
@@ -242,7 +256,35 @@ public class AudioManager : MonoBehaviour
         
         
     }
+    public void PlaySlidingSound()
+    {
 
+        if (!mySlidingSoundSource.isPlaying)
+        {
+            mySlidingSoundSource.Play();
+        }
+       
+
+        
+
+        mySlidingSoundSource.volume += Time.deltaTime;
+
+
+        if (mySlidingSoundSource.volume > myMaxSlidingVolume)
+        {
+            mySlidingSoundSource.volume = myMaxSlidingVolume;
+        }
+    }
+    public void StopSlidingSound()
+    {
+        
+        mySlidingSoundSource.volume -= Time.deltaTime;
+        if (mySlidingSoundSource.volume == 0)
+        {
+            mySlidingSoundSource.Stop();
+        }
+        
+    }
     public void SetMusicVolume(float aVolume)
     {
 
