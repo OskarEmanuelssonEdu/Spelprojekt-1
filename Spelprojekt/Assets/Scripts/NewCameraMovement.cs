@@ -189,7 +189,6 @@ public class NewCameraMovement : MonoBehaviour
     private void CheckPlayerScreenLocation()
     {
         myPlayerScreenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);
-        Vector3 bld2 = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPlayerScreenPoint.y, -transform.position.z));
     }
 
 

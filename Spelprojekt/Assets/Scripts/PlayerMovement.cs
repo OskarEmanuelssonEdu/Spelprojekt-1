@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    //Audio variables
+    [Header("AUDIO settings")]
     [SerializeField]
     private AudioClip myJumpSound1;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myJumpSoundVolume = 1f;
+    [SerializeField]
+    private float myMinRunningVolume = 0.3f;
+    [SerializeField]
+    private float myMaxRunningVolume = 1f;
+    AudioSource myAudioSource;
+
+
     
 
     [Header("Speed settings")]
@@ -95,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
+        myAudioSource = GetComponent<AudioSource>();
     }
     public Vector3 CurrentSpeed
     {
@@ -122,8 +133,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        
 
+        PlaySounds();
         Animate();
         myIsGrounded = CheckGround();
         GetInputs();
@@ -367,15 +378,15 @@ public class PlayerMovement : MonoBehaviour
     void DoPhysics()
     {
 
-        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
-        {
+        //if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
+        //{
 
-            AudioManager.ourPublicInstance.PlayRunningSound();
-        }
-        else
-        {
-            AudioManager.ourPublicInstance.StopRunningSound();
-        }
+        //    AudioManager.ourPublicInstance.PlayRunningSound();
+        //}
+        //else
+        //{
+        //    AudioManager.ourPublicInstance.StopRunningSound();
+        //}
         if (myIsGrounded)
         {
             
@@ -454,7 +465,7 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-                    AudioManager.ourPublicInstance.PlaySFX(myJumpSound1);
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -614,5 +625,39 @@ public class PlayerMovement : MonoBehaviour
     void Animate()
     {
         animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
+    }
+    void PlaySounds()
+    {
+        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
+        {
+            PlayRunningSound();
+        }
+        else
+        {
+            StopRunningSound();
+        }
+        AudioManager.ourPublicInstance.SetMusicVolume(Mathf.Abs(myCurrentVelocity.x)*Time.deltaTime);
+    }
+    public void PlayRunningSound()
+    {
+
+        if (!myAudioSource.isPlaying)
+        {
+            myAudioSource.Play();
+        }
+        myAudioSource.volume += Time.deltaTime*2;
+
+        if (myAudioSource.volume > myMaxRunningVolume)
+        {
+            myAudioSource.volume = myMaxRunningVolume;
+        }
+    }
+    public void StopRunningSound()
+    {
+        myAudioSource.volume -= Time.deltaTime*2;
+        if (myAudioSource.volume <= 0)
+        {
+            myAudioSource.Stop();
+        }
     }
 }

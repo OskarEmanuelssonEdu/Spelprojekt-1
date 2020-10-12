@@ -70,26 +70,18 @@ public class AudioManager : MonoBehaviour
         myMusicSource = this.gameObject.AddComponent<AudioSource>();
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
         mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
-        mySfxSource2 = this.gameObject.AddComponent<AudioSource>();
-        myRunningSoundSource = this.gameObject.AddComponent<AudioSource>();
-        myGrappleHitSoundSource = this.gameObject.AddComponent<AudioSource>();
-        mySlidingSoundSource = this.gameObject.AddComponent<AudioSource>();
-        myMusicSource.priority = 0; 
-        myMusicSource2.priority = 1;
-        mySfxSource1.priority = 50;
-        mySfxSource2.priority = 70;
-        myRunningSoundSource.priority = 80;
-        myGrappleHitSoundSource.priority = 90;
-        mySlidingSoundSource.priority = 100;
+        mySlidingSoundSource = gameObject.AddComponent<AudioSource>();
+      
 
-        myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
+        //Music will keep playing even if game is paused
+        myMusicSource.ignoreListenerPause = true;
+        myMusicSource2.ignoreListenerPause = true;
+       
+       // myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
         
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
-        myRunningSoundSource.loop = true;
-        myRunningSoundSource.volume = myMaxRunningVolume;
-        myRunningSoundSource.clip = myRunningSound;
-        myGrappleHitSoundSource.loop = false;
+      
         mySlidingSoundSource.loop = true;
         mySlidingSoundSource.clip = mySlidingSound;
 
@@ -203,10 +195,7 @@ public class AudioManager : MonoBehaviour
         }
         anOriginal.Stop();
     }
-    public void PlaySFX(AudioClip aClip)
-    {
-        mySfxSource1.PlayOneShot(aClip);
-    }
+  
     public void PlaySFX1(AudioClip aClip, float aVolume)
     {
         mySfxSource1.PlayOneShot(aClip, aVolume);
@@ -215,37 +204,37 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource2.PlayOneShot(aClip, aVolume);
     }
-    public void PlayRunningSound()
-    {
+    //public void PlayRunningSound()
+    //{
         
-        if (!myRunningSoundSource.isPlaying)
-        {
-            myRunningSoundSource.Play();
-        }
-        if (myRunningSoundSource.isPlaying)
-        {
-            Debug.Log("Playing running sound");
-        }
-
-        
-
-        myRunningSoundSource.volume += Time.deltaTime;
+    //    if (!myRunningSoundSource.isPlaying)
+    //    {
+    //        myRunningSoundSource.Play();
+    //    }
+    //    if (myRunningSoundSource.isPlaying)
+    //    {
+    //        Debug.Log("Playing running sound");
+    //    }
 
         
-        if (myRunningSoundSource.volume > myMaxRunningVolume)
-        {
-            myRunningSoundSource.volume = myMaxRunningVolume;
-        }
-    }
-    public void StopRunningSound()
-    {
 
-        myRunningSoundSource.volume -= Time.deltaTime;
-        if (myRunningSoundSource.volume == 0)
-        {
-            myRunningSoundSource.Stop();
-        }
-    }
+    //    myRunningSoundSource.volume += Time.deltaTime;
+
+        
+    //    if (myRunningSoundSource.volume > myMaxRunningVolume)
+    //    {
+    //        myRunningSoundSource.volume = myMaxRunningVolume;
+    //    }
+    //}
+    //public void StopRunningSound()
+    //{
+
+    //    myRunningSoundSource.volume -= Time.deltaTime;
+    //    if (myRunningSoundSource.volume == 0)
+    //    {
+    //        myRunningSoundSource.Stop();
+    //    }
+    //}
     public void PlayGrappleSound(AudioClip aShootClip)
     {
        
@@ -258,14 +247,11 @@ public class AudioManager : MonoBehaviour
     }
     public void PlaySlidingSound()
     {
-
+        mySlidingSoundSource.loop = true;
         if (!mySlidingSoundSource.isPlaying)
         {
             mySlidingSoundSource.Play();
         }
-       
-
-        
 
         mySlidingSoundSource.volume += Time.deltaTime;
 
@@ -279,17 +265,20 @@ public class AudioManager : MonoBehaviour
     {
         
         mySlidingSoundSource.volume -= Time.deltaTime;
-        if (mySlidingSoundSource.volume == 0)
+        if (mySlidingSoundSource.volume <= 0)
         {
-            mySlidingSoundSource.Stop();
+            mySlidingSoundSource.loop = false;
         }
         
     }
     public void SetMusicVolume(float aVolume)
     {
-
-        myMusicSource.volume += aVolume;
-        myMusicSource2.volume += aVolume;
+        if (myMusicSource.volume < myMaxMusicVolume || myMusicSource2.volume < myMaxMusicVolume && aVolume > 0)
+        {
+            myMusicSource.volume += aVolume / (myMusicSource.volume+1) * Time.deltaTime;
+            myMusicSource2.volume += aVolume / (myMusicSource2.volume+1) * Time.deltaTime;
+        }
+        
         if (myMusicSource.volume < myMinMusicVolume || myMusicSource2.volume < myMinMusicVolume)
         {
             myMusicSource.volume = myMinMusicVolume;
@@ -299,6 +288,11 @@ public class AudioManager : MonoBehaviour
         {
             myMusicSource.volume = myMaxMusicVolume;
             myMusicSource2.volume = myMaxMusicVolume;
+        }
+        if (myMusicSource.volume > myMinMusicVolume || myMusicSource2.volume > myMinMusicVolume)
+        {
+            myMusicSource.volume -= Time.deltaTime*0.1f;
+            myMusicSource2.volume -= Time.deltaTime*0.1f;
         }
     }
     public void SetMusicPitch(float aPitch)
@@ -316,15 +310,15 @@ public class AudioManager : MonoBehaviour
         AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
         StartCoroutine(FadeInMusic(activeSource, aTransitionTime, aVolume));
     }
-    public void SetSFXVolume(float aVolume)
-    {
-        //mySfxSource.volume = aVolume;
-        mySfxSource1.volume += aVolume;
-        if (mySfxSource1.volume < myMinMusicVolume)
-        {
-            mySfxSource1.volume = myMinMusicVolume;
-        }
-    }
+    //public void SetSFXVolume(float aVolume)
+    //{
+    //    //mySfxSource.volume = aVolume;
+    //    mySfxSource1.volume += aVolume;
+    //    if (mySfxSource1.volume < myMinMusicVolume)
+    //    {
+    //        mySfxSource1.volume = myMinMusicVolume;
+    //    }
+    //}
     public void SetMusicReverb(float aNumber)
     {
         myMusicReverbFilter.dryLevel += aNumber;
@@ -337,5 +331,13 @@ public class AudioManager : MonoBehaviour
             myMusicReverbFilter.dryLevel = myMaxReverbDryLevel;
         }
     }
-    
+    void PauseAudio()
+    {
+        AudioListener.pause = true;
+    }
+    void UnpauseAudio()
+    {
+        AudioListener.pause = false;
+    }
+
 }
