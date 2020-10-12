@@ -127,7 +127,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638344296640923817}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -195,7 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3228286877809956869}
   m_Layer: 0
-  m_Name: Sm_Prop_woodBox_01
+  m_Name: SM_Prop_woodBox_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
