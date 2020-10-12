@@ -340,7 +340,10 @@ MonoBehaviour:
   myMaxSpeed: 21
   myAcceleration: 0.25
   myDecceleration: 0.8
-  myDrag: 0.1
+  myFriction: 0
+  mySlidingFrictionFraction: 0
+  myAirControlFraction: 0
+  mySlideControlFraction: 0
   myJumpForce: 2
   myGravity: 0.5
   myJumpTime: 0.25
@@ -352,6 +355,8 @@ MonoBehaviour:
   myLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  animator: {fileID: 0}
+  myTurnSpeed: 0
 --- !u!23 &1029798236
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -739,6 +744,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cb56652adebf44c885addcff43b94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAudioWhenNearScreen: {fileID: 0}
+  myAudioDeath: {fileID: 0}
   myCamera: {fileID: 1184243652}
   myPlayer: {fileID: 1029798233}
   myMinMovementSpeed: 3
@@ -746,10 +753,12 @@ MonoBehaviour:
   myCurrentMovementSpeed: 0
   myCameraFollowAcceleration: 47
   myCameraFollowDeceleration: 50.8
-  myDistanceAllowedFromEdge: 0.045
-  myDistanceBeforeZoomingOut: 0.617
-  myDistanceBeforeSpeedingUp: 0.571
-  myDistanceBeforeSlowingDown: 0.349
+  myDistanceAllowedFromLeftEdge: 0
+  myDistanceToRightBeforeZoomingOut: 0
+  myDistanceToRightBeforeSpeedingUp: 0
+  myDistanceFromLeftBeforeSlowingDown: 0
+  myDistanceToRightBeforeSuperSpeedingUp: 0
+  myPlayerVerticalCameraPosition: 0
   myZoomOutSpeed: 26.6
   myZoomInSpeed: 25
   myMinFieldOfView: 15
