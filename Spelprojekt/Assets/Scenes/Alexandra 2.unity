@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2343,7 +2343,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 79924087}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &40613808
 BoxCollider2D:
@@ -3629,6 +3629,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3643,7 +3648,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &79924087 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 79924086}
   m_PrefabAsset: {fileID: 0}
@@ -3678,7 +3683,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &82932228
 BoxCollider2D:
@@ -4099,7 +4104,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &95766692
 BoxCollider2D:
@@ -5357,6 +5362,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5371,7 +5381,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &134062589 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 134062588}
   m_PrefabAsset: {fileID: 0}
@@ -7689,7 +7699,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &183537028
 BoxCollider2D:
@@ -9466,7 +9476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1739462565}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &237518540
 BoxCollider2D:
@@ -9572,7 +9582,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1776884254}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &238467362
 BoxCollider2D:
@@ -9829,7 +9839,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &238980042 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 238980041}
   m_PrefabAsset: {fileID: 0}
@@ -12464,7 +12474,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 836074567}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &306000090
 BoxCollider2D:
@@ -18006,6 +18016,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -18015,7 +18030,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &447847713 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 447847712}
   m_PrefabAsset: {fileID: 0}
@@ -19542,7 +19557,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &465902163
 BoxCollider2D:
@@ -21157,7 +21172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 134062589}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &496410933
 BoxCollider2D:
@@ -24479,7 +24494,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 134062589}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &573276044
 BoxCollider2D:
@@ -30786,7 +30801,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 79924087}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &740846311
 BoxCollider2D:
@@ -31731,7 +31746,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1557891285}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &759299436
 BoxCollider2D:
@@ -35211,6 +35226,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -35225,7 +35245,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &836074567 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 836074566}
   m_PrefabAsset: {fileID: 0}
@@ -38079,7 +38099,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 134062589}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &904876721
 BoxCollider2D:
@@ -43205,7 +43225,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1026813325
 BoxCollider2D:
@@ -43467,7 +43487,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1739462565}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1032948028
 BoxCollider2D:
@@ -47124,11 +47144,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1136884455 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1136884454}
   m_PrefabAsset: {fileID: 0}
@@ -57507,7 +57532,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1557891285}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1358782819
 BoxCollider2D:
@@ -59268,6 +59293,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -59277,7 +59307,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1396066007 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1396066006}
   m_PrefabAsset: {fileID: 0}
@@ -60413,7 +60443,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 79924087}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1428074477
 BoxCollider2D:
@@ -63854,7 +63884,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 836074567}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1497562295
 BoxCollider2D:
@@ -66705,6 +66735,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66719,7 +66754,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1557891285 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1557891284}
   m_PrefabAsset: {fileID: 0}
@@ -69738,6 +69773,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -69752,7 +69792,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1617350609 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1617350608}
   m_PrefabAsset: {fileID: 0}
@@ -70016,7 +70056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1776884254}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1623773176
 BoxCollider2D:
@@ -73985,7 +74025,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712078424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 116.9, y: -33.88, z: -52.3}
+  m_LocalPosition: {x: 116.9, y: -33.88, z: 1.9}
   m_LocalScale: {x: 16.159124, y: 3.356743, z: 8.786}
   m_Children: []
   m_Father: {fileID: 0}
@@ -75235,6 +75275,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -75249,7 +75294,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1739462565 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1739462564}
   m_PrefabAsset: {fileID: 0}
@@ -76613,6 +76658,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4006805382505412819, guid: 9ac65bb1a84169941b2422f87ce5666e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -76627,7 +76677,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1776884254 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1776884253}
   m_PrefabAsset: {fileID: 0}
@@ -80912,7 +80962,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1877986066
 BoxCollider2D:
@@ -84978,11 +85028,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_woodBox_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ac65bb1a84169941b2422f87ce5666e, type: 3}
 --- !u!4 &1973316140 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 309952619545661715, guid: 9ac65bb1a84169941b2422f87ce5666e,
+  m_CorrespondingSourceObject: {fileID: 3228286877809956869, guid: 9ac65bb1a84169941b2422f87ce5666e,
     type: 3}
   m_PrefabInstance: {fileID: 1973316139}
   m_PrefabAsset: {fileID: 0}
@@ -88264,7 +88319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1617350609}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2061492102
 BoxCollider2D:
