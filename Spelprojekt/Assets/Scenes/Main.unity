@@ -121,75 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &217328294
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6262629178547667596, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_Name
-      value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 88.0708
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 30.737988
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -101.25769
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6262629178547667598, guid: 0e1b4024683f0eb4d9cd03aa347d0495,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0e1b4024683f0eb4d9cd03aa347d0495, type: 3}
 --- !u!1 &474411380
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,11 +337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727af76fbb23aba44a5efc4ddb0839ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myJumpSound: {fileID: 8300000, guid: 4a7843c9f5469ac4aa9610f7065720b1, type: 3}
   myMaxSpeed: 21
   myAcceleration: 0.25
   myDecceleration: 0.8
-  myDrag: 0.1
+  myFriction: 0
+  mySlidingFrictionFraction: 0
+  myAirControlFraction: 0
+  mySlideControlFraction: 0
   myJumpForce: 2
   myGravity: 0.5
   myJumpTime: 0.25
@@ -422,6 +355,8 @@ MonoBehaviour:
   myLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  animator: {fileID: 0}
+  myTurnSpeed: 0
 --- !u!23 &1029798236
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -809,22 +744,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cb56652adebf44c885addcff43b94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAudioWhenNearScreen: {fileID: 8300000, guid: 255ae0b0d86d38e48a23f39cbaa9fa94,
-    type: 3}
-  myAudioDeath: {fileID: 8300000, guid: 06ba56f3c408a034889891528309d147, type: 3}
+  myAudioWhenNearScreen: {fileID: 0}
+  myAudioDeath: {fileID: 0}
   myCamera: {fileID: 1184243652}
   myPlayer: {fileID: 1029798233}
-  myMinMovementSpeed: 10
-  myMaxMovementSpeed: 21
+  myMinMovementSpeed: 3
+  myMaxMovementSpeed: 45.9
   myCurrentMovementSpeed: 0
-  myCameraFollowAcceleration: 40.3
-  myCameraFollowDeceleration: 45.5
-  myDistanceAllowedFromEdge: 0.045
-  myDistanceBeforeZoomingOut: 0.628
-  myDistanceBeforeSpeedingUp: 0.551
-  myDistanceBeforeSlowingDown: 0.349
-  myZoomOutSpeed: 18.1
-  myZoomInSpeed: 9.6
+  myCameraFollowAcceleration: 47
+  myCameraFollowDeceleration: 50.8
+  myDistanceAllowedFromLeftEdge: 0
+  myDistanceToRightBeforeZoomingOut: 0
+  myDistanceToRightBeforeSpeedingUp: 0
+  myDistanceFromLeftBeforeSlowingDown: 0
+  myDistanceToRightBeforeSuperSpeedingUp: 0
+  myPlayerVerticalCameraPosition: 0
+  myZoomOutSpeed: 26.6
+  myZoomInSpeed: 25
   myMinFieldOfView: 15
   myMaxFieldOfView: 31.6
 --- !u!1 &1226254437

@@ -19,7 +19,7 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     float myTimeInBetweenShots = 2;
     float myTimerInBetweenshots = 0;
-    [Range(10, 30)]
+    [Range(10, 60)]
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
     float myDistanceToActivate = 20;
@@ -30,6 +30,12 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     GameManager myGameManager;
 
+
+    void OnValidate()
+    {
+        myBulletManager = FindObjectOfType<BulletManager>();
+        myGameManager = FindObjectOfType<GameManager>();
+    }
     void Update()
     {
         if (CheckPlayerDistance())
