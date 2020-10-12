@@ -9,7 +9,7 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable will decide the damage the bullet will do to the player")]
     [SerializeField]
     float damage = 10f;
-    [Range(1, 25)]
+    [Range(1, 50)]
     [Tooltip("This variable decide the speed of the bullet")]
     [SerializeField]
     float mySpeed = 10;
@@ -19,7 +19,6 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     float myTimeInBetweenShots = 2;
     float myTimerInBetweenshots = 0;
-    [Range(10, 60)]
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
     float myDistanceToActivate = 20;

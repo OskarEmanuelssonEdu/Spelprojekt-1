@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GrappelHook : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myGrappleSound;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myGrappleSoundVolume;
     [Header("Grappling hook settings")]
     [Range(10, 30)]
     [SerializeField]
@@ -65,6 +70,7 @@ public class GrappelHook : MonoBehaviour
             myLineRenderer.enabled = true;
             myHitPosition = hitInfo.point;
             myDoGrappel = true;
+            AudioManager.Instance.PlaySFX(myGrappleSound, myGrappleSoundVolume);
         }
     }
     void DoGrappelPhysics()
