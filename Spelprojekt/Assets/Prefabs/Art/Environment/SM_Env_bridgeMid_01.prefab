@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4404854629836459918}
   m_Layer: 0
-  m_Name: SM_Env_bridgeMid_01
+  m_Name: SM_Env_BridgeMid_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

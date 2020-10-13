@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
 guid: 8e5d727237dbda342b8a12c0ae795dfe
-=======
-guid: f8b8f08c0f9e3e844b0659edfd919ba9
->>>>>>> Stashed changes
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert43
+    second: {fileID: 2100000, guid: b1b49fdddf411c048997b801e21ce987, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert59
+    second: {fileID: 2100000, guid: b1b49fdddf411c048997b801e21ce987, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
