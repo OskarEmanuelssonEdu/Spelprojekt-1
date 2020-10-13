@@ -86,8 +86,8 @@ public class GameManager : MonoBehaviour
         myPlayer.transform.position = startPos;
         grappleHook.enabled = false;
         myPlayerMovement.enabled = false;
-        myGameOverScreen.SetActive(true);
-        myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+        //myGameOverScreen.SetActive(true);
+        //myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
 
     }
     public Vector3 PlayerPosition()

@@ -75,13 +75,16 @@ public class PlayerMovement : MonoBehaviour
 
 
     bool myIsGrounded;
-    bool myIsSliding;
+    public bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
     [SerializeField]
     Animator animator;
     Transform modelTransform;
     bool walkingUpSlope = false;
+
+    [SerializeField]
+    Transform myCameraTransform;
 
     [SerializeField]
     float myTurnSpeed;
@@ -166,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
         {
             myInputDirectionX = 0;
         }
-        //-------------------
+
         if (Input.GetKey(myJumpKey))
         {
             myInputDirectionY = 1;
@@ -354,233 +357,245 @@ public class PlayerMovement : MonoBehaviour
 
         if (myIsGrounded)
         {
-            animator.SetBool("isGrounded", true);
 
-            if (myIsSliding)
+
+            if (myIsGrounded)
             {
 
-                myCurrentControlFraction = mySlideControlFraction;
+                animator.SetBool("isGrounded", true);
 
-            }
-            else
-            {
-
-                mySlideControlFraction = 1;
-
-            }
-
-        }
-        else
-        {
-            animator.SetBool("isGrounded", false);
-            myCurrentControlFraction = myAirControlFraction;
-
-        }
-
-        if (myCurrentVelocity.magnitude < myMaxSpeed && !myIsSliding)
-        {
-            ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
-        }
-
-        if (myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
-        {
-
-            Deccelerate();
-
-        }
-        //if (myInputDirectionX == 0 && !myIsSliding)
-        //{
-        //    Deccelerate();
-        //}
-
-        if (myIsGrounded)
-        {
-            if (myIsSliding)
-            {
-                ApplyForce((myCurrentVelocity * -1) * (mySlidingFrictionFraction * myFriction) * Time.fixedDeltaTime);
-
-            }
-            else
-            {
-
-                ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
-
-            }
-
-
-        }
-
-        switch (myJumpState)
-        {
-            case JumpState.none:
-
-                if (walkingUpSlope == false)
+                if (myIsSliding)
                 {
+
+                    myCurrentControlFraction = mySlideControlFraction;
+
+                }
+                else
+                {
+
+                    mySlideControlFraction = 1;
+
+                }
+
+            }
+            else
+            {
+                animator.SetBool("isGrounded", false);
+                myCurrentControlFraction = myAirControlFraction;
+
+            }
+
+            if (myCurrentVelocity.magnitude < myMaxSpeed && !myIsSliding)
+            {
+                ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
+            }
+
+            if (myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
+            {
+
+                Deccelerate();
+
+            }
+            //if (myInputDirectionX == 0 && !myIsSliding)
+            //{
+            //    Deccelerate();
+            //}
+
+            if (myIsGrounded)
+            {
+                if (myIsSliding)
+                {
+                    ApplyForce((myCurrentVelocity * -1) * (mySlidingFrictionFraction * myFriction) * Time.fixedDeltaTime);
+
+                }
+                else
+                {
+
+                    ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
+
+                }
+
+
+            }
+
+            switch (myJumpState)
+            {
+                case JumpState.none:
+
+                    if (walkingUpSlope == false)
+                    {
+                        ApplyForce(new Vector3(0, -myGravity, 0));
+
+                    }
+
+
+                    if (myIsGrounded && myInputDirectionY == 1)
+                    {
+
+
+                        myCurrentVelocity.y = 0;
+                        myJumpTimer = 0;
+                        ApplyForce(new Vector3(0, myJumpStartForce, 0));
+                        animator.SetTrigger("JumpTrigger");
+                        myJumpState = JumpState.jumping;
+
+                    }
+                    else if (!myIsGrounded)
+                    {
+
+                        myJumpState = JumpState.falling;
+
+                    }
+
+                    break;
+
+                case JumpState.jumping:
+
+
+                    if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
+                    {
+
+                        myJumpState = JumpState.falling;
+
+                    }
+                    ApplyForce(new Vector3(0, myJumpForce * Time.deltaTime, 0));
+
+                    myJumpTimer += Time.fixedDeltaTime;
+
+
+                    break;
+                case JumpState.falling:
+
+                    animator.SetTrigger("ExtendedJump");
                     ApplyForce(new Vector3(0, -myGravity, 0));
 
-                }
+                    if (myIsGrounded)
+                    {
+
+                        myJumpState = JumpState.none;
 
 
-                if (myIsGrounded && myInputDirectionY == 1)
-                {
+                    }
+
+                    break;
+
+            }
 
 
-                    myCurrentVelocity.y = 0;
-                    myJumpTimer = 0;
-                    ApplyForce(new Vector3(0, myJumpStartForce, 0));
-                    animator.SetTrigger("JumpTrigger");
-                    myJumpState = JumpState.jumping;
+            CastBox();
 
-                }
-                else if (!myIsGrounded)
-                {
-
-                    myJumpState = JumpState.falling;
-
-                }
-
-                break;
-
-            case JumpState.jumping:
-
-
-                if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
-                {
-
-                    myJumpState = JumpState.falling;
-
-                }
-                ApplyForce(new Vector3(0, myJumpForce * Time.deltaTime, 0));
-
-                myJumpTimer += Time.fixedDeltaTime;
-
-
-                break;
-            case JumpState.falling:
-
-                animator.SetTrigger("ExtendedJump");
-                ApplyForce(new Vector3(0, -myGravity, 0));
-
-                if (myIsGrounded)
-                {
-
-                    myJumpState = JumpState.none;
-
-
-                }
-
-                break;
-
+            transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
         }
-
-
-        CastBox();
-
-        transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
 
-    void DoEnterSlide()
-    {
-
-
-        myIsSliding = true;
-        myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
-
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y + 0.75f, modelTransform.position.z);
-
-        animator.SetBool("SlideBool", true);
-
-    }
-    void DoExitSlide()
-    {
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y - 0.75f, modelTransform.position.z);
-
-        transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
-
-        myIsSliding = false;
-        myCurrentColliderSize = myColliderSize;
-
-        animator.SetBool("SlideBool", false);
-    }
-    void DoMoveAlongSlope(Vector3 someNormals)
-    {
-
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
-
-        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
-
-        // print(normalSignedAngle);
-
-        if (normalSignedAngle > 0)
+        void DoEnterSlide()
         {
 
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+            myIsSliding = true;
+            myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
+
+
+            transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
+            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
+
+            animator.SetBool("SlideBool", true);
+
+            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
+
 
         }
-        else if (normalSignedAngle < 0)
+        void DoExitSlide()
+        {
+            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
+
+            // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+            myIsSliding = false;
+            myCurrentColliderSize = myColliderSize;
+            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
+
+            animator.SetBool("SlideBool", false);
+        }
+        void DoMoveAlongSlope(Vector3 someNormals)
         {
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+            Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+            Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
+            float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
+
+            // print(normalSignedAngle);
+
+            if (normalSignedAngle > 0)
+            {
+
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+            }
+            else if (normalSignedAngle < 0)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+
+
+            }
+
+            Debug.DrawRay(transform.position, someNormals, Color.red);
 
         }
-
-        Debug.DrawRay(transform.position, someNormals, Color.red);
-
-    }
-    void DoSlideDownSlope(Vector3 someNormals)
-    {
-
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
-
-        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
-
-
-
-        if (normalSignedAngle > 0)
+        void DoSlideDownSlope(Vector3 someNormals)
         {
 
+            Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+            Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
-            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
-
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
+            float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
 
 
+
+            if (normalSignedAngle > 0)
+            {
+
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+                Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
+
+                modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
+
+
+
+
+            }
+            else if (normalSignedAngle < 0)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+                Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
+
+
+                modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
+
+
+
+            }
+
+            print(someNormals);
+
+
+            Debug.DrawRay(transform.position, someNormals, Color.red);
 
 
         }
-        else if (normalSignedAngle < 0)
+        void OnDrawGizmos()
         {
-
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
-
-            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
-
-
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
-
-
-
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawCube(transform.position, myCurrentColliderSize);
         }
-
-        print(someNormals);
-
-
-        Debug.DrawRay(transform.position, someNormals, Color.red);
-
-
+        void Animate()
+        {
+            animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
+        }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position, myCurrentColliderSize);
-    }
-    void Animate()
-    {
-        animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
-    }
-}
