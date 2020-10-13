@@ -357,138 +357,132 @@ public class PlayerMovement : MonoBehaviour
 
         if (myIsGrounded)
         {
+            animator.SetBool("isGrounded", true);
 
-
-            if (myIsGrounded)
+            if (myIsSliding)
             {
 
-                animator.SetBool("isGrounded", true);
-
-                if (myIsSliding)
-                {
-
-                    myCurrentControlFraction = mySlideControlFraction;
-
-                }
-                else
-                {
-
-                    mySlideControlFraction = 1;
-
-                }
+                myCurrentControlFraction = mySlideControlFraction;
 
             }
             else
             {
-                animator.SetBool("isGrounded", false);
-                myCurrentControlFraction = myAirControlFraction;
+
+                mySlideControlFraction = 1;
 
             }
 
-            if (myCurrentVelocity.magnitude < myMaxSpeed && !myIsSliding)
+        }
+        else
+        {
+            animator.SetBool("isGrounded", false);
+            myCurrentControlFraction = myAirControlFraction;
+
+        }
+
+        if (myCurrentVelocity.magnitude < myMaxSpeed && !myIsSliding)
+        {
+            ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
+        }
+
+        if (myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
+        {
+
+            Deccelerate();
+
+        }
+        //if (myInputDirectionX == 0 && !myIsSliding)
+        //{
+        //    Deccelerate();
+        //}
+
+        if (myIsGrounded)
+        {
+            if (myIsSliding)
             {
-                ApplyForce(new Vector3(myAcceleration * myInputDirectionX, 0, 0));
+                ApplyForce((myCurrentVelocity * -1) * (mySlidingFrictionFraction * myFriction) * Time.fixedDeltaTime);
+
+            }
+            else
+            {
+
+                ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
+
             }
 
-            if (myInputDirectionX == 0 && myIsGrounded && !myIsSliding)
-            {
 
-                Deccelerate();
+        }
 
-            }
-            //if (myInputDirectionX == 0 && !myIsSliding)
-            //{
-            //    Deccelerate();
-            //}
+        switch (myJumpState)
+        {
+            case JumpState.none:
 
-            if (myIsGrounded)
-            {
-                if (myIsSliding)
+                if (walkingUpSlope == false)
                 {
-                    ApplyForce((myCurrentVelocity * -1) * (mySlidingFrictionFraction * myFriction) * Time.fixedDeltaTime);
-
-                }
-                else
-                {
-
-                    ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
-
-                }
-
-
-            }
-
-            switch (myJumpState)
-            {
-                case JumpState.none:
-
-                    if (walkingUpSlope == false)
-                    {
-                        ApplyForce(new Vector3(0, -myGravity, 0));
-
-                    }
-
-
-                    if (myIsGrounded && myInputDirectionY == 1)
-                    {
-
-
-                        myCurrentVelocity.y = 0;
-                        myJumpTimer = 0;
-                        ApplyForce(new Vector3(0, myJumpStartForce, 0));
-                        animator.SetTrigger("JumpTrigger");
-                        myJumpState = JumpState.jumping;
-
-                    }
-                    else if (!myIsGrounded)
-                    {
-
-                        myJumpState = JumpState.falling;
-
-                    }
-
-                    break;
-
-                case JumpState.jumping:
-
-
-                    if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
-                    {
-
-                        myJumpState = JumpState.falling;
-
-                    }
-                    ApplyForce(new Vector3(0, myJumpForce * Time.deltaTime, 0));
-
-                    myJumpTimer += Time.fixedDeltaTime;
-
-
-                    break;
-                case JumpState.falling:
-
-                    animator.SetTrigger("ExtendedJump");
                     ApplyForce(new Vector3(0, -myGravity, 0));
 
-                    if (myIsGrounded)
-                    {
-
-                        myJumpState = JumpState.none;
+                }
 
 
-                    }
-
-                    break;
-
-            }
+                if (myIsGrounded && myInputDirectionY == 1)
+                {
 
 
-            CastBox();
+                    myCurrentVelocity.y = 0;
+                    myJumpTimer = 0;
+                    ApplyForce(new Vector3(0, myJumpStartForce, 0));
+                    animator.SetTrigger("JumpTrigger");
+                    myJumpState = JumpState.jumping;
 
-            transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
+                }
+                else if (!myIsGrounded)
+                {
+
+                    myJumpState = JumpState.falling;
+
+                }
+
+                break;
+
+            case JumpState.jumping:
+
+
+                if (myInputDirectionY < 1 || myJumpTimer > myJumpTime)
+                {
+
+                    myJumpState = JumpState.falling;
+
+                }
+                ApplyForce(new Vector3(0, myJumpForce * Time.deltaTime, 0));
+
+                myJumpTimer += Time.fixedDeltaTime;
+
+
+                break;
+            case JumpState.falling:
+
+                animator.SetTrigger("ExtendedJump");
+                ApplyForce(new Vector3(0, -myGravity, 0));
+
+                if (myIsGrounded)
+                {
+
+                    myJumpState = JumpState.none;
+
+
+                }
+
+                break;
+
         }
+
+
+        CastBox();
+
+        transform.Translate(myCurrentVelocity * Time.fixedDeltaTime);
     }
 
-        void DoEnterSlide()
+    void DoEnterSlide()
         {
 
 
