@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class GrappleHookBoohyah : MonoBehaviour
 {
-
-    [SerializeField]
+    [Header("Projectile Settings")]
+    [SerializeField]   
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
+    [SerializeField]
+    [Tooltip("Berättar vart skottet kommer att skjutas från")]
+    Transform myShootPosition;
 
+    [Tooltip("Definerar hur snabbt projektilen kommer att färdas")]
+    [Range(10, 100)]
+    [SerializeField]
+    float myProjectileSpeed;
+    
+    [Range(10, 100)]
+    [Tooltip("Max distansen som pojektilen kommer att färdas (I UNITS)")]
+    [SerializeField]
+    float myGrappleMaxDistance;
 
     Vector3 myMousePosition;
     Vector3 myMouseDirection;
     Vector3 myGrapplePosition;
 
     [SerializeField]
-    float myGrappleMaxDistance;
+
 
     float myGrappleDistance;
 
+    [Header("Rope settings")]
     [SerializeField]
     LayerMask myGrappleLayer;
     [SerializeField]
@@ -36,29 +49,35 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     [SerializeField]
     float mySwingCorrection;
-    [Range(10, 100)]
-    [SerializeField]
-    float myProjectileSpeed;
    
+   
+
     [SerializeField]
     Camera myOrtograpicCamera;
     [SerializeField]
-    Transform myShootPosition;
-    [SerializeField]
     LineRenderer myLineRenderer;
+    [SerializeField]
+    Animator animator;
 
     [SerializeField]
     KeyCode myGrappleKey = KeyCode.Mouse0;
 
- 
+    public Vector3 ShootPosition
+    {
+        get
+        {
+            return myShootPosition.position;
+        }
+    }
 
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
         if (myProjectile == null)
         {
             myProjectile = Instantiate(myProjectilePrefab, Vector3.zero, Quaternion.identity);
             myProjectile.GrapplingHook = this;
-
+            myProjectile.Line = myLineRenderer;
         }
         myProjectile.gameObject.SetActive(false);
     }
@@ -106,7 +125,7 @@ public class GrappleHookBoohyah : MonoBehaviour
         }
         else if (Input.GetKeyUp(myGrappleKey))
         {
-            
+            myLineRenderer.gameObject.SetActive(false);
             myGrappling = false;
             
         }
@@ -118,8 +137,9 @@ public class GrappleHookBoohyah : MonoBehaviour
 
         if (myGrappling)
         {
+            animator.SetBool("isGrappling", true);
             myLineRenderer.enabled = true;
-            myLineRenderer.SetPosition(0, transform.position);
+            myLineRenderer.SetPosition(0, myShootPosition.position + myPlayerMovement.CurrentSpeed * Time.fixedDeltaTime);
             myLineRenderer.SetPosition(1, myGrapplePosition);
 
 
@@ -129,7 +149,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
 
                 myPlayerMovement.CurrentSpeed = Vector3.Lerp(myPlayerMovement.CurrentSpeed, Vector3.Project(myPlayerMovement.CurrentSpeed, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
-                myPlayerMovement.CurrentSpeed += ((transform.position - myGrapplePosition).normalized * myGrappleDistance) * (myRopeStrength * (myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude)) * Time.fixedDeltaTime;
+                myPlayerMovement.CurrentSpeed += ((myGrapplePosition - transform.position).normalized/* * myGrappleDistance*/) * Mathf.Pow(myRopeStrength, Mathf.Abs((myGrappleDistance - (myGrapplePosition - myPlayerMovement.transform.position).magnitude)) * Time.fixedDeltaTime);
                 myPlayerMovement.CurrentSpeed += myPlayerMovement.CurrentSpeed.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
 
                 print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
@@ -144,13 +164,19 @@ public class GrappleHookBoohyah : MonoBehaviour
         }
         else
         {
+            animator.SetBool("isGrappling", false);
 
-            myLineRenderer.enabled = false;
+            //myLineRenderer.enabled = false;
 
         }
 
 
 
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(myShootPosition.position, myGrappleMaxDistance);
 
+    }
 }
