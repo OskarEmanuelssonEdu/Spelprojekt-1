@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Player myPlayer;
     Vector3 startPos;
+    [SerializeField]
+    NewCameraMovement myCamera;
+    
    
     void OnValidate()
     {
@@ -36,12 +39,13 @@ public class GameManager : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
         grappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
+        myCamera = FindObjectOfType<NewCameraMovement>();
     }
     void Start()
     {
         grappleHook.enabled = true;
         myPlayerMovement.enabled = true;
-        startPos = myPlayer.transform.position;        
+        startPos = myPlayer.transform.position;
     }
     void Update()
     {
@@ -70,7 +74,7 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         myPlayer.transform.position = startPos;
-
+        myCamera.ResetCameraPosition();
         grappleHook.enabled = false;
         myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
@@ -78,8 +82,8 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
+        myCamera.ResetCameraPosition();
         myPlayer.transform.position = startPos;
-
         grappleHook.enabled = false;
         myPlayerMovement.enabled = false;
         myGameOverScreen.SetActive(true);
