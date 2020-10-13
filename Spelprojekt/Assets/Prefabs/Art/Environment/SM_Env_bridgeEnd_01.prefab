@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 9065566801934704946, guid: 01e1aa61efb2b874fa3de2aaaa7dd753, type: 3}
+  - {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6770837249404408132}
   m_Layer: 0
-  m_Name: SM_Env_bridgeEnd_01
+  m_Name: SM_Env_BridgeEnd_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
