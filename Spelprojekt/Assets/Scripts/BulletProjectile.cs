@@ -24,7 +24,7 @@ public class BulletProjectile : MonoBehaviour
     //Moves Bullet forward
     private void Move()
     {
-        transform.Translate(0f, 0f, myBulletSpeed * Time.deltaTime);
+        transform.Translate(-myBulletSpeed * Time.deltaTime, 0f, 0f);
     }
 
     //Checks if bullet hits
