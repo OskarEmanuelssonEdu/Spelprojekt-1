@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1398076475309113287}
   m_Layer: 0
-  m_Name: DM_Lethal_canon_01
+  m_Name: DM_Lethal_Canon_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,7 +90,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4503113693734948931, guid: 9bc35033c8e7b1340a6126309bed4751, type: 3}
+  - {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -307,7 +307,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4503113693734948931, guid: 9bc35033c8e7b1340a6126309bed4751, type: 3}
+  - {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

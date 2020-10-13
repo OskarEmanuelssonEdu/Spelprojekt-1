@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 235a1573f9dc28045b671d64bf67f53a
+guid: ecd621496be2c2245beb5b09fda4c8e5
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,13 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert43
-    second: {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert51
-    second: {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
+      name: Icy_gradient
+    second: {fileID: 2100000, guid: b1b49fdddf411c048997b801e21ce987, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
