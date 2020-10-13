@@ -17,8 +17,12 @@ public class BulletProjectile : MonoBehaviour
     void Update()
     {
         CheckIfHit();
-        Move();
+        
 
+    }
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     //Moves Bullet forward
