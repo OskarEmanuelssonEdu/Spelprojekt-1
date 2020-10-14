@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8274671173803987499}
   - component: {fileID: 846646374824234820}
   - component: {fileID: 6499715190989832349}
-  - component: {fileID: 690339468736492153}
+  - component: {fileID: 42701114777338503}
   m_Layer: 0
   m_Name: SM_Prop_Keg_01
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!60 &690339468736492153
+--- !u!60 &42701114777338503
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,15 +105,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.88178194, y: 2.9622438}
-      - {x: 0.002464816, y: 3.0180724}
-      - {x: -0.90290344, y: 2.963618}
-      - {x: -1.4865977, y: 2.755701}
-      - {x: -1.5081458, y: 0.6014426}
-      - {x: -1.24491, y: -0.013697565}
-      - {x: 1.2356384, y: 0.010012865}
-      - {x: 1.513076, y: 0.60726166}
-      - {x: 1.4973457, y: 2.7731574}
+    - - {x: -0.011373103, y: 2.9954202}
+      - {x: -1.4888785, y: 2.7939906}
+      - {x: -1.5240549, y: 0.6023976}
+      - {x: -1.2424475, y: 0.02374959}
+      - {x: 1.2037033, y: -0.0033842027}
+      - {x: 1.51387, y: 0.5961168}
+      - {x: 1.4849746, y: 2.812834}
 --- !u!1 &7085355577938304668
 GameObject:
   m_ObjectHideFlags: 0
