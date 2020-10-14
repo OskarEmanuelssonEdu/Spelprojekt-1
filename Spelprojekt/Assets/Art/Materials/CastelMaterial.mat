@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-315806522616760385
+--- !u!114 &-3336593903072569733
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Env_IcyGradients
+  m_Name: CastelMaterial
   m_Shader: {fileID: -6465566751694194690, guid: cdf1d47f297cefc4492b43e07b6b4d0b,
     type: 3}
   m_ShaderKeywords: 
@@ -34,11 +34,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_D7D2919C:
-        m_Texture: {fileID: 2800000, guid: 9c782f6e6c699b049934e01834732c66, type: 3}
+        m_Texture: {fileID: 2800000, guid: 64fb036556f420142b93d7f97948469f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 64fb036556f420142b93d7f97948469f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 64fb036556f420142b93d7f97948469f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -66,10 +66,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_2A455339: 0.546
-    - Vector1_5A9E5888: 0.028
-    - Vector1_CD9CB9E8: 0.421
-    - Vector1_F5DCAAE8: 0
+    - Vector1_2A455339: 0.538
+    - Vector1_5A9E5888: 0.211
+    - Vector1_CD9CB9E8: 0.349
+    - Vector1_F5DCAAE8: 0.531
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
