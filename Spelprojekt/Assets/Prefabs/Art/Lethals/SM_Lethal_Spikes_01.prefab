@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1897927778442947658
+--- !u!1 &837377953582766745
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,77 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1233172585638819568}
+  - component: {fileID: 1384174065436336347}
+  - component: {fileID: 939531365049644616}
+  - component: {fileID: 2916941545133810080}
   m_Layer: 0
-  m_Name: M_prop_sRocks
+  m_Name: spikeTrap_PH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &1233172585638819568
+--- !u!4 &1384174065436336347
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897927778442947658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2872105537831874626}
-  - {fileID: 2410203172251486659}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3819503876877260396
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2872105537831874626}
-  - component: {fileID: 8423992172333792965}
-  - component: {fileID: 9006140495498112380}
-  m_Layer: 0
-  m_Name: SM_Prop_SnowPile_01
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2872105537831874626
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3819503876877260396}
+  m_GameObject: {fileID: 837377953582766745}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1233172585638819568}
+  m_Father: {fileID: 1561151357307251173}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8423992172333792965
+--- !u!33 &939531365049644616
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3819503876877260396}
-  m_Mesh: {fileID: -4160850252832816208, guid: e649922a0847df3409e5e7fb350f66f4, type: 3}
---- !u!23 &9006140495498112380
+  m_GameObject: {fileID: 837377953582766745}
+  m_Mesh: {fileID: -5022267320303131736, guid: d6c303132fd9d6e4a920e87f8b11925a, type: 3}
+--- !u!23 &2916941545133810080
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3819503876877260396}
+  m_GameObject: {fileID: 837377953582766745}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -90,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4002636349286407623, guid: e649922a0847df3409e5e7fb350f66f4, type: 3}
+  - {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +79,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &9171620663860669665
+--- !u!1 &2225202970039595871
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,46 +87,78 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2410203172251486659}
-  - component: {fileID: 8010061823241102215}
-  - component: {fileID: 9144847003046051371}
-  - component: {fileID: 695203073871169750}
+  - component: {fileID: 1561151357307251173}
   m_Layer: 0
-  m_Name: SM_Prop_SnowPile_01_Collider
+  m_Name: SM_Lethal_Spikes_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &2410203172251486659
+--- !u!4 &1561151357307251173
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171620663860669665}
+  m_GameObject: {fileID: 2225202970039595871}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1384174065436336347}
+  - {fileID: 4736274760602445571}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3829683046162917190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4736274760602445571}
+  - component: {fileID: 4851148147971433438}
+  - component: {fileID: 52107494914172518}
+  - component: {fileID: 5127639984395063826}
+  m_Layer: 0
+  m_Name: spikeTrap_PH_Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &4736274760602445571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829683046162917190}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000000038146972, y: 0.021474646, z: -1.8749831e-33}
+  m_LocalPosition: {x: 0.06786051, y: 0.42564875, z: -1.8749831e-33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1233172585638819568}
+  m_Father: {fileID: 1561151357307251173}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8010061823241102215
+--- !u!33 &4851148147971433438
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171620663860669665}
-  m_Mesh: {fileID: -5117399200097575524, guid: e649922a0847df3409e5e7fb350f66f4, type: 3}
---- !u!23 &9144847003046051371
+  m_GameObject: {fileID: 3829683046162917190}
+  m_Mesh: {fileID: 1375417914829430692, guid: d6c303132fd9d6e4a920e87f8b11925a, type: 3}
+--- !u!23 &52107494914172518
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171620663860669665}
+  m_GameObject: {fileID: 3829683046162917190}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -170,7 +170,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4476043040131180087, guid: e649922a0847df3409e5e7fb350f66f4, type: 3}
+  - {fileID: 3433625112893791273, guid: d6c303132fd9d6e4a920e87f8b11925a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -191,20 +191,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!61 &695203073871169750
+--- !u!61 &5127639984395063826
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171620663860669665}
+  m_GameObject: {fileID: 3829683046162917190}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.059573323, y: 0.12135294}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -215,5 +215,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.21649, y: 0.7754962}
+  m_Size: {x: 0.90375775, y: 0.8512974}
   m_EdgeRadius: 0

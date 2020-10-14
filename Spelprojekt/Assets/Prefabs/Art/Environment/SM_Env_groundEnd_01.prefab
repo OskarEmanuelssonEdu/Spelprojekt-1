@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2414134444308630991}
   m_Layer: 0
-  m_Name: SM_Env_groundEnd_01
+  m_Name: SM_Env_GroundEnd_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
