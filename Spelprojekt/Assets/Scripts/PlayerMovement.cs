@@ -406,7 +406,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (myIsSliding)
                 {
-
+                     
                     ApplyForce(new Vector3(0, -myGravity, 0));
                 }
 
