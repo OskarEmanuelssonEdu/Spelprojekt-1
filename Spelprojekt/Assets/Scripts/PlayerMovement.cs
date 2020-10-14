@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 1)]
     float mySlideControlFraction;
+    [SerializeField]
+    [Range(0.1f, 20)]
+    float mySlideDownwardsSpeed;
     float myCurrentControlFraction;
 
     [Header("Jump settings")]
@@ -281,13 +284,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 walkingUpSlope = false;
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
-                {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
 
-                }
-                else
-                {
                     myCurrentVelocity.x = 0;
 
                     for (int i = 0; i < hitInfo.Length; i++)
@@ -295,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
                         transform.position = hitInfo[i].centroid;
                     }
 
-                }
+                
 
 
 
@@ -323,13 +320,6 @@ public class PlayerMovement : MonoBehaviour
 
                 walkingUpSlope = false;
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
-                {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
-
-                }
-                else
-                {
                     myCurrentVelocity.x = 0;
 
                     for (int i = 0; i < hitInfo.Length; i++)
@@ -337,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
                         transform.position = hitInfo[i].centroid;
                     }
 
-                }
+                
 
                 //myCurrentVelocity.x = 0;
                 //for (int i = 0; i < hitInfo.Length; i++)
@@ -414,12 +404,11 @@ public class PlayerMovement : MonoBehaviour
         {
             case JumpState.none:
 
-                if (walkingUpSlope == false)
+                if (myIsSliding)
                 {
+
                     ApplyForce(new Vector3(0, -myGravity, 0));
-
                 }
-
 
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
