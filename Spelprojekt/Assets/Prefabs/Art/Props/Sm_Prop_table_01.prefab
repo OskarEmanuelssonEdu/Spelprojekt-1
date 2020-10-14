@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3855104787423469314}
   - component: {fileID: 6891564373785393949}
   - component: {fileID: 4002568421811395924}
-  - component: {fileID: 5475410745884000935}
+  - component: {fileID: 1525204780867074088}
   m_Layer: 0
   m_Name: Sm_Prop_table_01
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!60 &5475410745884000935
-PolygonCollider2D:
+--- !u!61 &1525204780867074088
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,7 +93,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.6043904}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -103,13 +103,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.03928148, y: 1.2157003}
-      - {x: -1.3536736, y: 1.2109795}
-      - {x: -1.1090229, y: 0.010325551}
-      - {x: 1.1247355, y: 0.0024693608}
-      - {x: 1.3654579, y: 1.2188357}
+  serializedVersion: 2
+  m_Size: {x: 2.7310247, y: 1.2}
+  m_EdgeRadius: 0
 --- !u!1 &2923323618594234018
 GameObject:
   m_ObjectHideFlags: 0
