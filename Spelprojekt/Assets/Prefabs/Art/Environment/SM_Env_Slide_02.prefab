@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7267053068468407896}
   - component: {fileID: 2039119934639764091}
   - component: {fileID: 2742885680646296914}
+  - component: {fileID: 2135180810413868690}
   m_Layer: 0
   m_Name: SM_Env_Slide_02_Collider
   m_TagString: Untagged
@@ -111,6 +112,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!68 &2135180810413868690
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401444213939613067}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -1.4975417, y: 1.5687206}
+  - {x: -0.030213594, y: 0.06632447}
+  - {x: 1.5, y: -1.43}
 --- !u!1 &2796430726279538911
 GameObject:
   m_ObjectHideFlags: 0
