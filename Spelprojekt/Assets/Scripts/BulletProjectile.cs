@@ -9,11 +9,11 @@ public class BulletProjectile : MonoBehaviour
     private float LifeTime = 5f;
  
     [SerializeField]
-    //LayerMask myLayerMask;
+    LayerMask myLayerMask;
     public BulletManager myBulletManager;
     public GameManager myGameManager;
     public Player myPlayer;
-    LayerMask mask = LayerMask.GetMask("Player");
+
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class BulletProjectile : MonoBehaviour
     //Checks if bullet hits
     private void CheckIfHit()
     {
-        RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,transform.forward, myBulletSpeed * Time.deltaTime , mask);
+        RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,transform.forward, myBulletSpeed * Time.deltaTime , myLayerMask);
 
 
         if (hits.collider != null && hits.collider.gameObject.layer != 0)
