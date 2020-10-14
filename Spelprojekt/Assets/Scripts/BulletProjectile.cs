@@ -6,7 +6,7 @@ public class BulletProjectile : MonoBehaviour
 {
     public float myBulletSpeed;
     public float myBulletDamage;
-    private float LifeTime = 5f;
+ 
  
     [SerializeField]
     LayerMask myLayerMask;
@@ -14,10 +14,23 @@ public class BulletProjectile : MonoBehaviour
     public GameManager myGameManager;
     public Player myPlayer;
 
+    float myLifeTimer = 0;
+    public float myLifeTime = 10;
+
+    private void Update()
+    {
+        if (myLifeTimer>= myLifeTime)
+        {
+            myBulletManager.ReturnBullet(this);
+
+        }
+        else
+        {
+            myLifeTimer += Time.deltaTime;
+        }
+    }
 
 
-
-    
     private void FixedUpdate()
     {
         Move();
