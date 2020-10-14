@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8274671173803987499}
   - component: {fileID: 846646374824234820}
   - component: {fileID: 6499715190989832349}
-  - component: {fileID: 8648850400845945256}
+  - component: {fileID: 42701114777338503}
   m_Layer: 0
   m_Name: SM_Prop_Keg_01
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!61 &8648850400845945256
-BoxCollider2D:
+--- !u!60 &42701114777338503
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,7 +93,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017570913, y: 1.5845441}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -103,9 +103,15 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.0351415, y: 3.1655376}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.011373103, y: 2.9954202}
+      - {x: -1.4888785, y: 2.7939906}
+      - {x: -1.5240549, y: 0.6023976}
+      - {x: -1.2424475, y: 0.02374959}
+      - {x: 1.2037033, y: -0.0033842027}
+      - {x: 1.51387, y: 0.5961168}
+      - {x: 1.4849746, y: 2.812834}
 --- !u!1 &7085355577938304668
 GameObject:
   m_ObjectHideFlags: 0

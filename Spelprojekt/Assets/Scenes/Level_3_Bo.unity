@@ -49729,7 +49729,7 @@ PrefabInstance:
     - target: {fileID: 6420073799617860670, guid: 3d1e552d395347f4a8e19de035f557fb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.50224304
+      value: -1.73
       objectReference: {fileID: 0}
     - target: {fileID: 6420073799617860670, guid: 3d1e552d395347f4a8e19de035f557fb,
         type: 3}
@@ -49797,7 +49797,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606717582}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -49816,6 +49816,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.96899414, y: 0.9690094}
   m_EdgeRadius: 0
+--- !u!114 &1606717584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606717582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01a7c823f948d444a4d38fc5112ed47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myDamage: 1
+  myName: 
+  myShowHitbox: 1
+  myShowCollision: 0
+  myLogCollision: 1
 --- !u!1001 &1614047788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57993,6 +58010,11 @@ PrefabInstance:
     - target: {fileID: 3573941355867871267, guid: cb1bcbc45284a2e4e88d098c0f797215,
         type: 3}
       propertyPath: myCurrentHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573941355867871267, guid: cb1bcbc45284a2e4e88d098c0f797215,
+        type: 3}
+      propertyPath: myMaxHlaeth
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3573941355867871269, guid: cb1bcbc45284a2e4e88d098c0f797215,
