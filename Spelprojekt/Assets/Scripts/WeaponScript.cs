@@ -21,7 +21,7 @@ public class WeaponScript : MonoBehaviour
     float myTimerInBetweenshots = 0;
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
-    float myDistanceToActivate = 20;
+    float myDistanceToActivate;
 
     [Header("References")]
     [SerializeField]
