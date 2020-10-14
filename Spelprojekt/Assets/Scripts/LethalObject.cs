@@ -31,9 +31,14 @@ public class LethalObject : MonoBehaviour
     {
         myPlayer = FindObjectOfType<Player>();
     }
-
+    private void OnEnable()
+    {
+        myPlayer = FindObjectOfType<Player>();
+    }
     private void Start()
     {
+        myPlayer = FindObjectOfType<Player>();
+
         if (myName == "")
         {
             myName = "Unnamed Lethal Object";

@@ -22,7 +22,8 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
     float myDistanceToActivate;
-
+    [SerializeField]
+    float bulletLifeTime = 10;
     [Header("References")]
     [SerializeField]
     BulletManager myBulletManager;
@@ -47,7 +48,7 @@ public class WeaponScript : MonoBehaviour
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
-            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage);
+            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime);
             myTimerInBetweenshots = 0;
         }
         else

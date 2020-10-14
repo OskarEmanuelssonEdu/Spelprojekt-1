@@ -6,7 +6,7 @@ public class BulletProjectile : MonoBehaviour
 {
     public float myBulletSpeed;
     public float myBulletDamage;
-    private float LifeTime = 5f;
+ 
  
     [SerializeField]
     LayerMask myLayerMask;
@@ -14,14 +14,23 @@ public class BulletProjectile : MonoBehaviour
     public GameManager myGameManager;
     public Player myPlayer;
 
+    float myLifeTimer = 0;
+    public float myLifeTime = 10;
 
-
-
-    void Update()
+    private void Update()
     {
-        CheckIfHit();
-        
+        if (myLifeTimer>= myLifeTime)
+        {
+            myBulletManager.ReturnBullet(this);
+
+        }
+        else
+        {
+            myLifeTimer += Time.deltaTime;
+        }
     }
+
+
     private void FixedUpdate()
     {
         Move();
@@ -34,19 +43,19 @@ public class BulletProjectile : MonoBehaviour
     }
 
     //Checks if bullet hits
-    private void CheckIfHit()
-    {
-        RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,-transform.right, myBulletSpeed * Time.deltaTime , myLayerMask);
+    //private void CheckIfHit()
+    //{
+    //    RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,-transform.right, myBulletSpeed * Time.deltaTime , myLayerMask);
 
 
-        if (hits.collider != null && hits.collider.gameObject.layer != 0)
-        {
-            myPlayer.TakeDamage(myBulletDamage);
-            myBulletManager.ReturnBullet(this);
+    //    if (hits.collider != null && hits.collider.gameObject.layer != 0)
+    //    {
+    //        myPlayer.TakeDamage(myBulletDamage);
+    //        myBulletManager.ReturnBullet(this);
             
-        }
+    //    }
 
-    }
+    //}
 
 
 }
