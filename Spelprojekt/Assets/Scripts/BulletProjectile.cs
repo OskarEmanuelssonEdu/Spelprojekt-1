@@ -15,10 +15,7 @@ public class BulletProjectile : MonoBehaviour
     public Player myPlayer;
 
 
-    private void Start()
-    {
-        Destroy(this.gameObject, LifeTime);
-    }
+
 
     void Update()
     {
@@ -39,14 +36,14 @@ public class BulletProjectile : MonoBehaviour
     //Checks if bullet hits
     private void CheckIfHit()
     {
-        RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,transform.forward, myBulletSpeed * Time.deltaTime , myLayerMask);
+        RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,-transform.right, myBulletSpeed * Time.deltaTime , myLayerMask);
 
 
         if (hits.collider != null && hits.collider.gameObject.layer != 0)
         {
             myPlayer.TakeDamage(myBulletDamage);
             myBulletManager.ReturnBullet(this);
-            Destroy(this.gameObject);
+            
         }
 
     }
