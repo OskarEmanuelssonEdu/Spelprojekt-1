@@ -63,14 +63,14 @@ public class BulletManager : MonoBehaviour
             myPassiveBullets[bulletIndex].gameObject.SetActive(false);
         }
     }
-    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage)
+    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage, float alifeTime)
     {
         myPassiveBullets[myPassiveBullets.Count - 1].gameObject.SetActive(true);
         myPassiveBullets[myPassiveBullets.Count - 1].transform.position = aPosition;
         myPassiveBullets[myPassiveBullets.Count - 1].transform.rotation = aRotation;
         myPassiveBullets[myPassiveBullets.Count - 1].myBulletSpeed = aSpeed;
         myPassiveBullets[myPassiveBullets.Count - 1].myBulletDamage = aDamage;
-
+        myPassiveBullets[myPassiveBullets.Count - 1].myLifeTime = alifeTime;
         myActiveBullets.Add(myPassiveBullets[myPassiveBullets.Count - 1]);
         myPassiveBullets.RemoveAt(myPassiveBullets.Count - 1);
     }
