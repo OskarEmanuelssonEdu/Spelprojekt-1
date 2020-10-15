@@ -70,7 +70,7 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myBoundaryWorldPoint;
     Vector3 myCenterWorldPoint;
 
-    Vector3 myCameraStartPosition;
+    Vector3 myCameraResetPosition;
     float myCameraStartFOV;
 
    
@@ -83,7 +83,7 @@ public class NewCameraMovement : MonoBehaviour
             myCamera = Camera.main;
         }
         myPlayerPrevPos = myPlayer.transform.position;
-        myCameraStartPosition = myCamera.transform.localPosition;
+        myCameraResetPosition = myCamera.transform.localPosition;
         myCameraStartFOV = myCamera.fieldOfView;
         zeroVector = Vector3.zero;
     }
@@ -109,7 +109,10 @@ public class NewCameraMovement : MonoBehaviour
     {
         
     }
-
+    public void ChangeCameraResetPosition(Vector3 aPosition)
+    {
+        myCameraResetPosition = new Vector3(aPosition.x, aPosition.y,transform.position.z);
+    }
     public void ResetCameraPosition()
     {
         Debug.Log("Camera Reset");
