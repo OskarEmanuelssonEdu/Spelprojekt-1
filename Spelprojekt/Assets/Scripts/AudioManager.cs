@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
     private float myMinReverbDryLevel = -1000f;
 
     [SerializeField]
-    private AudioClip myRunningSound;
+    private AudioClip myMusicClip;
     [SerializeField]
     private AudioClip mySlidingSound;
     [SerializeField]
@@ -85,6 +85,10 @@ public class AudioManager : MonoBehaviour
         mySlidingSoundSource.loop = true;
         mySlidingSoundSource.clip = mySlidingSound;
 
+    }
+    private void Start()
+    {
+        PlayMusic(myMusicClip);
     }
     public void PlayMusic(AudioClip aMusicClip)
     {

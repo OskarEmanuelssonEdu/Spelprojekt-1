@@ -45,15 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5493e35571f8162408763fa10c8f2ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myMinMusicVolume: 0
-  myMaxMusicVolume: 1
+  myMinMusicVolume: 0.2
+  myMaxMusicVolume: 0.8
   myMinRunningVolume: 0.3
   myMaxRunningVolume: 1
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
-  myRunningSound: {fileID: 8300000, guid: 9e1ad1cfe14f2c84e89cdac9469b2497, type: 3}
-  mySlidingSound: {fileID: 0}
-  mySlideSoundVolume: 0.619
+  myMusicClip: {fileID: 8300000, guid: 0b54f3ecccb57dd4bb3108dcadfa70db, type: 3}
+  mySlidingSound: {fileID: 8300000, guid: ffff0ff36724dc3439baa348fed5a155, type: 3}
+  myMaxSlidingVolume: 1
 --- !u!114 &6262629178547667585
 MonoBehaviour:
   m_ObjectHideFlags: 0

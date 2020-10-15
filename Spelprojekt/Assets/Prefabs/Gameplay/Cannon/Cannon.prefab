@@ -101,6 +101,8 @@ MonoBehaviour:
   bulletLifeTime: 10
   myBulletManager: {fileID: 0}
   myGameManager: {fileID: 0}
+  myShootClip: {fileID: 8300000, guid: 25c83194b7cccd0428c9591af1efd2b5, type: 3}
+  myShootVolume: 1
 --- !u!1001 &547941853
 PrefabInstance:
   m_ObjectHideFlags: 0

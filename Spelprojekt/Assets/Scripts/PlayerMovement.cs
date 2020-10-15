@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private AudioClip myJumpSound1;
     [SerializeField]
+    private AudioClip myJumpSound2;
+    [SerializeField]
     [Range(0, 1.0f)]
     private float myJumpSoundVolume = 1f;
     [SerializeField]
@@ -22,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
     
 
     [Header("Speed settings")]
-
-
     [SerializeField]
     [Range(0, 50)]
     float myMaxSpeed = 10;
@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
     {
         myXDirection = 1;
         myCurrentColliderSize = myColliderSize;
+        myAudioSource.volume = 0;
 
     }
     void Update()
@@ -458,6 +459,7 @@ public class PlayerMovement : MonoBehaviour
                 {
 
                     AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound2, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -521,7 +523,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        animator.SetBool("SlideBool", true);
+        
 
 
         transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
@@ -534,7 +536,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        animator.SetBool("SlideBool", false);
+        
     }
 
         void DoExitSlide()
