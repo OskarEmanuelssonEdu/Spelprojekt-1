@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6262629178547667598}
   - component: {fileID: 6262629178547667599}
   - component: {fileID: 6262629178547667585}
+  - component: {fileID: 6285212864489501905}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -44,6 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5493e35571f8162408763fa10c8f2ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myMinMusicVolume: 0.2
+  myMaxMusicVolume: 0.8
+  myMinRunningVolume: 0.3
+  myMaxRunningVolume: 1
+  myMaxReverbDryLevel: 0
+  myMinReverbDryLevel: -1000
+  myMusicClip: {fileID: 8300000, guid: 0b54f3ecccb57dd4bb3108dcadfa70db, type: 3}
+  mySlidingSound: {fileID: 8300000, guid: ffff0ff36724dc3439baa348fed5a155, type: 3}
+  myMaxSlidingVolume: 1
 --- !u!114 &6262629178547667585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,3 +69,11 @@ MonoBehaviour:
   myButtonClickSFX: {fileID: 8300000, guid: ca83c6bd1b0a7a54c883e6f1d3a50c6a, type: 3}
   myMusic1: {fileID: 8300000, guid: 93e4154627e50454f8557f23362d6e8d, type: 3}
   myMusic2: {fileID: 8300000, guid: 2f6dcf518eb8f054a9d54cf22d03a36b, type: 3}
+--- !u!81 &6285212864489501905
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262629178547667596}
+  m_Enabled: 1

@@ -117,7 +117,6 @@ public class NewCameraMovement : MonoBehaviour
         myPlayerNewPos = myPlayer.transform.position;
         myPlayerCurrentVelocity = ((myPlayerNewPos - myPlayerPrevPos) / Time.fixedDeltaTime) ;
         myPlayerPrevPos = myPlayerNewPos;
-        Debug.Log("Current velocity" + myPlayerCurrentVelocity);
     }
 
     private void Move()
@@ -211,10 +210,8 @@ public class NewCameraMovement : MonoBehaviour
 
     private void CheckPlayerScreenLocation()
     {
-        myPlayerScreenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position);      
+        myPlayerScreenPoint = myCamera.WorldToScreenPoint(myPlayer.transform.position); 
     }
-
-
     private void ZoomIn()
     {
         myCamera.fieldOfView -= myZoomInSpeed * Time.fixedDeltaTime;
@@ -223,7 +220,6 @@ public class NewCameraMovement : MonoBehaviour
             myCamera.fieldOfView = myMinFieldOfView;
         }
     }
-
     private void ZoomOut()
     {
         myCamera.fieldOfView += Mathf.Abs(myPlayerCurrentVelocity.x) * myZoomOutSpeed * Time.fixedDeltaTime;
