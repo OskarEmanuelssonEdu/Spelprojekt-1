@@ -282,21 +282,22 @@ public class PlayerMovement : MonoBehaviour
 
             else
             {
-                walkingUpSlope = false;
+                walkingUpSlope = false;        
 
-
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
+                {
+                    print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
+                }
+                else
+                {
                     myCurrentVelocity.x = 0;
-
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
-                
-
-
-
-
+                }
 
 
                 //ApplyForce(new Vector3(0, 0.2f, 0));
@@ -320,22 +321,21 @@ public class PlayerMovement : MonoBehaviour
 
                 walkingUpSlope = false;
 
-                    myCurrentVelocity.x = 0;
 
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y)) < 0.2f)
+                {
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
+                }
+                else
+                {
+
+                    myCurrentVelocity.x = 0;
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
-                
-
-                //myCurrentVelocity.x = 0;
-                //for (int i = 0; i < hitInfo.Length; i++)
-                //{
-                //    transform.position = hitInfo[i].centroid;
-                //}
-
-                //ApplyForce(myCurrentVelocity.magnitude * temp);
+                }
             }
         }
     }
@@ -406,7 +406,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (myIsSliding)
                 {
-                     
+
                     ApplyForce(new Vector3(0, -myGravity, 0));
                 }
 
