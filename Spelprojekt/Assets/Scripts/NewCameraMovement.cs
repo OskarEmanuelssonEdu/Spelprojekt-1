@@ -70,7 +70,7 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myBoundaryWorldPoint;
     Vector3 myCenterWorldPoint;
 
-    Vector3 myCameraStartPosition;
+    Vector3 myCameraResetPosition;
     float myCameraStartFOV;
 
    
@@ -83,7 +83,7 @@ public class NewCameraMovement : MonoBehaviour
             myCamera = Camera.main;
         }
         myPlayerPrevPos = myPlayer.transform.position;
-        myCameraStartPosition = myCamera.transform.localPosition;
+        myCameraResetPosition = myCamera.transform.localPosition;
         myCameraStartFOV = myCamera.fieldOfView;
         zeroVector = Vector3.zero;
     }
@@ -105,19 +105,19 @@ public class NewCameraMovement : MonoBehaviour
         }
 
     }
-    private void LateUpdate()
+ 
+    public void ChangeCameraResetPosition(Vector3 aPosition)
     {
-        
+        myCameraResetPosition = new Vector3(aPosition.x, aPosition.y,transform.position.z);
     }
-
     public void ResetCameraPosition()
     {
         Debug.Log("Camera Reset");
         myPlayerCurrentVelocity = Vector3.zero;
         myCamera.fieldOfView = myCameraStartFOV;
-        //myCamera.transform.localPosition = new Vector3(0, 0, myCameraStartPosition.z);
+        myCamera.transform.localPosition = new Vector3(0, 0, myCameraResetPosition.z);
         //transform.position = new Vector3(myPlayer.transform.position.x, myPlayer.transform.position.y, myCameraStartPosition.z);
-       
+
     }
     private void CheckPlayerVelocity()
     {

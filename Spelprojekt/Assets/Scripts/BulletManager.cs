@@ -16,6 +16,7 @@ public class BulletManager : MonoBehaviour
     GameManager myGameManager;
     [SerializeField]
     BulletProjectile myBulletPrefab;
+
     [SerializeField]
     Player myPlayer;
 
@@ -24,7 +25,7 @@ public class BulletManager : MonoBehaviour
         myGameManager = FindObjectOfType<GameManager>();
         myPlayer = FindObjectOfType<Player>();
     }
-    // Start is called before the first frame update
+ 
     void Start()
     {
         myActiveBullets = new List<BulletProjectile>(myBulletAmount);
@@ -32,7 +33,6 @@ public class BulletManager : MonoBehaviour
         InitializeBullets(myGameManager);
     }
 
-    //Vrf Ref till GameManageR?
     void InitializeBullets(GameManager aGameManager)
     {
         for (int bulletIndex = 0; bulletIndex < myBulletAmount; bulletIndex++)
@@ -63,11 +63,12 @@ public class BulletManager : MonoBehaviour
             myPassiveBullets[bulletIndex].gameObject.SetActive(false);
         }
     }
-    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage, float alifeTime)
+    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage, float alifeTime, float aScale)
     {
         myPassiveBullets[myPassiveBullets.Count - 1].gameObject.SetActive(true);
         myPassiveBullets[myPassiveBullets.Count - 1].transform.position = aPosition;
         myPassiveBullets[myPassiveBullets.Count - 1].transform.rotation = aRotation;
+        myPassiveBullets[myPassiveBullets.Count - 1].transform.localScale *= aScale;
         myPassiveBullets[myPassiveBullets.Count - 1].myBulletSpeed = aSpeed;
         myPassiveBullets[myPassiveBullets.Count - 1].myBulletDamage = aDamage;
         myPassiveBullets[myPassiveBullets.Count - 1].myLifeTime = alifeTime;
