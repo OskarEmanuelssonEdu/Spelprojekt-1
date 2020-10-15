@@ -5,13 +5,14 @@ using UnityEngine;
 public class NewCameraMovement : MonoBehaviour
 {
 
-    [SerializeField]
-    float newFloat;
+    
     [SerializeField]
     Camera myCamera;
     [SerializeField]
     Player myPlayer;
-  
+    [SerializeField]
+    PlayerMovement myPlayerMovement;
+
 
     [Header("BOUNDARY Settings")]
     [SerializeField]
@@ -59,7 +60,7 @@ public class NewCameraMovement : MonoBehaviour
     private float myHorizontalAcceleration = 0.2f;
 
 
-    Vector3 myPlayerCurrentVelocity;
+    public Vector3 myPlayerCurrentVelocity;
     Vector3 myPlayerPrevPos;
     Vector3 myPlayerNewPos;
 
@@ -69,7 +70,7 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myBoundaryWorldPoint;
     Vector3 myCenterWorldPoint;
 
-    Vector3 myCameraStartPosition;
+    Vector3 myCameraResetPosition;
     float myCameraStartFOV;
 
    
@@ -82,14 +83,14 @@ public class NewCameraMovement : MonoBehaviour
             myCamera = Camera.main;
         }
         myPlayerPrevPos = myPlayer.transform.position;
-        myCameraStartPosition = transform.position;
+        myCameraResetPosition = myCamera.transform.localPosition;
         myCameraStartFOV = myCamera.fieldOfView;
         zeroVector = Vector3.zero;
     }
     private void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
-     
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
     void FixedUpdate()
     {
@@ -103,24 +104,35 @@ public class NewCameraMovement : MonoBehaviour
             ZoomIn();
         }
 
+    }
+    private void LateUpdate()
+    {
         
     }
-   
+    public void ChangeCameraResetPosition(Vector3 aPosition)
+    {
+        myCameraResetPosition = new Vector3(aPosition.x, aPosition.y,transform.position.z);
+    }
     public void ResetCameraPosition()
     {
-        myPlayerCurrentVelocity = new Vector3(1,0,0);
+        Debug.Log("Camera Reset");
+        myPlayerCurrentVelocity = Vector3.zero;
         myCamera.fieldOfView = myCameraStartFOV;
-        transform.position = myCameraStartPosition;
+        //myCamera.transform.localPosition = new Vector3(0, 0, myCameraStartPosition.z);
+        //transform.position = new Vector3(myPlayer.transform.position.x, myPlayer.transform.position.y, myCameraStartPosition.z);
+       
     }
     private void CheckPlayerVelocity()
     {
-        myPlayerNewPos = myPlayer.transform.position;
-        myPlayerCurrentVelocity = ((myPlayerNewPos - myPlayerPrevPos) / Time.fixedDeltaTime) ;
-        myPlayerPrevPos = myPlayerNewPos;
+        myPlayerCurrentVelocity = myPlayerMovement.CurrentSpeed;
+        //myPlayerNewPos = myPlayer.transform.position;
+        //myPlayerCurrentVelocity = ((myPlayerNewPos - myPlayerPrevPos) / Time.fixedDeltaTime) ;
+        //myPlayerPrevPos = myPlayerNewPos;
     }
 
     private void Move()
     {
+        
         myPositionToMoveTo = new Vector3(myPlayer.transform.position.x + (myPlayerCurrentVelocity.x * myHorizontalAcceleration) - myPlayerHorizontalCameraPosition,
                                         myPlayer.transform.position.y + (myPlayerCurrentVelocity.y * myVerticalAcceleration) - myPlayerVerticalCameraPosition,
                                         transform.position.z);
@@ -130,16 +142,18 @@ public class NewCameraMovement : MonoBehaviour
         
         if (myPlayerScreenPoint.x >= myPixelsAllowedFromLeft && myPlayerScreenPoint.x < Screen.width - myPixelsAllowedFromRight)
         {
-            myTargetPosition.x = myPositionToMoveTo.x;
+           
+                myTargetPosition.x = myPositionToMoveTo.x;
+
+            
 
             //transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.fixedDeltaTime);
             //transform.position = Vector3.MoveTowards(transform.position, myTargetPosition, Time.fixedDeltaTime);
-            
+
             transform.position = Vector3.SmoothDamp(transform.position, myTargetPosition, ref zeroVector, 3f);
         }
         else if (myPlayerScreenPoint.x < myPixelsAllowedFromLeft)
         {
-            Debug.Log("Player is to the left of boundary");
             myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPlayerScreenPoint.y, myPlayerScreenPoint.z));
             myCenterWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(Screen.width/2, myPlayerScreenPoint.y, myPlayerScreenPoint.z));
             float dif = myCenterWorldPoint.x - myBoundaryWorldPoint.x;
@@ -148,7 +162,6 @@ public class NewCameraMovement : MonoBehaviour
         }
         else if (myPlayerScreenPoint.x > Screen.width - myPixelsAllowedFromRight)
         {
-            Debug.Log("Player is to the right of boundary");
             myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(Screen.width-myPixelsAllowedFromRight, myPlayerScreenPoint.y, myPlayerScreenPoint.z));
             myCenterWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, myPlayerScreenPoint.y, myPlayerScreenPoint.z));
             float dif = myCenterWorldPoint.x - myBoundaryWorldPoint.x;
@@ -158,7 +171,6 @@ public class NewCameraMovement : MonoBehaviour
         //transform.position = myPositionToMoveTo;
         if (myPlayerScreenPoint.y >= myPixelsAllowedFromDown && myPlayerScreenPoint.y < Screen.height - myPixelsAllowedFromUp)
         {
-
             myTargetPosition.y = myPositionToMoveTo.y;
 
             //transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.fixedDeltaTime);
@@ -166,7 +178,6 @@ public class NewCameraMovement : MonoBehaviour
         }
         else if (myPlayerScreenPoint.y < myPixelsAllowedFromDown)
         {
-
             myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, myPixelsAllowedFromDown, myPlayerScreenPoint.z));
             myCenterWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height / 2, myPlayerScreenPoint.z));
             float dif = myCenterWorldPoint.y - myBoundaryWorldPoint.y;
@@ -175,7 +186,6 @@ public class NewCameraMovement : MonoBehaviour
         }
         else if (myPlayerScreenPoint.y > Screen.height - myPixelsAllowedFromUp)
         {
-
             myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height - myPixelsAllowedFromUp, myPlayerScreenPoint.z));
             myCenterWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height / 2, myPlayerScreenPoint.z));
             float dif = myCenterWorldPoint.y - myBoundaryWorldPoint.y;
