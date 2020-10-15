@@ -24,7 +24,7 @@ public class LethalObject : MonoBehaviour
     bool myLogCollision;
     bool myHasLoggedCollision;
 
-
+    private bool myHasCollided = false;
 
 
     void OnValidate()
@@ -69,31 +69,32 @@ public class LethalObject : MonoBehaviour
             && rectangleOneTopSide > rectangleTwoBottomSide)
 
         {
+            // Debug
             if (myLogCollision && !myHasLoggedCollision)
             {
                 Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
                 myHasLoggedCollision = true;
+            }
+
+            myPlayer.TakeDamage(myDamage);
+
+            if (!myHasCollided)
+            {
+                myHasCollided = true;
                 AudioManager.ourPublicInstance.PlayLethalHit();
             }
-            myPlayer.TakeDamage(myDamage);
             
         }
-        else if (myHasLoggedCollision)
+        else
         {
-
-        
-            if (myLogCollision && !myHasLoggedCollision)
+            // Debug
+            if (myHasLoggedCollision)
             {
-                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
-                myHasLoggedCollision = true;
+                Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                myHasLoggedCollision = false;
             }
-            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
-        }
-        else if (myHasLoggedCollision)
-        {
-            
-            Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
-            myHasLoggedCollision = false;
+
+            myHasCollided = false;
         }
     }
 
