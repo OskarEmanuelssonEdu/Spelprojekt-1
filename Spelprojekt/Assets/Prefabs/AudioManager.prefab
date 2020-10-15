@@ -53,6 +53,7 @@ MonoBehaviour:
   myMinReverbDryLevel: -1000
   myMusicClip: {fileID: 8300000, guid: 0b54f3ecccb57dd4bb3108dcadfa70db, type: 3}
   mySlidingSound: {fileID: 8300000, guid: ffff0ff36724dc3439baa348fed5a155, type: 3}
+  myLethalAudioClip: {fileID: 8300000, guid: 0f05b8c1369ef3743ace6ba47a63363d, type: 3}
   myMaxSlidingVolume: 1
 --- !u!114 &6262629178547667585
 MonoBehaviour:
