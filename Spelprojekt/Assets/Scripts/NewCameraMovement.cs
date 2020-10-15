@@ -23,10 +23,10 @@ public class NewCameraMovement : MonoBehaviour
     private int myPixelsAllowedFromLeft = 200;
     [SerializeField]
     [Range(0f, 500)]
-    private int myPixelsAllowedFromUp = 100;
+    private int myPixelsAllowedFromTop = 100;
     [SerializeField]
     [Range(0f, 500)]
-    private int myPixelsAllowedFromDown = 100;
+    private int myPixelsAllowedFromBottom = 100;
 
     [Header("RESTING POSITION Settings")]
     [SerializeField]
@@ -166,24 +166,24 @@ public class NewCameraMovement : MonoBehaviour
             transform.position = myTargetPosition;
         }
         //transform.position = myPositionToMoveTo;
-        if (myPlayerScreenPoint.y >= myPixelsAllowedFromDown && myPlayerScreenPoint.y < Screen.height - myPixelsAllowedFromUp)
+        if (myPlayerScreenPoint.y >= myPixelsAllowedFromBottom && myPlayerScreenPoint.y < Screen.height - myPixelsAllowedFromTop)
         {
             myTargetPosition.y = myPositionToMoveTo.y;
 
             //transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.fixedDeltaTime);
             transform.position = Vector3.SmoothDamp(transform.position, myTargetPosition, ref zeroVector, 3f);
         }
-        else if (myPlayerScreenPoint.y < myPixelsAllowedFromDown)
+        else if (myPlayerScreenPoint.y < myPixelsAllowedFromBottom)
         {
-            myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, myPixelsAllowedFromDown, myPlayerScreenPoint.z));
+            myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, myPixelsAllowedFromBottom, myPlayerScreenPoint.z));
             myCenterWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height / 2, myPlayerScreenPoint.z));
             float dif = myCenterWorldPoint.y - myBoundaryWorldPoint.y;
             myTargetPosition.y = myPlayer.transform.position.y + dif- 0.01f;
             transform.position = myTargetPosition;
         }
-        else if (myPlayerScreenPoint.y > Screen.height - myPixelsAllowedFromUp)
+        else if (myPlayerScreenPoint.y > Screen.height - myPixelsAllowedFromTop)
         {
-            myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height - myPixelsAllowedFromUp, myPlayerScreenPoint.z));
+            myBoundaryWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height - myPixelsAllowedFromTop, myPlayerScreenPoint.z));
             myCenterWorldPoint = myCamera.ScreenToWorldPoint(new Vector3(myPlayerScreenPoint.x, Screen.height / 2, myPlayerScreenPoint.z));
             float dif = myCenterWorldPoint.y - myBoundaryWorldPoint.y;
             myTargetPosition.y = myPlayer.transform.position.y + dif +0.01f;
@@ -196,8 +196,8 @@ public class NewCameraMovement : MonoBehaviour
         
 
         Vector3 screenie = myCamera.ScreenToWorldPoint(myPlayerScreenPoint);
-        Vector3 bld = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPixelsAllowedFromDown, -transform.position.z));
-        Vector3 bru = myCamera.ScreenToWorldPoint(new Vector3(Screen.width - myPixelsAllowedFromRight, Screen.height - myPixelsAllowedFromUp, -transform.position.z));
+        Vector3 bld = myCamera.ScreenToWorldPoint(new Vector3(myPixelsAllowedFromLeft, myPixelsAllowedFromBottom, -transform.position.z));
+        Vector3 bru = myCamera.ScreenToWorldPoint(new Vector3(Screen.width - myPixelsAllowedFromRight, Screen.height - myPixelsAllowedFromTop, -transform.position.z));
 
         Gizmos.color = Color.cyan;
         // ScreenPoint X
