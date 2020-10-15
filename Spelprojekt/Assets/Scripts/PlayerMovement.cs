@@ -5,9 +5,25 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
+    //Audio variables
+    [Header("AUDIO settings")]
+    [SerializeField]
+    private AudioClip myJumpSound1;
+    [SerializeField]
+    private AudioClip myJumpSound2;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myJumpSoundVolume = 1f;
+    [SerializeField]
+    private float myMinRunningVolume = 0.3f;
+    [SerializeField]
+    private float myMaxRunningVolume = 1f;
+    AudioSource myAudioSource;
+
+
+    
+
     [Header("Speed settings")]
-
-
     [SerializeField]
     [Range(0, 50)]
     float myMaxSpeed = 10;
@@ -95,7 +111,8 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
-        myCameraTransform = GetComponentInChildren<NewCameraMovement>().transform;
+        myAudioSource = GetComponent<AudioSource>();
+        myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
     public Vector3 CurrentSpeed
     {
@@ -119,12 +136,13 @@ public class PlayerMovement : MonoBehaviour
     {
         myXDirection = 1;
         myCurrentColliderSize = myColliderSize;
+        myAudioSource.volume = 0;
 
     }
     void Update()
     {
 
-
+        PlaySounds();
         Animate();
         myIsGrounded = CheckGround();
         GetInputs();
@@ -143,7 +161,14 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-
+        if ((Input.GetKey(mySlideKey)) && (Mathf.Abs(myCurrentVelocity.x) > 1) && (myIsGrounded))
+        {
+            AudioManager.ourPublicInstance.PlaySlidingSound();
+        }
+        else
+        {
+            AudioManager.ourPublicInstance.StopSlidingSound();
+        }
         modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
 
 
@@ -417,7 +442,8 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound2, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -473,25 +499,34 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void DoEnterSlide()
-        {
+    {
 
 
-            myIsSliding = true;
-            myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
+        myIsSliding = true;
+        myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
 
 
-            transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
-            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
 
-            animator.SetBool("SlideBool", true);
-
-            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
+        
 
 
-        }
+        transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
+        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
+
+
+        animator.SetBool("SlideBool", true);
+
+        myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
+
+
+
+        
+    }
+
         void DoExitSlide()
         {
             modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
+
 
             // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
             transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
@@ -582,4 +617,41 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
         }
+    
+
+ 
+    void PlaySounds()
+    {
+        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
+        {
+            PlayRunningSound();
+        }
+        else
+        {
+            StopRunningSound();
+        }
+        AudioManager.ourPublicInstance.SetMusicVolume(Mathf.Abs(myCurrentVelocity.x)*Time.deltaTime);
     }
+    public void PlayRunningSound()
+    {
+
+        if (!myAudioSource.isPlaying)
+        {
+            myAudioSource.Play();
+        }
+        myAudioSource.volume += Time.deltaTime*2;
+
+        if (myAudioSource.volume > myMaxRunningVolume)
+        {
+            myAudioSource.volume = myMaxRunningVolume;
+        }
+    }
+    public void StopRunningSound()
+    {
+        myAudioSource.volume -= Time.deltaTime*2;
+        if (myAudioSource.volume <= 0)
+        {
+            myAudioSource.Stop();
+        }
+    }
+}

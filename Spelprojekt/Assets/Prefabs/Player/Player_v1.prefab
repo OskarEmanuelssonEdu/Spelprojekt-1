@@ -810,6 +810,7 @@ GameObject:
   - component: {fileID: 3573941355867871265}
   - component: {fileID: 3573941355867871266}
   - component: {fileID: 3573941355867871267}
+  - component: {fileID: 1801631742942304714}
   m_Layer: 9
   m_Name: Player_v1
   m_TagString: Untagged
@@ -844,14 +845,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727af76fbb23aba44a5efc4ddb0839ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myJumpSound1: {fileID: 8300000, guid: 5c8d02d6a9941c543a9732afc9224fe8, type: 3}
+  myJumpSound2: {fileID: 8300000, guid: 4208612f75f1fa3408b6f9208453b501, type: 3}
+  myJumpSoundVolume: 0.608
+  myMinRunningVolume: 0
+  myMaxRunningVolume: 0.3
   myMaxSpeed: 21
   myAcceleration: 0.25
   myDecceleration: 0.1
-  myDrag: 0.1
   myFriction: 1
   mySlidingFrictionFraction: 0
   myAirControlFraction: 0.169
   mySlideControlFraction: 0.176
+  mySlideDownwardsSpeed: 0
   myJumpForce: 4
   myGravity: 0.5
   myJumpTime: 0.25
@@ -863,6 +869,10 @@ MonoBehaviour:
   myLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  myIsSliding: 0
+  animator: {fileID: 1067334936656858882}
+  myCameraTransform: {fileID: 0}
+  myTurnSpeed: 0
 --- !u!114 &3573941355867871266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,20 +885,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eadf28be0c20284298e2db7d6e2afdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myGrappleShootSound: {fileID: 8300000, guid: 5cd0c1845b7fde84cb3f282d503aa50e, type: 3}
+  myGrappleShootSoundVolume: 1
+  myGrappleHitSound: {fileID: 8300000, guid: eed4651dd8d813f43b38806a027bc142, type: 3}
+  myGrappleHitSoundVolume: 1
   myProjectilePrefab: {fileID: 3779059131566209103, guid: 7c605d0e32511dc458e3beea8208c2bb,
     type: 3}
+  myShootPosition: {fileID: 4238696588129944223}
+  myProjectileSpeed: 0
   myGrappleMaxDistance: 100
+  myGrappleDistance: 0
   myGrappleLayer:
     serializedVersion: 2
     m_Bits: 257
+  myPlayerMovement: {fileID: 0}
   myGrappleStartSlack: 1
   myRopeStrength: 0
   myGrappleSpeedIncrease: 0
   mySwingCorrection: 0
-  projectileSpeed: 53.2
   myOrtograpicCamera: {fileID: 0}
-  myShootPosition: {fileID: 4238696588129944223}
   myLineRenderer: {fileID: 0}
+  animator: {fileID: 0}
   myGrappleKey: 323
 --- !u!114 &3573941355867871267
 MonoBehaviour:
@@ -904,6 +921,103 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMaxHlaeth: 10
   myCurrentHealth: 0
+  myGameManager: {fileID: 0}
+--- !u!82 &1801631742942304714
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3573941355867871269}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9e1ad1cfe14f2c84e89cdac9469b2497, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3661243303511290530
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,24 +5,24 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     #region
-    private static AudioManager myInstance;
-    public static AudioManager Instance
+    private static AudioManager ourPrivateInstance;
+    public static AudioManager ourPublicInstance
     {
         get
         {
-            if (myInstance == null)
+            if (ourPrivateInstance == null)
             {
-                myInstance = FindObjectOfType<AudioManager>();
-                if (myInstance == null)
+                ourPrivateInstance = FindObjectOfType<AudioManager>();
+                if (ourPrivateInstance == null)
                 {
-                    myInstance = new GameObject("Spawned AudioManager", typeof(AudioManager)).GetComponent<AudioManager>();
+                    ourPrivateInstance = new GameObject("Spawned AudioManager", typeof(AudioManager)).GetComponent<AudioManager>();
                 }
             }
-            return myInstance;
+            return ourPrivateInstance;
         }
         private set
         {
-            myInstance = value;
+            ourPrivateInstance = value;
         }
     }
     #endregion
@@ -30,22 +30,67 @@ public class AudioManager : MonoBehaviour
     #region Fields
     private AudioSource myMusicSource;
     private AudioSource myMusicSource2;
-    private AudioSource mySfxSource;
+    private AudioSource mySfxSource1;
+    private AudioSource mySfxSource2;
+
+    private AudioSource myRunningSoundSource;
+    private AudioSource myGrappleHitSoundSource;
+    private AudioSource mySlidingSoundSource;
+    private AudioReverbFilter myMusicReverbFilter;
+    private AudioReverbFilter mySFXReverbFilter;
 
     private bool myFirstMusicSourceIsPlaying;
 
     #endregion
+
+    [SerializeField]
+    private float myMinMusicVolume = 0.3f;
+    [SerializeField]
+    private float myMaxMusicVolume = 1f;
+    [SerializeField]
+    private float myMinRunningVolume = 0.3f;
+    [SerializeField]
+    private float myMaxRunningVolume = 1f;
+    [SerializeField]
+    private float myMaxReverbDryLevel = 0f;
+    [SerializeField]
+    private float myMinReverbDryLevel = -1000f;
+
+    [SerializeField]
+    private AudioClip myMusicClip;
+    [SerializeField]
+    private AudioClip mySlidingSound;
+    [SerializeField]
+    private AudioClip myLethalAudioClip;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myMaxSlidingVolume = 1f;
     private void Awake()
     {
         //Make sure we dont destroy this instance
         DontDestroyOnLoad(this.gameObject);
         myMusicSource = this.gameObject.AddComponent<AudioSource>();
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
-        mySfxSource = this.gameObject.AddComponent<AudioSource>();
+        mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
+        mySlidingSoundSource = gameObject.AddComponent<AudioSource>();
+      
 
-        //Loop the music tracks
+        //Music will keep playing even if game is paused
+        myMusicSource.ignoreListenerPause = true;
+        myMusicSource2.ignoreListenerPause = true;
+       
+       // myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
+        
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
+      
+        mySlidingSoundSource.loop = true;
+        mySlidingSoundSource.clip = mySlidingSound;
+
+    }
+    private void Start()
+    {
+        PlayMusic(myMusicClip);
     }
     public void PlayMusic(AudioClip aMusicClip)
     {
@@ -53,7 +98,7 @@ public class AudioManager : MonoBehaviour
         AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
 
         activeSource.clip = aMusicClip;
-        activeSource.volume = 1;
+        activeSource.volume = myMinMusicVolume;
         activeSource.Play();
     }
     public void PlayMusicWithFade(AudioClip aNewClip, float aTransitionTime = 1.0f)
@@ -156,19 +201,114 @@ public class AudioManager : MonoBehaviour
         }
         anOriginal.Stop();
     }
-    public void PlaySFX(AudioClip aClip)
+  
+    public void PlaySFX1(AudioClip aClip, float aVolume)
     {
-        mySfxSource.PlayOneShot(aClip);
+        mySfxSource1.PlayOneShot(aClip, aVolume);
     }
-    public void PlaySFX(AudioClip aClip, float aVolume)
+    public void PlaySFX2(AudioClip aClip, float aVolume)
     {
-        mySfxSource.PlayOneShot(aClip, aVolume);
+        mySfxSource2.PlayOneShot(aClip, aVolume);
     }
+    public void PlayLethalHit()
+    {
+        mySfxSource1.PlayOneShot(myLethalAudioClip);
+    }
+    //public void PlayRunningSound()
+    //{
 
+    //    if (!myRunningSoundSource.isPlaying)
+    //    {
+    //        myRunningSoundSource.Play();
+    //    }
+    //    if (myRunningSoundSource.isPlaying)
+    //    {
+    //        Debug.Log("Playing running sound");
+    //    }
+
+
+
+    //    myRunningSoundSource.volume += Time.deltaTime;
+
+
+    //    if (myRunningSoundSource.volume > myMaxRunningVolume)
+    //    {
+    //        myRunningSoundSource.volume = myMaxRunningVolume;
+    //    }
+    //}
+    //public void StopRunningSound()
+    //{
+
+    //    myRunningSoundSource.volume -= Time.deltaTime;
+    //    if (myRunningSoundSource.volume == 0)
+    //    {
+    //        myRunningSoundSource.Stop();
+    //    }
+    //}
+    public void PlayGrappleSound(AudioClip aShootClip)
+    {
+       
+    }
+    public void StopGrappleHitSound()
+    {
+
+        
+        
+    }
+    public void PlaySlidingSound()
+    {
+        mySlidingSoundSource.loop = true;
+        if (!mySlidingSoundSource.isPlaying)
+        {
+            mySlidingSoundSource.Play();
+        }
+
+        mySlidingSoundSource.volume += Time.deltaTime;
+
+
+        if (mySlidingSoundSource.volume > myMaxSlidingVolume)
+        {
+            mySlidingSoundSource.volume = myMaxSlidingVolume;
+        }
+    }
+    public void StopSlidingSound()
+    {
+        
+        mySlidingSoundSource.volume -= Time.deltaTime;
+        if (mySlidingSoundSource.volume <= 0)
+        {
+            mySlidingSoundSource.loop = false;
+        }
+        
+    }
     public void SetMusicVolume(float aVolume)
     {
-        myMusicSource.volume = aVolume;
-        myMusicSource2.volume = aVolume;
+        if (myMusicSource.volume < myMaxMusicVolume || myMusicSource2.volume < myMaxMusicVolume && aVolume > 0)
+        {
+            myMusicSource.volume += aVolume / (myMusicSource.volume+1) * Time.deltaTime;
+            myMusicSource2.volume += aVolume / (myMusicSource2.volume+1) * Time.deltaTime;
+        }
+        
+        if (myMusicSource.volume < myMinMusicVolume || myMusicSource2.volume < myMinMusicVolume)
+        {
+            myMusicSource.volume = myMinMusicVolume;
+            myMusicSource2.volume = myMinMusicVolume;
+        }
+        else if (myMusicSource.volume > myMaxMusicVolume || myMusicSource2.volume > myMaxMusicVolume)
+        {
+            myMusicSource.volume = myMaxMusicVolume;
+            myMusicSource2.volume = myMaxMusicVolume;
+        }
+        if (myMusicSource.volume > myMinMusicVolume || myMusicSource2.volume > myMinMusicVolume)
+        {
+            myMusicSource.volume -= Time.deltaTime*0.1f;
+            myMusicSource2.volume -= Time.deltaTime*0.1f;
+        }
+    }
+    public void SetMusicPitch(float aPitch)
+    {
+        myMusicSource.pitch = aPitch;
+        myMusicSource2.pitch = aPitch;
     }
     public void FadeOutMusicVolume(float aTransitionTime, float aVolume)
     {
@@ -180,9 +320,34 @@ public class AudioManager : MonoBehaviour
         AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
         StartCoroutine(FadeInMusic(activeSource, aTransitionTime, aVolume));
     }
-    public void SetSFXVolume(float aVolume)
+    //public void SetSFXVolume(float aVolume)
+    //{
+    //    //mySfxSource.volume = aVolume;
+    //    mySfxSource1.volume += aVolume;
+    //    if (mySfxSource1.volume < myMinMusicVolume)
+    //    {
+    //        mySfxSource1.volume = myMinMusicVolume;
+    //    }
+    //}
+    public void SetMusicReverb(float aNumber)
     {
-        mySfxSource.volume = aVolume;
+        myMusicReverbFilter.dryLevel += aNumber;
+        if (myMusicReverbFilter.dryLevel < myMinReverbDryLevel)
+        {
+            myMusicReverbFilter.dryLevel = myMinReverbDryLevel;
+        }
+        else if (myMusicReverbFilter.dryLevel > myMaxReverbDryLevel)
+        {
+            myMusicReverbFilter.dryLevel = myMaxReverbDryLevel;
+        }
     }
-    
+    void PauseAudio()
+    {
+        AudioListener.pause = true;
+    }
+    void UnpauseAudio()
+    {
+        AudioListener.pause = false;
+    }
+
 }
