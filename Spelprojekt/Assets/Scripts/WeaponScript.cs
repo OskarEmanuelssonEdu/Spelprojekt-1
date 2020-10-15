@@ -13,6 +13,9 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable decide the speed of the bullet")]
     [SerializeField]
     float mySpeed = 10;
+    [Range(1,10)]
+    [SerializeField]
+    float myScale = 1;
     [Header("Weapon Settings")]
     [Range(1, 10)]
     [Tooltip("This variable will decide how many seconds will take before the next bullet will shoot")]
@@ -29,6 +32,11 @@ public class WeaponScript : MonoBehaviour
     BulletManager myBulletManager;
     [SerializeField]
     GameManager myGameManager;
+    [Header("SOUND")]
+    [SerializeField]
+    private AudioClip myShootClip;
+    [SerializeField]
+    private float myShootVolume = 1;
 
 
     void OnValidate()
@@ -44,11 +52,13 @@ public class WeaponScript : MonoBehaviour
         }
     }
 
+
     void Shoot()
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
-            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime);
+            AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
+            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
             myTimerInBetweenshots = 0;
         }
         else
