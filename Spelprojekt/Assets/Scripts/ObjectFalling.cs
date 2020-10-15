@@ -49,7 +49,6 @@ public class ObjectFalling : MonoBehaviour
     {
         if (CheckPlayerDistance())
         {
-           
             CheckGrounded();
             if (!isGrounded)
             {
@@ -59,6 +58,7 @@ public class ObjectFalling : MonoBehaviour
             }
         }
     }
+
     bool CheckPlayerDistance()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, myGameManager.PlayerPosition());
