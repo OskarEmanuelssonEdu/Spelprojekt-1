@@ -166,12 +166,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if ((Input.GetKey(mySlideKey)) && (Mathf.Abs(myCurrentVelocity.x) > 1) && (myIsGrounded))
         {
-            Debug.Log("Playing Slide sound");
             AudioManager.ourPublicInstance.PlaySlidingSound();
         }
         else
         {
-            Debug.Log("Playing Stop sound");
             AudioManager.ourPublicInstance.StopSlidingSound();
         }
         modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);

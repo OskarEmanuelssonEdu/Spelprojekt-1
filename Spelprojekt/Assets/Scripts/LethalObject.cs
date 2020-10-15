@@ -75,6 +75,7 @@ public class LethalObject : MonoBehaviour
                 myHasLoggedCollision = true;
             }
             myPlayer.TakeDamage(myDamage);
+            AudioManager.ourPublicInstance.PlayLethalHit();
         }
         else if (myHasLoggedCollision)
         {
@@ -89,7 +90,7 @@ public class LethalObject : MonoBehaviour
         }
         else if (myHasLoggedCollision)
         {
-
+            
             Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             myHasLoggedCollision = false;
         }
