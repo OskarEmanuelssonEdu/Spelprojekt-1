@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2723146909286776788}
   - component: {fileID: 1325558277193511025}
   - component: {fileID: 3855542470509216955}
-  - component: {fileID: 4300344820230796166}
+  - component: {fileID: 8468981551731468312}
   m_Layer: 0
   m_Name: Sm_Prop_Mushroom_01
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!60 &4300344820230796166
-PolygonCollider2D:
+--- !u!61 &8468981551731468312
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,7 +93,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.7514516}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -103,16 +103,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 1.1906513, y: 2.0756104}
-      - {x: 1.5568733, y: 2.5842154}
-      - {x: 0.74808925, y: 3.444788}
-      - {x: 0, y: 3.5142696}
-      - {x: -0.7649353, y: 3.429551}
-      - {x: -1.5799837, y: 2.5585873}
-      - {x: -1.1762342, y: 2.0709763}
-      - {x: -0.34342396, y: 2.087076}
-      - {x: -0.559112, y: -0.04065144}
-      - {x: 0.5525775, y: -0.034116507}
-      - {x: 0.3630284, y: 2.0478673}
+  serializedVersion: 2
+  m_Size: {x: 3.1314518, y: 3.525636}
+  m_EdgeRadius: 0

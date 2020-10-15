@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     bool myIsGrounded;
-    bool myIsSliding;
+    public bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
     [SerializeField]
@@ -100,12 +100,19 @@ public class PlayerMovement : MonoBehaviour
     bool walkingUpSlope = false;
 
     [SerializeField]
+    Transform myCameraTransform;
+
+    [SerializeField]
     float myTurnSpeed;
     private void OnValidate()
     {
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
+
         myAudioSource = GetComponent<AudioSource>();
+
+        myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
+
     }
     public Vector3 CurrentSpeed
     {
@@ -192,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
         {
             myInputDirectionX = 0;
         }
-        //-------------------
+
         if (Input.GetKey(myJumpKey))
         {
             myInputDirectionY = 1;
@@ -378,23 +385,8 @@ public class PlayerMovement : MonoBehaviour
     void DoPhysics()
     {
 
-        //if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
-        //{
-
-        //    AudioManager.ourPublicInstance.PlayRunningSound();
-        //}
-        //else
-        //{
-        //    AudioManager.ourPublicInstance.StopRunningSound();
-        //}
         if (myIsGrounded)
         {
-            
-            
-           
-            
-                
-            
             animator.SetBool("isGrounded", true);
 
             if (myIsSliding)
@@ -527,105 +519,121 @@ public class PlayerMovement : MonoBehaviour
         myIsSliding = true;
         myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
 
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y + 0.75f, modelTransform.position.z);
+
 
         animator.SetBool("SlideBool", true);
-        
 
-    }
-    void DoExitSlide()
-    {
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y - 0.75f, modelTransform.position.z);
 
-        transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+        transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
+        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
 
-        myIsSliding = false;
-        myCurrentColliderSize = myColliderSize;
+
+        animator.SetBool("SlideBool", true);
+
+        myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
+
+
 
         animator.SetBool("SlideBool", false);
-        
     }
-    void DoMoveAlongSlope(Vector3 someNormals)
-    {
 
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
+        void DoExitSlide()
+        {
+            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
 
-        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
 
-        // print(normalSignedAngle);
+            // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+            myIsSliding = false;
+            myCurrentColliderSize = myColliderSize;
+            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
 
-        if (normalSignedAngle > 0)
+            animator.SetBool("SlideBool", false);
+        }
+        void DoMoveAlongSlope(Vector3 someNormals)
         {
 
+            Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+            Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+            float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
+
+            // print(normalSignedAngle);
+
+            if (normalSignedAngle > 0)
+            {
+
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+            }
+            else if (normalSignedAngle < 0)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+
+
+            }
+
+            Debug.DrawRay(transform.position, someNormals, Color.red);
 
         }
-        else if (normalSignedAngle < 0)
+        void DoSlideDownSlope(Vector3 someNormals)
         {
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+            Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+            Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
+
+            float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
+
+
+
+            if (normalSignedAngle > 0)
+            {
+
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+                Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
+
+                modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
+
+
+
+
+            }
+            else if (normalSignedAngle < 0)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+                Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
+
+
+                modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
+
+
+
+            }
+
+            print(someNormals);
+
+
+            Debug.DrawRay(transform.position, someNormals, Color.red);
 
 
         }
-
-        Debug.DrawRay(transform.position, someNormals, Color.red);
-
-    }
-    void DoSlideDownSlope(Vector3 someNormals)
-    {
-
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
-
-        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
-
-
-
-        if (normalSignedAngle > 0)
+        void OnDrawGizmos()
         {
-
-
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
-            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
-
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
-
-
-
-
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawCube(transform.position, myCurrentColliderSize);
         }
-        else if (normalSignedAngle < 0)
+        void Animate()
         {
-
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
-
-            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
-
-
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
-
-
-
+            animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
         }
+    
 
-        print(someNormals);
-
-
-        Debug.DrawRay(transform.position, someNormals, Color.red);
-
-
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position, myCurrentColliderSize);
-    }
-    void Animate()
-    {
-        animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
-    }
+ 
     void PlaySounds()
     {
         if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
