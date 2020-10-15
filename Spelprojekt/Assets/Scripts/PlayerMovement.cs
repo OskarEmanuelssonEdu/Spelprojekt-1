@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 1)]
     float mySlideControlFraction;
+    [SerializeField]
+    [Range(0.1f, 20)]
+    float mySlideDownwardsSpeed;
     float myCurrentControlFraction;
 
     [Header("Jump settings")]
@@ -283,27 +286,22 @@ public class PlayerMovement : MonoBehaviour
 
             else
             {
-                walkingUpSlope = false;
+                walkingUpSlope = false;        
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
                 {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
-
+                    print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
                 {
                     myCurrentVelocity.x = 0;
-
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
                 }
-
-
-
-
 
 
                 //ApplyForce(new Vector3(0, 0.2f, 0));
@@ -327,29 +325,21 @@ public class PlayerMovement : MonoBehaviour
 
                 walkingUpSlope = false;
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
-                {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
 
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y)) < 0.2f)
+                {
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
                 {
-                    myCurrentVelocity.x = 0;
 
+                    myCurrentVelocity.x = 0;
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
                 }
-
-                //myCurrentVelocity.x = 0;
-                //for (int i = 0; i < hitInfo.Length; i++)
-                //{
-                //    transform.position = hitInfo[i].centroid;
-                //}
-
-                //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
         }
     }
@@ -418,12 +408,11 @@ public class PlayerMovement : MonoBehaviour
         {
             case JumpState.none:
 
-                if (walkingUpSlope == false)
+                if (myIsSliding)
                 {
+
                     ApplyForce(new Vector3(0, -myGravity, 0));
-
                 }
-
 
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
