@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
-        myCameraTransform = GetComponentInChildren<NewCameraMovement>().transform;
+        myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
     public Vector3 CurrentSpeed
     {
