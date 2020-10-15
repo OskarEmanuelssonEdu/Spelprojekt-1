@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 1)]
     float mySlideControlFraction;
+    [SerializeField]
+    [Range(0.1f, 20)]
+    float mySlideDownwardsSpeed;
     float myCurrentControlFraction;
 
     [Header("Jump settings")]
@@ -75,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     bool myIsGrounded;
-    bool myIsSliding;
+    public bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
     [SerializeField]
@@ -84,11 +87,15 @@ public class PlayerMovement : MonoBehaviour
     bool walkingUpSlope = false;
 
     [SerializeField]
+    Transform myCameraTransform;
+
+    [SerializeField]
     float myTurnSpeed;
     private void OnValidate()
     {
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
+        myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
     public Vector3 CurrentSpeed
     {
@@ -166,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
         {
             myInputDirectionX = 0;
         }
-        //-------------------
+
         if (Input.GetKey(myJumpKey))
         {
             myInputDirectionY = 1;
@@ -279,27 +286,22 @@ public class PlayerMovement : MonoBehaviour
 
             else
             {
-                walkingUpSlope = false;
+                walkingUpSlope = false;        
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
                 {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
-
+                    print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
                 {
                     myCurrentVelocity.x = 0;
-
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
                 }
-
-
-
-
 
 
                 //ApplyForce(new Vector3(0, 0.2f, 0));
@@ -323,29 +325,21 @@ public class PlayerMovement : MonoBehaviour
 
                 walkingUpSlope = false;
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
-                {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
 
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y)) < 0.2f)
+                {
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
                 {
-                    myCurrentVelocity.x = 0;
 
+                    myCurrentVelocity.x = 0;
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
                 }
-
-                //myCurrentVelocity.x = 0;
-                //for (int i = 0; i < hitInfo.Length; i++)
-                //{
-                //    transform.position = hitInfo[i].centroid;
-                //}
-
-                //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
         }
     }
@@ -414,12 +408,11 @@ public class PlayerMovement : MonoBehaviour
         {
             case JumpState.none:
 
-                if (walkingUpSlope == false)
+                if (myIsSliding)
                 {
+
                     ApplyForce(new Vector3(0, -myGravity, 0));
-
                 }
-
 
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
@@ -480,107 +473,113 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void DoEnterSlide()
-    {
-
-
-        myIsSliding = true;
-        myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
-
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y + 0.75f, modelTransform.position.z);
-
-        animator.SetBool("SlideBool", true);
-
-    }
-    void DoExitSlide()
-    {
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y - 0.75f, modelTransform.position.z);
-
-        transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
-
-        myIsSliding = false;
-        myCurrentColliderSize = myColliderSize;
-
-        animator.SetBool("SlideBool", false);
-    }
-    void DoMoveAlongSlope(Vector3 someNormals)
-    {
-
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
-
-        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
-
-        // print(normalSignedAngle);
-
-        if (normalSignedAngle > 0)
         {
 
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+            myIsSliding = true;
+            myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
+
+
+            transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
+            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
+
+            animator.SetBool("SlideBool", true);
+
+            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
+
 
         }
-        else if (normalSignedAngle < 0)
+        void DoExitSlide()
+        {
+            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
+
+            // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+            myIsSliding = false;
+            myCurrentColliderSize = myColliderSize;
+            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
+
+            animator.SetBool("SlideBool", false);
+        }
+        void DoMoveAlongSlope(Vector3 someNormals)
         {
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+            Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+            Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
+            float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
+
+            // print(normalSignedAngle);
+
+            if (normalSignedAngle > 0)
+            {
+
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+            }
+            else if (normalSignedAngle < 0)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+
+
+            }
+
+            Debug.DrawRay(transform.position, someNormals, Color.red);
 
         }
-
-        Debug.DrawRay(transform.position, someNormals, Color.red);
-
-    }
-    void DoSlideDownSlope(Vector3 someNormals)
-    {
-
-        Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
-        Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
-
-        float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
-
-
-
-        if (normalSignedAngle > 0)
+        void DoSlideDownSlope(Vector3 someNormals)
         {
 
+            Vector3 positiveNormal = Quaternion.Euler(0, 0, 90) * someNormals;
+            Vector3 negativeNormal = Quaternion.Euler(0, 0, -90) * someNormals;
 
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
-            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
-
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
+            float normalSignedAngle = Vector3.SignedAngle(someNormals, myCurrentVelocity, Vector3.forward);
 
 
+
+            if (normalSignedAngle > 0)
+            {
+
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
+                Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
+
+                modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
+
+
+
+
+            }
+            else if (normalSignedAngle < 0)
+            {
+
+                myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
+
+                Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
+
+
+                modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
+
+
+
+            }
+
+            print(someNormals);
+
+
+            Debug.DrawRay(transform.position, someNormals, Color.red);
 
 
         }
-        else if (normalSignedAngle < 0)
+        void OnDrawGizmos()
         {
-
-            myCurrentVelocity = Vector3.Project(myCurrentVelocity, negativeNormal);
-
-            Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
-
-
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
-
-
-
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawCube(transform.position, myCurrentColliderSize);
         }
-
-        print(someNormals);
-
-
-        Debug.DrawRay(transform.position, someNormals, Color.red);
-
-
+        void Animate()
+        {
+            animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
+        }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position, myCurrentColliderSize);
-    }
-    void Animate()
-    {
-        animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
-    }
-}

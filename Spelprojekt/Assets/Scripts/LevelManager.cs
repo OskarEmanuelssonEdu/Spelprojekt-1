@@ -30,6 +30,16 @@ public class LevelManager : MonoBehaviour
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
 
+    public Vector3 MyStartPosition
+    {
+        get { return myStartPosition; }
+        set
+        {
+            myStartPosition = value;
+            Debug.Log("New checkpoint!");
+        }
+    }
+
     // PRIVATE VARIABLES
     List<ObjectFalling> myFallingObjects;
 

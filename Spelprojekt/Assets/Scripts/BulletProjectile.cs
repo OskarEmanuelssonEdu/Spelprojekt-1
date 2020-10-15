@@ -22,7 +22,7 @@ public class BulletProjectile : MonoBehaviour
         if (myLifeTimer>= myLifeTime)
         {
             myBulletManager.ReturnBullet(this);
-
+            myLifeTimer = 0;
         }
         else
         {
