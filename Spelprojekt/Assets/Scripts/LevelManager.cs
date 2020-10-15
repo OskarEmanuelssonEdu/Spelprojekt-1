@@ -25,17 +25,20 @@ public class LevelManager : MonoBehaviour
     private ScoreManager myScoreManager;
     [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
-    private Vector3 myStartPosition;
+    private Vector3 myPlayerPosition;
+    [SerializeField]
+    [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
+    private Vector3 myCameraPosition;
     [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
 
     public Vector3 MyStartPosition
     {
-        get { return myStartPosition; }
+        get { return myPlayerPosition; }
         set
         {
-            myStartPosition = value;
+            myPlayerPosition = value;
             Debug.Log("New checkpoint!");
         }
     }
@@ -63,8 +66,9 @@ public class LevelManager : MonoBehaviour
         myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
 
-        myStartPosition = myPlayerMovement.transform.position;
+        myPlayerPosition = myPlayerMovement.transform.position;
         myCameraMovement = FindObjectOfType<NewCameraMovement>();
+        myCameraPosition = myCameraMovement.transform.position;
     }
 
     // Start is called before the first frame update
@@ -95,14 +99,18 @@ public class LevelManager : MonoBehaviour
         }
 
         // Reset Camera
-        myCameraMovement.ResetCameraPosition();
+        
 
         // Code derived from GameManager
         // Date: 2020-10-08 16:24 UTC+1
         myPlayerMovement.CurrentSpeed = Vector3.zero;
-        myPlayer.transform.position = myStartPosition;
+        myPlayer.transform.position = myPlayerPosition;
+        myCameraMovement.transform.position = myCameraPosition;
+        myCameraMovement.myPlayerCurrentVelocity = Vector3.zero;
         myPlayerMovement.enabled = true;
         myGrappleHook.enabled = true;
+        myCameraMovement.ResetCameraPosition();
         myScoreManager.ResetTimer();
+       // myCameraMovement.ResetCameraPosition();
     }
 }
