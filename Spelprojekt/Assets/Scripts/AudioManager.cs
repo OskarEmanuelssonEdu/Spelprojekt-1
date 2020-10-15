@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -44,6 +46,9 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private float myMasterVolume = 1;
+
+    [SerializeField]
     private float myMinMusicVolume = 0.3f;
     [SerializeField]
     private float myMaxMusicVolume = 1f;
@@ -65,6 +70,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     [Range(0, 1.0f)]
     private float myMaxSlidingVolume = 1f;
+
+    [SerializeField]
+    AudioMixer myAudioMixer;
+    //TODO Fix a audiomixer to be able to control maaster volume in game.
     private void Awake()
     {
         //Make sure we dont destroy this instance
@@ -73,8 +82,8 @@ public class AudioManager : MonoBehaviour
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
         mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
         mySlidingSoundSource = gameObject.AddComponent<AudioSource>();
-      
 
+        myAudioMixer = FindObjectOfType<AudioMixer>();
         //Music will keep playing even if game is paused
         myMusicSource.ignoreListenerPause = true;
         myMusicSource2.ignoreListenerPause = true;
