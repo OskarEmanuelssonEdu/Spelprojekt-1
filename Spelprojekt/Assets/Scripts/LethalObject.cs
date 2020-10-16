@@ -31,9 +31,14 @@ public class LethalObject : MonoBehaviour
     {
         myPlayer = FindObjectOfType<Player>();
     }
-
+    private void OnEnable()
+    {
+        myPlayer = FindObjectOfType<Player>();
+    }
     private void Start()
     {
+        myPlayer = FindObjectOfType<Player>();
+
         if (myName == "")
         {
             myName = "Unnamed Lethal Object";
@@ -69,7 +74,7 @@ public class LethalObject : MonoBehaviour
                 Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
                 myHasLoggedCollision = true;
             }
-            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
+            myPlayer.TakeDamage(myDamage);
         }
         else if (myHasLoggedCollision)
         {

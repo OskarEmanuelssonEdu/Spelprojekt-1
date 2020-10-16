@@ -10793,8 +10793,6 @@ MonoBehaviour:
   myLevelCompleteScreen: {fileID: 935815888}
   myGameOverScreen: {fileID: 935815888}
   myTotalTimeText: {fileID: 533590064}
-  myScoreManager: {fileID: 935815891}
-  myPlayer: {fileID: 1151537717}
 --- !u!4 &935815890
 Transform:
   m_ObjectHideFlags: 0
@@ -11894,7 +11892,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025351814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.3, y: 327.2, z: 0}
+  m_LocalPosition: {x: -44.9, y: 327.2, z: 0}
   m_LocalScale: {x: 34.66065, y: 11.1766, z: 1}
   m_Children: []
   m_Father: {fileID: 1755544454}
@@ -13429,7 +13427,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myMaxHlaeth: 1
   myCurrentHealth: 0
-  myGameManager: {fileID: 935815889}
 --- !u!1 &1153618981
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,23 +25,30 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     PlayerMovement myPlayerMovement;
     [SerializeField]
-    GrappleHookBoohyah grappleHook;
+    GrappleHookBoohyah myGrappleHook;
     [SerializeField]
     Player myPlayer;
     Vector3 startPos;
+    [SerializeField]
+    NewCameraMovement myCamera;
+    [SerializeField]
+    LevelManager myLevelManager;
    
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
-        grappleHook = FindObjectOfType<GrappleHookBoohyah>();
+        myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
+        myCamera = FindObjectOfType<NewCameraMovement>();
+        myLevelManager = FindObjectOfType<LevelManager>();
+
     }
     void Start()
     {
-        grappleHook.enabled = true;
+        myGrappleHook.enabled = true;
         myPlayerMovement.enabled = true;
-        startPos = myPlayer.transform.position;        
+        startPos = myPlayer.transform.position;
     }
     void Update()
     {
@@ -52,7 +59,7 @@ public class GameManager : MonoBehaviour
         }
         if (myPlayer.myCurrentHealth <= 0)
         {
-            GameOver();
+            ResetGame();
         }
     }
     void CountDownToStart()
@@ -70,19 +77,24 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         myPlayer.transform.position = startPos;
-
-        grappleHook.enabled = false;
+        myCamera.ResetCameraPosition();
+        myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
     }
     public void GameOver()
     {
-        myPlayer.transform.position = startPos;
-
-        grappleHook.enabled = false;
+        myLevelManager.ResetLevel();
+        myCamera.ResetCameraPosition();
+       
+        myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
-        myGameOverScreen.SetActive(true);
+        if (myGameOverScreen != null)
+        {
+            myGameOverScreen.SetActive(true);
+
+        }
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
 
     }
@@ -100,11 +112,18 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame()
     {
-        grappleHook.enabled = true;
-        myPlayerMovement.enabled = true;
-        myGameOverScreen.SetActive(false);
-        myLevelCompleteScreen.SetActive(false);
+        myLevelManager.ResetLevel();
+        myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
         myScoreManager.ResetTimer();
+        if (myGameOverScreen != null )
+        {
+            myGameOverScreen.SetActive(false);
+
+        }
+        if (myGameOverScreen != null)
+        {
+            myLevelCompleteScreen.SetActive(false);
+        }
 
     }
     public void QuitGame()

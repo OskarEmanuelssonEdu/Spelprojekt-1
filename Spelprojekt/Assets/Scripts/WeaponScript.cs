@@ -9,7 +9,7 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable will decide the damage the bullet will do to the player")]
     [SerializeField]
     float damage = 10f;
-    [Range(1, 25)]
+    [Range(1, 50)]
     [Tooltip("This variable decide the speed of the bullet")]
     [SerializeField]
     float mySpeed = 10;
@@ -19,17 +19,23 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     float myTimeInBetweenShots = 2;
     float myTimerInBetweenshots = 0;
-    [Range(10, 30)]
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
-    float myDistanceToActivate = 20;
-
+    float myDistanceToActivate;
+    [SerializeField]
+    float bulletLifeTime = 10;
     [Header("References")]
     [SerializeField]
     BulletManager myBulletManager;
     [SerializeField]
     GameManager myGameManager;
 
+
+    void OnValidate()
+    {
+        myBulletManager = FindObjectOfType<BulletManager>();
+        myGameManager = FindObjectOfType<GameManager>();
+    }
     void Update()
     {
         if (CheckPlayerDistance())
@@ -42,7 +48,7 @@ public class WeaponScript : MonoBehaviour
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
-            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage);
+            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime);
             myTimerInBetweenshots = 0;
         }
         else
