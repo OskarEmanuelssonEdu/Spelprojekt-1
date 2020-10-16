@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
+    [SerializeField]
+    TextMeshProUGUI myCountDownText;
 
     
     [SerializeField]
@@ -72,9 +74,13 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
+            myCountDownText.text = "Go!";
+
+
         }
         else
         {
+            myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
             Time.timeScale = 0;
             myCountDownTimer += Time.unscaledDeltaTime;
         }
@@ -110,6 +116,17 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         Time.timeScale = 1;
+
+        if (myCountDownTimer < myCountDownTime + 1)
+        {
+            myCountDownTimer += Time.unscaledDeltaTime;
+            print(myCountDownTimer);
+        }
+        else
+        {
+            myCountDownText.gameObject.SetActive(false);
+
+        }
 
         if (myScoreManager != null)
         {
