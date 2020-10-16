@@ -550,6 +550,8 @@ public class PlayerMovement : MonoBehaviour
 
     void DoExitSlide()
     {
+        mySlideFx.Stop();
+
         modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
 
       
