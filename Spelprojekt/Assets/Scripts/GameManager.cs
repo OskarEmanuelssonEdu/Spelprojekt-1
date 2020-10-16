@@ -75,7 +75,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            myCountDownTimer += Time.deltaTime;
+            Time.timeScale = 0;
+            myCountDownTimer += Time.unscaledDeltaTime;
         }
     }
     public void LevelComplete()
@@ -108,10 +109,14 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
+        Time.timeScale = 1;
+
         if (myScoreManager != null)
         {
             myScoreManager.StartCounter = true;
         }
+
+
 
     }
     public void ResetGame()
