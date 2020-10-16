@@ -170,7 +170,7 @@ public class GrappleHookBoohyah : MonoBehaviour
                 myPlayerMovement.CurrentSpeed += ((myGrapplePosition - transform.position).normalized/* * myGrappleDistance*/) * Mathf.Pow(myRopeStrength, Mathf.Abs((myGrappleDistance - (myGrapplePosition - myPlayerMovement.transform.position).magnitude)) * Time.fixedDeltaTime);
                 myPlayerMovement.CurrentSpeed += myPlayerMovement.CurrentSpeed.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
 
-                print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
+                //print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
             }
 
 

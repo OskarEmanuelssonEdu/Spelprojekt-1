@@ -61,6 +61,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip mySlidingSound;
     [SerializeField]
+    private AudioClip myLethalAudioClip;
+    [SerializeField]
     [Range(0, 1.0f)]
     private float myMaxSlidingVolume = 1f;
  
@@ -205,9 +207,13 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource2.PlayOneShot(aClip, aVolume);
     }
+    public void PlayLethalHit()
+    {
+        mySfxSource1.PlayOneShot(myLethalAudioClip);
+    }
     //public void PlayRunningSound()
     //{
-        
+
     //    if (!myRunningSoundSource.isPlaying)
     //    {
     //        myRunningSoundSource.Play();
@@ -217,11 +223,11 @@ public class AudioManager : MonoBehaviour
     //        Debug.Log("Playing running sound");
     //    }
 
-        
+
 
     //    myRunningSoundSource.volume += Time.deltaTime;
 
-        
+
     //    if (myRunningSoundSource.volume > myMaxRunningVolume)
     //    {
     //        myRunningSoundSource.volume = myMaxRunningVolume;
