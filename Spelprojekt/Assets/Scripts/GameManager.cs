@@ -5,11 +5,12 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
     [Header("Countdown Before Game Begins")]
     [SerializeField]
     float myCountDownTime = 3;
     float myCountDownTimer = 0;
-   
+
     [Header("Level Compelet Screen Settings")]
     [SerializeField]
     GameObject myLevelCompleteScreen;
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI myCountDownText;
 
-    
+
     [SerializeField]
     ScoreManager myScoreManager;
     [SerializeField]
@@ -35,7 +36,10 @@ public class GameManager : MonoBehaviour
     NewCameraMovement myCamera;
     [SerializeField]
     LevelManager myLevelManager;
-   
+
+    [Header("SOUND")]
+    [SerializeField]
+    private AudioClip myDeathSoundClip;
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -70,13 +74,19 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
-            myCountDownText.text = "Go!";
-
+            if (myCountDownText != null)
+            {
+                myCountDownText.text = "Go!";
+            }
 
         }
         else
         {
-            myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
+            if (myCountDownText != null)
+            {
+                myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
+            }
+
             Time.timeScale = 0;
             myCountDownTimer += Time.unscaledDeltaTime;
         }
@@ -94,7 +104,7 @@ public class GameManager : MonoBehaviour
     {
         myLevelManager.ResetLevel();
         myCamera.ResetCameraPosition();
-       
+        AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip, 1);
         myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
         if (myGameOverScreen != null)
@@ -116,11 +126,15 @@ public class GameManager : MonoBehaviour
         if (myCountDownTimer < myCountDownTime + 1)
         {
             myCountDownTimer += Time.unscaledDeltaTime;
-            print(myCountDownTimer);
+        
         }
         else
         {
-            myCountDownText.gameObject.SetActive(false);
+            if (myCountDownText != null)
+            {
+                myCountDownText.gameObject.SetActive(false);
+            }
+
 
         }
 
@@ -134,10 +148,11 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame()
     {
+
         myLevelManager.ResetLevel();
         myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
         myScoreManager.ResetTimer();
-        if (myGameOverScreen != null )
+        if (myGameOverScreen != null)
         {
             myGameOverScreen.SetActive(false);
 
