@@ -65,6 +65,12 @@ public class NewCameraMovement : MonoBehaviour
     Vector3 myPlayerNewPos;
 
     Vector3 myPositionToMoveTo;
+
+    public Vector3 MyPositionToMoveTo
+    {
+        get { return myPositionToMoveTo; }
+    }
+
     Vector3 myPlayerScreenPoint;
     Vector3 myTargetPosition;
     Vector3 myBoundaryWorldPoint;
