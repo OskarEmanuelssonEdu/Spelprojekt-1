@@ -5866,7 +5866,6 @@ MonoBehaviour:
   mySlidingFrictionFraction: 0.8
   myAirControlFraction: 0.169
   mySlideControlFraction: 0.176
-  mySlideDownwardsSpeed: 0
   myJumpForce: 4
   myGravity: 0.8
   myJumpTime: 0.25
@@ -5945,7 +5944,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9e1ad1cfe14f2c84e89cdac9469b2497, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
