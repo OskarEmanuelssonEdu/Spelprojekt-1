@@ -106,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
     JumpState myJumpState;
     [SerializeField]
     Animator animator;
+    [SerializeField]
     Transform modelTransform;
     bool walkingUpSlope = false;
 
