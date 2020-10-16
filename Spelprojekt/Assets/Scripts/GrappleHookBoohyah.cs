@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.VFX;
 public class GrappleHookBoohyah : MonoBehaviour
 {
     [SerializeField]
@@ -61,9 +61,11 @@ public class GrappleHookBoohyah : MonoBehaviour
 
     [SerializeField]
     float mySwingCorrection;
-   
-   
 
+
+    [Header("Vfx settings")]
+    [SerializeField]
+    VisualEffect myHitEffect;
     [SerializeField]
     Camera myOrtograpicCamera;
     [SerializeField]
@@ -103,7 +105,8 @@ public class GrappleHookBoohyah : MonoBehaviour
         {           
             myGrapplePosition = tempGrapplingPos;
             myGrappleDistance = (tempGrapplingPos - transform.position).magnitude + myGrappleStartSlack;
-            
+            myHitEffect.transform.position = myGrapplePosition;
+            myHitEffect.Play();
             myProjectile.gameObject.SetActive(false);
 
             myGrappling = true;
@@ -143,13 +146,14 @@ public class GrappleHookBoohyah : MonoBehaviour
             
         }
     }
-
+  
     void Grapple()
     {
 
 
         if (myGrappling)
         {
+            
             
             animator.SetBool("isGrappling", true);
             myLineRenderer.enabled = true;
@@ -179,7 +183,7 @@ public class GrappleHookBoohyah : MonoBehaviour
         else
         {
             animator.SetBool("isGrappling", false);
-
+            
             //myLineRenderer.enabled = false;
 
         }
