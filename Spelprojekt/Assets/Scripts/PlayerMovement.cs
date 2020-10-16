@@ -107,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
     JumpState myJumpState;
     [SerializeField]
     Animator animator;
+    [SerializeField]
     Transform modelTransform;
     bool walkingUpSlope = false;
 
@@ -178,7 +179,6 @@ public class PlayerMovement : MonoBehaviour
             AudioManager.ourPublicInstance.StopSlidingSound();
         }
         modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
-
 
         DoPhysics();
 
