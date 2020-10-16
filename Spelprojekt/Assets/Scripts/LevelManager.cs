@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
+
 
     public Vector3 MyStartPosition
     {
@@ -85,6 +87,8 @@ public class LevelManager : MonoBehaviour
     public void LevelComplete()
     {
         // TODO: Implement this
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
     public void GameOver()
     {
