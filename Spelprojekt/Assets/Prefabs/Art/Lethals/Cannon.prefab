@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6498907909800494803}
   - component: {fileID: 6498907909800494804}
   m_Layer: 0
-  m_Name: Cannon (22)
+  m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6498907909800494805}
   m_LocalRotation: {x: -0, y: -0.70710546, z: -0, w: 0.70710814}
-  m_LocalPosition: {x: -20.8, y: 0.11528778, z: 83.819176}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 6617455585760797851}

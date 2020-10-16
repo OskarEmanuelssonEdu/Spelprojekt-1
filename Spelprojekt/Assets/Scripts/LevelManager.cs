@@ -106,8 +106,6 @@ public class LevelManager : MonoBehaviour
         // Date: 2020-10-08 16:24 UTC+1
         myPlayerMovement.CurrentSpeed = Vector3.zero;
         myPlayer.transform.position = myPlayerPosition;
-        myCameraMovement.transform.position = myCameraPosition;
-        myCameraMovement.myPlayerCurrentVelocity = Vector3.zero;
         myPlayerMovement.enabled = true;
         myGrappleHook.enabled = true;
         myCameraMovement.ResetCameraPosition();
