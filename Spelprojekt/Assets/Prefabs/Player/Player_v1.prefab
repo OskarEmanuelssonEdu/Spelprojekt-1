@@ -5601,7 +5601,8 @@ Transform:
   m_LocalRotation: {x: 0.45817754, y: -0.5385846, z: 0.45817754, w: 0.5385846}
   m_LocalPosition: {x: -0.00203425, y: 0.00023094697, z: 5.515066e-20}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7691599195075039456}
   m_Father: {fileID: 6151446143038813305}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5859,6 +5860,7 @@ MonoBehaviour:
   myJumpSoundVolume: 0.608
   myMinRunningVolume: 0
   myMaxRunningVolume: 0.3
+  myAudioSource: {fileID: 1801631742942304714}
   myMaxSpeed: 25
   myAcceleration: 0.25
   myDecceleration: 0.1
@@ -5882,6 +5884,7 @@ MonoBehaviour:
     m_Bits: 1
   myIsSliding: 0
   animator: {fileID: 1067334936656858882}
+  modelTransform: {fileID: 1067334936656858883}
   myCameraTransform: {fileID: 90427244}
   myTurnSpeed: 0.3
 --- !u!114 &3573941355867871266
@@ -5902,7 +5905,7 @@ MonoBehaviour:
   myGrappleHitSoundVolume: 1
   myProjectilePrefab: {fileID: 3779059131566209103, guid: 7c605d0e32511dc458e3beea8208c2bb,
     type: 3}
-  myShootPosition: {fileID: 4238696588129944223}
+  myShootPosition: {fileID: 7691599195075039456}
   myProjectileSpeed: 90
   myGrappleMaxDistance: 25
   myGrappleDistance: 0
@@ -5918,6 +5921,7 @@ MonoBehaviour:
   myOrtograpicCamera: {fileID: 2073077184}
   myLineRenderer: {fileID: 0}
   animator: {fileID: 0}
+  myAnimatedTransform: {fileID: 1067334936656858883}
   myGrappleKey: 323
 --- !u!114 &3573941355867871267
 MonoBehaviour:
@@ -6541,6 +6545,36 @@ Transform:
   m_Children:
   - {fileID: 8287986004982026004}
   m_Father: {fileID: 8327974122721389224}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7417900594407321749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7691599195075039456}
+  m_Layer: 9
+  m_Name: ThiefLizard_4_mouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7691599195075039456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417900594407321749}
+  m_LocalRotation: {x: -0.00000008940697, y: 0.7071068, z: 0.00000008940697, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0.00015771261, z: 0.0017774734}
+  m_LocalScale: {x: 0.009999998, y: 0.01, z: 0.009999997}
+  m_Children: []
+  m_Father: {fileID: 125152627269799072}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7731192567411582662
