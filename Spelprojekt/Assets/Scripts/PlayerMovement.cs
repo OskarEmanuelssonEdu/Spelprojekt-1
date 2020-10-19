@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private float myMaxRunningVolume = 1f;
     [SerializeField]
     AudioSource myAudioSource;
+    
 
 
 
@@ -510,6 +511,7 @@ public class PlayerMovement : MonoBehaviour
                 {
 
                     myJumpAndLandFx.Play();
+                    AudioManager.ourPublicInstance.PlaySFX1(myLandSound, 1);
                     myJumpState = JumpState.none;
                     AudioManager.ourPublicInstance.PlaySFX1(myLandSound, 1);
 
