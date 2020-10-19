@@ -62,7 +62,11 @@ public class AudioManager : MonoBehaviour
     private float myMinReverbDryLevel = -1000f;
 
     [SerializeField]
-    private AudioClip myMusicClip;
+    private AudioClip myLevel1MusicClip;
+    [SerializeField]
+    private AudioClip myLevel2MusicClip;
+    [SerializeField]
+    private AudioClip myLevel3MusicClip;
     [SerializeField]
     private AudioClip mySlidingSound;
     [SerializeField]
@@ -74,7 +78,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     AudioMixer myAudioMixer;
     //TODO Fix a audiomixer to be able to control maaster volume in game.
-    private void Awake()
+    
+    private AudioClip myClickSound;
+
+    private void Start()
     {
         //Make sure we dont destroy this instance
         DontDestroyOnLoad(this.gameObject);
@@ -97,10 +104,8 @@ public class AudioManager : MonoBehaviour
         mySlidingSoundSource.clip = mySlidingSound;
 
     }
-    private void Start()
-    {
-        PlayMusic(myMusicClip);
-    }
+  
+    
     public void PlayMusic(AudioClip aMusicClip)
     {
         //Determine which source is active
@@ -129,6 +134,45 @@ public class AudioManager : MonoBehaviour
         newSource.clip = aMusicClip;
         newSource.Play();
         StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, aTransitionTime));
+    }
+    public void PlayLevel1Music()
+    {
+        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
+        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
+
+        //Swap the source
+        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
+
+        // Set the fields of the audio source, then start the coroutine to crossfade
+        newSource.clip = myLevel1MusicClip;
+        newSource.Play();
+        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
+    }
+    public void PlayLevel2Music()
+    {
+        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
+        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
+
+        //Swap the source
+        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
+
+        // Set the fields of the audio source, then start the coroutine to crossfade
+        newSource.clip = myLevel2MusicClip;
+        newSource.Play();
+        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
+    }
+    public void PlayLevel3Music()
+    {
+        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
+        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
+
+        //Swap the source
+        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
+
+        // Set the fields of the audio source, then start the coroutine to crossfade
+        newSource.clip = myLevel3MusicClip;
+        newSource.Play();
+        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
     }
     private IEnumerator UpdateMusicWithFade(AudioSource anActiveSouce, AudioClip aNewClip, float aTransitionTime)
     {
@@ -218,6 +262,10 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX2(AudioClip aClip, float aVolume)
     {
         mySfxSource2.PlayOneShot(aClip, aVolume);
+    }
+    public void PlayClickSound()
+    {
+        mySfxSource1.PlayOneShot(myClickSound);
     }
     public void PlayLethalHit()
     {

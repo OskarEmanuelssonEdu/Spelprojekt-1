@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private AudioClip myJumpSound2;
     [SerializeField]
+    private AudioClip myLandSound;
+    [SerializeField]
     [Range(0, 1.0f)]
     private float myJumpSoundVolume = 1f;
     [SerializeField]
@@ -443,7 +445,6 @@ public class PlayerMovement : MonoBehaviour
                 {
 
                     AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
-                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound2, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -484,6 +485,7 @@ public class PlayerMovement : MonoBehaviour
                 {
 
                     myJumpState = JumpState.none;
+                    AudioManager.ourPublicInstance.PlaySFX1(myLandSound, 1);
 
 
                 }

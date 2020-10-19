@@ -50,10 +50,13 @@ MonoBehaviour:
   myMaxRunningVolume: 1
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
-  myMusicClip: {fileID: 8300000, guid: 0b54f3ecccb57dd4bb3108dcadfa70db, type: 3}
+  myLevel1MusicClip: {fileID: 0}
+  myLevel2MusicClip: {fileID: 0}
+  myLevel3MusicClip: {fileID: 0}
   mySlidingSound: {fileID: 8300000, guid: ffff0ff36724dc3439baa348fed5a155, type: 3}
   myLethalAudioClip: {fileID: 8300000, guid: 0f05b8c1369ef3743ace6ba47a63363d, type: 3}
   myMaxSlidingVolume: 1
+  myClickSound: {fileID: 8300000, guid: 0c157f8b470ef5b43a3ce313a3fa5390, type: 3}
 --- !u!81 &6285212864489501905
 AudioListener:
   m_ObjectHideFlags: 0
