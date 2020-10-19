@@ -5,9 +5,26 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
+    //Audio variables
+    [Header("AUDIO settings")]
+    [SerializeField]
+    private AudioClip myJumpSound1;
+    [SerializeField]
+    private AudioClip myJumpSound2;
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float myJumpSoundVolume = 1f;
+    [SerializeField]
+    private float myMinRunningVolume = 0.3f;
+    [SerializeField]
+    private float myMaxRunningVolume = 1f;
+    [SerializeField]
+    AudioSource myAudioSource;
+
+
+
+
     [Header("Speed settings")]
-
-
     [SerializeField]
     [Range(0, 50)]
     float myMaxSpeed = 10;
@@ -30,6 +47,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 1)]
     float mySlideControlFraction;
+    [SerializeField]
+    [Range(0.1f, 20)]
+    float mySlideDownwardsSpeed;
     float myCurrentControlFraction;
 
     [Header("Jump settings")]
@@ -69,19 +89,30 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     KeyCode mySlideKey = KeyCode.LeftShift;
 
+
+    [Header("Particels")]
+    [SerializeField]
+    ParticleSystem myJumpAndLandFx;
+    [SerializeField]
+    ParticleSystem mySlideFx;
+
     [Header("DO NOT TOUCH")]
     [SerializeField]
     LayerMask myLayerMask;
 
 
     bool myIsGrounded;
-    bool myIsSliding;
+    public bool myIsSliding;
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
     [SerializeField]
     Animator animator;
+    [SerializeField]
     Transform modelTransform;
     bool walkingUpSlope = false;
+
+    [SerializeField]
+    Transform myCameraTransform;
 
     [SerializeField]
     float myTurnSpeed;
@@ -89,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
+        myAudioSource = GetComponent<AudioSource>();
+       // myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
     public Vector3 CurrentSpeed
     {
@@ -112,12 +145,13 @@ public class PlayerMovement : MonoBehaviour
     {
         myXDirection = 1;
         myCurrentColliderSize = myColliderSize;
+        myAudioSource.volume = 0;
 
     }
     void Update()
     {
 
-
+        PlaySounds();
         Animate();
         myIsGrounded = CheckGround();
         GetInputs();
@@ -136,9 +170,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-
+        if ((Input.GetKey(mySlideKey)) && (Mathf.Abs(myCurrentVelocity.x) > 1) && (myIsGrounded))
+        {
+            AudioManager.ourPublicInstance.PlaySlidingSound();
+        }
+        else
+        {
+            AudioManager.ourPublicInstance.StopSlidingSound();
+        }
         modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
-
 
         DoPhysics();
 
@@ -166,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
         {
             myInputDirectionX = 0;
         }
-        //-------------------
+
         if (Input.GetKey(myJumpKey))
         {
             myInputDirectionY = 1;
@@ -281,25 +321,20 @@ public class PlayerMovement : MonoBehaviour
             {
                 walkingUpSlope = false;
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[0].point.y - hitInfo[1].point.y) < 0.02f && hitInfo[0].point.x - hitInfo[1].point.x > 0.02f)
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
                 {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
-
+                    print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
                 {
                     myCurrentVelocity.x = 0;
-
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
                 }
-
-
-
-
 
 
                 //ApplyForce(new Vector3(0, 0.2f, 0));
@@ -323,32 +358,25 @@ public class PlayerMovement : MonoBehaviour
 
                 walkingUpSlope = false;
 
-                if (hitInfo.Length > 1 && Mathf.Abs(hitInfo[1].point.y - hitInfo[0].point.y) < 0.02f && hitInfo[1].point.x - hitInfo[0].point.x > 0.02f)
-                {
-                    print(hitInfo[1].point.y - hitInfo[0].point.y);
 
+                if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y)) < 0.2f)
+                {
+                    transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
                 {
-                    myCurrentVelocity.x = 0;
 
+                    myCurrentVelocity.x = 0;
                     for (int i = 0; i < hitInfo.Length; i++)
                     {
                         transform.position = hitInfo[i].centroid;
                     }
 
                 }
-
-                //myCurrentVelocity.x = 0;
-                //for (int i = 0; i < hitInfo.Length; i++)
-                //{
-                //    transform.position = hitInfo[i].centroid;
-                //}
-
-                //ApplyForce(myCurrentVelocity.magnitude * temp);
             }
         }
     }
+    bool t = false;
     void DoPhysics()
     {
 
@@ -397,11 +425,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (myIsSliding)
             {
+                //Slideing
+                if (!t)
+                {
+                    mySlideFx.Play();
+                    t = true;
+                }
                 ApplyForce((myCurrentVelocity * -1) * (mySlidingFrictionFraction * myFriction) * Time.fixedDeltaTime);
 
             }
             else
             {
+                
 
                 ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
 
@@ -409,22 +444,31 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
+        else
+        {
+            if (t)
+            {
+                mySlideFx.Stop();
+                t = false;
+            }
+        }
 
         switch (myJumpState)
         {
             case JumpState.none:
 
-                if (walkingUpSlope == false)
+                if (myIsSliding)
                 {
+
                     ApplyForce(new Vector3(0, -myGravity, 0));
-
                 }
-
 
                 if (myIsGrounded && myInputDirectionY == 1)
                 {
 
-
+                    myJumpAndLandFx.Play();
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound2, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -464,6 +508,7 @@ public class PlayerMovement : MonoBehaviour
                 if (myIsGrounded)
                 {
 
+                    myJumpAndLandFx.Play();
                     myJumpState = JumpState.none;
 
 
@@ -481,24 +526,41 @@ public class PlayerMovement : MonoBehaviour
 
     void DoEnterSlide()
     {
-
+      
 
         myIsSliding = true;
         myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
 
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y + 0.75f, modelTransform.position.z);
+
+
+
+
+
+        transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
+        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
+
 
         animator.SetBool("SlideBool", true);
 
+        myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
+
+
+
+
     }
+
     void DoExitSlide()
     {
-        modelTransform.position = new Vector3(modelTransform.position.x, modelTransform.position.y - 0.75f, modelTransform.position.z);
+        mySlideFx.Stop();
 
-        transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
 
+      
+        // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
         myIsSliding = false;
         myCurrentColliderSize = myColliderSize;
+        myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
 
         animator.SetBool("SlideBool", false);
     }
@@ -574,7 +636,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawCube(transform.position, myCurrentColliderSize);
@@ -582,5 +644,42 @@ public class PlayerMovement : MonoBehaviour
     void Animate()
     {
         animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
+    }
+
+
+
+    void PlaySounds()
+    {
+        if ((Input.GetKey(myMoveLeftKey) || Input.GetKey(myMoveRightKey)) && (Mathf.Abs(myCurrentVelocity.x) > 2) && !myIsSliding && myIsGrounded)
+        {
+            PlayRunningSound();
+        }
+        else
+        {
+            StopRunningSound();
+        }
+        AudioManager.ourPublicInstance.SetMusicVolume(Mathf.Abs(myCurrentVelocity.x) * Time.deltaTime);
+    }
+    public void PlayRunningSound()
+    {
+
+        if (!myAudioSource.isPlaying)
+        {
+            myAudioSource.Play();
+        }
+        myAudioSource.volume += Time.deltaTime * 2;
+
+        if (myAudioSource.volume > myMaxRunningVolume)
+        {
+            myAudioSource.volume = myMaxRunningVolume;
+        }
+    }
+    public void StopRunningSound()
+    {
+        myAudioSource.volume -= Time.deltaTime * 2;
+        if (myAudioSource.volume <= 0)
+        {
+            myAudioSource.Stop();
+        }
     }
 }

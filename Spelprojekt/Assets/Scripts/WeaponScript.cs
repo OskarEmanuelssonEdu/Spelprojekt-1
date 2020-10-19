@@ -9,26 +9,37 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable will decide the damage the bullet will do to the player")]
     [SerializeField]
     float damage = 10f;
-    [Range(1, 25)]
+    [Range(1, 50)]
     [Tooltip("This variable decide the speed of the bullet")]
     [SerializeField]
     float mySpeed = 10;
+    [Range(1,10)]
+    [SerializeField]
+    float myScale = 1;
     [Header("Weapon Settings")]
     [Range(1, 10)]
     [Tooltip("This variable will decide how many seconds will take before the next bullet will shoot")]
     [SerializeField]
     float myTimeInBetweenShots = 2;
     float myTimerInBetweenshots = 0;
-    [Range(10, 60)]
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
-    float myDistanceToActivate = 20;
-
+    float myDistanceToActivate;
+    [SerializeField]
+    float bulletLifeTime = 10;
     [Header("References")]
     [SerializeField]
     BulletManager myBulletManager;
     [SerializeField]
     GameManager myGameManager;
+    [Header("Particles")]
+    [SerializeField]
+    ParticleSystem myShootEffect;
+    [Header("SOUND")]
+    [SerializeField]
+    private AudioClip myShootClip;
+    [SerializeField]
+    private float myShootVolume = 1;
 
 
     void OnValidate()
@@ -40,15 +51,31 @@ public class WeaponScript : MonoBehaviour
     {
         if (CheckPlayerDistance())
         {
-          Shoot();
+            Shoot();
         }
     }
+
 
     void Shoot()
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
-            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage);
+            AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
+            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
+
+            if (Mathf.Abs( transform.rotation.eulerAngles.y) > 180) 
+            {
+                myShootEffect.transform.position = transform.position;
+                myShootEffect.transform.rotation = Quaternion.Euler(0,0,0);
+                myShootEffect.Play();
+            }
+            else
+            {
+
+                myShootEffect.transform.position = transform.position;
+                myShootEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
+                myShootEffect.Play();
+            }
             myTimerInBetweenshots = 0;
         }
         else
