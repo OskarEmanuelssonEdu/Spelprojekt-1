@@ -78,7 +78,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     AudioMixer myAudioMixer;
     //TODO Fix a audiomixer to be able to control maaster volume in game.
-    
+    [SerializeField]
     private AudioClip myClickSound;
 
     private void Start()
