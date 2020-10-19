@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float myCountDownTime = 3;
     float myCountDownTimer = 0;
-   
+
     [Header("Level Compelet Screen Settings")]
     [SerializeField]
     GameObject myLevelCompleteScreen;
@@ -19,8 +19,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
+    [SerializeField]
+    TextMeshProUGUI myCountDownText;
 
-    
+
     [SerializeField]
     ScoreManager myScoreManager;
     [SerializeField]
@@ -72,10 +74,21 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
+            if (myCountDownText != null)
+            {
+                myCountDownText.text = "Go!";
+            }
+
         }
         else
         {
-            myCountDownTimer += Time.deltaTime;
+            if (myCountDownText != null)
+            {
+                myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
+            }
+
+            Time.timeScale = 0;
+            myCountDownTimer += Time.unscaledDeltaTime;
         }
     }
     public void LevelComplete()
@@ -91,7 +104,7 @@ public class GameManager : MonoBehaviour
     {
         myLevelManager.ResetLevel();
         myCamera.ResetCameraPosition();
-        AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip,1);
+        AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip, 1);
         myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
         if (myGameOverScreen != null)
@@ -108,19 +121,38 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
+        Time.timeScale = 1;
+
+        if (myCountDownTimer < myCountDownTime + 1)
+        {
+            myCountDownTimer += Time.unscaledDeltaTime;
+        
+        }
+        else
+        {
+            if (myCountDownText != null)
+            {
+                myCountDownText.gameObject.SetActive(false);
+            }
+
+
+        }
+
         if (myScoreManager != null)
         {
             myScoreManager.StartCounter = true;
         }
 
+
+
     }
     public void ResetGame()
     {
-        
+
         myLevelManager.ResetLevel();
         myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
         myScoreManager.ResetTimer();
-        if (myGameOverScreen != null )
+        if (myGameOverScreen != null)
         {
             myGameOverScreen.SetActive(false);
 

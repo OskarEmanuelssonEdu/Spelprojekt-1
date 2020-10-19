@@ -32,6 +32,9 @@ public class WeaponScript : MonoBehaviour
     BulletManager myBulletManager;
     [SerializeField]
     GameManager myGameManager;
+    [Header("Particles")]
+    [SerializeField]
+    ParticleSystem myShootEffect;
     [Header("SOUND")]
     [SerializeField]
     private AudioClip myShootClip;
@@ -48,7 +51,7 @@ public class WeaponScript : MonoBehaviour
     {
         if (CheckPlayerDistance())
         {
-          Shoot();
+            Shoot();
         }
     }
 
@@ -59,6 +62,20 @@ public class WeaponScript : MonoBehaviour
         {
             AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
             myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
+
+            if (Mathf.Abs( transform.rotation.eulerAngles.y) > 180) 
+            {
+                myShootEffect.transform.position = transform.position;
+                myShootEffect.transform.rotation = Quaternion.Euler(0,0,0);
+                myShootEffect.Play();
+            }
+            else
+            {
+
+                myShootEffect.transform.position = transform.position;
+                myShootEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
+                myShootEffect.Play();
+            }
             myTimerInBetweenshots = 0;
         }
         else

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class CheckPoint : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class CheckPoint : MonoBehaviour
     [Min(0)]
     private float myRange;
 
+    [SerializeField]
+    VisualEffect myCheckPointEffect;
     private bool myPlayerHasEnteredCheckpoint = false;
 
     private void OnValidate()
@@ -26,6 +29,7 @@ public class CheckPoint : MonoBehaviour
         myPlayer = FindObjectOfType<Player>();
         myLevelManager = FindObjectOfType<LevelManager>();
     }
+
 
     void Update()
     {
@@ -37,6 +41,8 @@ public class CheckPoint : MonoBehaviour
             && !myPlayerHasEnteredCheckpoint
         )
         {
+            myCheckPointEffect.transform.position = this.transform.position;
+            myCheckPointEffect.Play();
             myLevelManager.MyStartPosition = transform.position;
             myPlayerHasEnteredCheckpoint = true;
         }
