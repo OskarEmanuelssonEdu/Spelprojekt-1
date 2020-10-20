@@ -125,9 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myDamage: 1
-  myPlayer: {fileID: 0}
-  myPlayerMovement: {fileID: 0}
-  myName: Unnamed Lethal Object
+  myName: 
   myShowHitbox: 1
   myShowCollision: 0
   myLogCollision: 1
