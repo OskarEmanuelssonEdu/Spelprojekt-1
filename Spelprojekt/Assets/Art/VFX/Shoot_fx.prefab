@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141636330732114878}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.67, y: -0, z: 0.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8237865589702755258}
@@ -606,7 +606,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3630,10 +3630,10 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
-    type: 0
-    collisionMode: 0
+    type: 1
+    collisionMode: 1
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
@@ -4785,8 +4785,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cef631e261fa75142a8160d9a7325085, type: 2}
-  - {fileID: 2100000, guid: cef631e261fa75142a8160d9a7325085, type: 2}
+  - {fileID: 2100000, guid: 7132fadb2c94fb34894b4bb20c7c6993, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9615,8 +9615,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7457de82ca80604794b15569104ca35, type: 2}
-  - {fileID: 2100000, guid: f7457de82ca80604794b15569104ca35, type: 2}
+  - {fileID: 2100000, guid: 6452a7e697e4c464c88d2a202d9fa46c, type: 2}
+  - {fileID: 2100000, guid: 6452a7e697e4c464c88d2a202d9fa46c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9672,7 +9672,7 @@ GameObject:
   - component: {fileID: 8237865589702755259}
   - component: {fileID: 8237865589702755256}
   m_Layer: 0
-  m_Name: Shoot fx
+  m_Name: Shoot_fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9685,7 +9685,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8237865589702755257}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -29.075, y: -9.706, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14447,8 +14447,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 50b4b3f5cb780d449ae5d43e2dbbb93f, type: 2}
-  - {fileID: 2100000, guid: 50b4b3f5cb780d449ae5d43e2dbbb93f, type: 2}
+  - {fileID: 2100000, guid: db048210a29be3c4e8e28e72d53d3fad, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
