@@ -29,8 +29,8 @@ public class WeaponScript : MonoBehaviour
     float bulletLifeTime = 10;
     [Header("Particles")]
     [SerializeField]
+    ParticleSystem myShootEffectPrefab;
     ParticleSystem myShootEffect;
-
     [Header("References")]
     [SerializeField]
     BulletManager myBulletManager;
@@ -42,7 +42,11 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     private float myShootVolume = 1;
 
+    void Start()
+    {
+        myShootEffect = Instantiate(myShootEffectPrefab, transform.position, Quaternion.identity);
 
+    }
     void OnValidate()
     {
         myBulletManager = FindObjectOfType<BulletManager>();
@@ -62,7 +66,16 @@ public class WeaponScript : MonoBehaviour
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
             myShootEffect.transform.position = this.transform.position;
-            myShootEffect.transform.rotation = this.transform.rotation;
+            if (Mathf.Abs( transform.rotation.eulerAngles.y) < 180)
+            {
+                myShootEffect.transform.rotation = Quaternion.Euler(0,180,0);
+                myShootEffect.transform.position += new Vector3(1, 0, 0);
+            }
+            else
+            {
+                myShootEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
+                myShootEffect.transform.position += new Vector3(-1, 0, 0);
+            }
             myShootEffect.Play();
 
             AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
