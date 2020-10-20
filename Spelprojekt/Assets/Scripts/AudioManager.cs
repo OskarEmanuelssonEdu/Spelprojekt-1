@@ -65,8 +65,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     [Range(0, 1.0f)]
     private float myMaxSlidingVolume = 1f;
- 
-    private void Start()
+    private void Awake()
     {
         //Make sure we dont destroy this instance
         DontDestroyOnLoad(this.gameObject);
@@ -87,6 +86,10 @@ public class AudioManager : MonoBehaviour
       
         mySlidingSoundSource.loop = true;
         mySlidingSoundSource.clip = mySlidingSound;
+
+    }
+    private void Start()
+    {
         PlayMusic(myMusicClip);
     }
     public void PlayMusic(AudioClip aMusicClip)
