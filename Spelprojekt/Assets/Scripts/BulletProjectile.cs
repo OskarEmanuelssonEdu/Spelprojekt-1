@@ -14,6 +14,8 @@ public class BulletProjectile : MonoBehaviour
     public GameManager myGameManager;
     public Player myPlayer;
 
+    [SerializeField]
+    ParticleSystem myExplotionFx;
     float myLifeTimer = 0;
     public float myLifeTime = 10;
 
@@ -21,6 +23,7 @@ public class BulletProjectile : MonoBehaviour
     {
         if (myLifeTimer>= myLifeTime)
         {
+            myExplotionFx.Play();
             myBulletManager.ReturnBullet(this);
             myLifeTimer = 0;
         }
