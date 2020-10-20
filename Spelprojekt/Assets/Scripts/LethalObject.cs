@@ -104,7 +104,7 @@ public class LethalObject : MonoBehaviour
         {
             Gizmos.DrawWireCube(transform.position, transform.localScale);
         }
-        if (myShowCollision)
+        if (true)//myShowCollision)
         {
             Vector3 rectangleOneScale = transform.localScale,
                 rectangleTwoScale = myPlayer.transform.localScale,
