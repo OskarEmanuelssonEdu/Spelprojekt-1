@@ -27,6 +27,10 @@ public class WeaponScript : MonoBehaviour
     float myDistanceToActivate;
     [SerializeField]
     float bulletLifeTime = 10;
+    [Header("Particles")]
+    [SerializeField]
+    ParticleSystem myShootEffect;
+
     [Header("References")]
     [SerializeField]
     BulletManager myBulletManager;
@@ -57,6 +61,10 @@ public class WeaponScript : MonoBehaviour
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
+            myShootEffect.transform.position = this.transform.position;
+            myShootEffect.transform.rotation = this.transform.rotation;
+            myShootEffect.Play();
+
             AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
             myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
             myTimerInBetweenshots = 0;

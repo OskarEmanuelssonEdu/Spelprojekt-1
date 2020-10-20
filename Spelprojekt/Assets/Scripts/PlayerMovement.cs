@@ -75,6 +75,9 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 myColliderSize = new Vector3(1, 2, 1);
     Vector3 myCurrentColliderSize;
+
+    public Vector3 MyHitbox { get { return myCurrentColliderSize; } }
+
     Vector3 myCurrentColliderPosition;
 
 
