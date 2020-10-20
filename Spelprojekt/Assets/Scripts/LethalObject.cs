@@ -6,14 +6,8 @@ public class LethalObject : MonoBehaviour
 {
     public float myDamage;
 
-    [Header("Autofilled variables")]
-
-    [SerializeField]
-    [Tooltip("Autofilled")]
+  
     Player myPlayer;
-    [SerializeField]
-    [Tooltip("Autofilled")]
-    PlayerMovement myPlayerMovement;
 
     [Header("Debug Options")]
 
@@ -36,13 +30,20 @@ public class LethalObject : MonoBehaviour
 
     void OnValidate()
     {
+        myPlayer = FindObjectOfType<Player>();
+    }
+    private void OnEnable()
+    {
+        myPlayer = FindObjectOfType<Player>();
+    }
+    private void Start()
+    {
+        myPlayer = FindObjectOfType<Player>();
+
         if (myName == "")
         {
             myName = "Unnamed Lethal Object";
         }
-
-        myPlayer = FindObjectOfType<Player>();
-        myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     private void FixedUpdate()
