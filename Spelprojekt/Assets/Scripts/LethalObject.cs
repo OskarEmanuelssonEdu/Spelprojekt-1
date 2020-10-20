@@ -6,14 +6,8 @@ public class LethalObject : MonoBehaviour
 {
     public float myDamage;
 
-    [Header("Autofilled variables")]
-
-    [SerializeField]
-    [Tooltip("Autofilled")]
+  
     Player myPlayer;
-    [SerializeField]
-    [Tooltip("Autofilled")]
-    PlayerMovement myPlayerMovement;
 
     [Header("Debug Options")]
 
@@ -30,15 +24,25 @@ public class LethalObject : MonoBehaviour
     bool myLogCollision;
     bool myHasLoggedCollision;
 
+
+
+
     void OnValidate()
     {
+        myPlayer = FindObjectOfType<Player>();
+    }
+    private void OnEnable()
+    {
+        myPlayer = FindObjectOfType<Player>();
+    }
+    private void Start()
+    {
+        myPlayer = FindObjectOfType<Player>();
+
         if (myName == "")
         {
             myName = "Unnamed Lethal Object";
         }
-
-        myPlayer = FindObjectOfType<Player>();
-        myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     private void Update()
@@ -100,10 +104,10 @@ public class LethalObject : MonoBehaviour
         {
             Gizmos.DrawWireCube(transform.position, transform.localScale);
         }
-        if (myShowCollision)
+        if (true)//myShowCollision)
         {
             Vector3 rectangleOneScale = transform.localScale,
-                rectangleTwoScale = myPlayerMovement.MyHitbox,
+                rectangleTwoScale = myPlayer.transform.localScale,
                 rectangleOnePosition = transform.position,
                 rectangleTwoPosition = myPlayer.transform.position;
 
