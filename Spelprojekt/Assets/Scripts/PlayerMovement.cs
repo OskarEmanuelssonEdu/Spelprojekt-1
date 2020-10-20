@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     private float myMinRunningVolume = 0.3f;
     [SerializeField]
     private float myMaxRunningVolume = 1f;
-    [SerializeField]
     AudioSource myAudioSource;
 
 
@@ -124,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
         myAudioSource = GetComponent<AudioSource>();
-       // myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
+        myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
     public Vector3 CurrentSpeed
     {
@@ -554,8 +553,6 @@ public class PlayerMovement : MonoBehaviour
 
     void DoExitSlide()
     {
-        mySlideFx.Stop();
-
         modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
 
       
