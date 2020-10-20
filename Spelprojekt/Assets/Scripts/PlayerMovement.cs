@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         modelTransform = animator.transform;
         myAudioSource = GetComponent<AudioSource>();
-       // myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
+        // myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
     public Vector3 CurrentSpeed
     {
@@ -167,6 +167,16 @@ public class PlayerMovement : MonoBehaviour
         {
             myXDirection = -1;
         }
+
+        if (myIsSliding)
+        {
+            if(!Input.GetKey(mySlideKey) && !CheckEnoughRoom())
+            {
+                DoExitSlide();
+            }
+
+        }
+
 
 
 
@@ -439,7 +449,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                
+
 
                 ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
 
@@ -529,7 +539,7 @@ public class PlayerMovement : MonoBehaviour
 
     void DoEnterSlide()
     {
-      
+
 
         myIsSliding = true;
         myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
@@ -539,7 +549,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
+        //transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
         modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
 
 
@@ -554,18 +564,26 @@ public class PlayerMovement : MonoBehaviour
 
     void DoExitSlide()
     {
-        mySlideFx.Stop();
+        if (!CheckEnoughRoom())
+        {
 
-        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
 
-      
-        // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
-        transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
-        myIsSliding = false;
-        myCurrentColliderSize = myColliderSize;
-        myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
+            mySlideFx.Stop();
 
-        animator.SetBool("SlideBool", false);
+            modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
+
+
+            // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+            myIsSliding = false;
+            myCurrentColliderSize = myColliderSize;
+            myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
+
+            animator.SetBool("SlideBool", false);
+
+
+        }
+
     }
     void DoMoveAlongSlope(Vector3 someNormals)
     {
@@ -649,7 +667,21 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
     }
 
+    bool CheckEnoughRoom()
+    {
+        Vector3 startPos = transform.position - new Vector3(0, -myColliderSize.y / 2, 0);
 
+        if (Physics2D.BoxCast(startPos, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 1.1f, transform.localScale.z * 0.9f), 0, Vector3.up, myColliderSize.y, myLayerMask))
+        {
+
+            return true;
+        }
+        else
+        {
+
+            return false;
+        }
+    }
 
     void PlaySounds()
     {
