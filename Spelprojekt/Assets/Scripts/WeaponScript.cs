@@ -32,6 +32,10 @@ public class WeaponScript : MonoBehaviour
     BulletManager myBulletManager;
     [SerializeField]
     GameManager myGameManager;
+    
+    [SerializeField]
+    ParticleSystem myShootEffect;
+
     [Header("SOUND")]
     [SerializeField]
     private AudioClip myShootClip;
@@ -57,6 +61,8 @@ public class WeaponScript : MonoBehaviour
     {
         if (myTimerInBetweenshots >= myTimeInBetweenShots)
         {
+            myShootEffect.Play();
+
             AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
             myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
             myTimerInBetweenshots = 0;
