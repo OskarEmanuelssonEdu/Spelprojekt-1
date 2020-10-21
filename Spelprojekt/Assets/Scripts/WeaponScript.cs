@@ -44,7 +44,7 @@ public class WeaponScript : MonoBehaviour
         myBulletManager = FindObjectOfType<BulletManager>();
         myGameManager = FindObjectOfType<GameManager>();
     }
-    void Update()
+    void FixedUpdate()
     {
         if (CheckPlayerDistance())
         {
