@@ -270,6 +270,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
+       // Physics2D.BoxCastNonAlloc
         if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
         {
             myAnimator.SetTrigger("LandTrigger");
