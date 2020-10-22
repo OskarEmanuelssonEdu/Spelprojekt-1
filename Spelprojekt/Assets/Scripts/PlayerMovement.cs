@@ -97,6 +97,9 @@ public class PlayerMovement : MonoBehaviour
     ParticleSystem myJumpAndLandFx;
     [SerializeField]
     ParticleSystem mySlideFx;
+    [SerializeField]
+    ParticleSystem myEffectTrail;
+
 
     [Header("DO NOT TOUCH")]
     [SerializeField]
@@ -119,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float myTurnSpeed;
+    
 
     // getVelocity to change grapplehookboohyah.cs
     public Vector3 GetVeclocity()
@@ -165,6 +169,22 @@ public class PlayerMovement : MonoBehaviour
         Animate();
         myIsGrounded = CheckGround();
         GetInputs();
+
+        if (myCurrentVelocity.magnitude > 30)
+        {
+            if (!myEffectTrail.isPlaying)
+            {
+                myEffectTrail.Play();
+            }
+        }
+        else
+        {
+            if (myEffectTrail.isPlaying)
+            {
+                myEffectTrail.Stop();
+            }
+
+        }
 
         if (myCurrentVelocity.x > 0)
         {
@@ -337,7 +357,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
                 {
-                    print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                   // print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
                     transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
@@ -637,7 +657,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        print(someNormals);
+
 
 
         Debug.DrawRay(transform.position, someNormals, Color.red);

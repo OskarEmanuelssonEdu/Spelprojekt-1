@@ -1263,6 +1263,7 @@ MonoBehaviour:
   mySlideKey: 304
   myJumpAndLandFx: {fileID: 1447372876}
   mySlideFx: {fileID: 2762223216325919453}
+  myEffectTrail: {fileID: 6798293239984661350}
   myLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -1426,7 +1427,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3573941355867871269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1531,7 +1532,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3573941355867871269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79d93dba16f7e114fabb0ef08b2eaef7, type: 3}
   m_Name: 

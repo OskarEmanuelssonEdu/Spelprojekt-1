@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
         {
             myPlayerPosition = value;
             myCameraMovement.ChangeCameraResetPosition(value);
-            Debug.Log("New checkpoint!");
+          
         }
     }
 
