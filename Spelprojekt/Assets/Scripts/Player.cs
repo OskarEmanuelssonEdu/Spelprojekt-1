@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         
         if (myCurrentHealth <= 0)
         {
-            myGameManager.ResetGame();
+            myGameManager.ResetGame(false);
         
         }
     }
