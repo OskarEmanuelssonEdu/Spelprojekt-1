@@ -125,7 +125,8 @@ public class GrappleHookBoohyah : MonoBehaviour
             float grappleAngle= Vector2.SignedAngle(grappleDirection2D, Vector2.up);
 
             float currentDirection = Mathf.Sign(myPlayerMovement.GetVeclocity().x);
-            myAnimatedTransform.transform.rotation=Quaternion.Euler(grappleAngle * currentDirection, 90* currentDirection, 0);
+          
+            myAnimatedTransform.transform.rotation = Quaternion.Euler(grappleAngle * currentDirection, 90 * currentDirection, 0);
         }
 
     }

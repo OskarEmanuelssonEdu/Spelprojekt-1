@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Red
+  m_Name: TrailShader
   m_Shader: {fileID: -6465566751694194690, guid: 2eb2efcd13fba6e49858cadbcda5af6f,
     type: 3}
   m_ShaderKeywords: 
