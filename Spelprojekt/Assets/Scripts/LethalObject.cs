@@ -6,8 +6,14 @@ public class LethalObject : MonoBehaviour
 {
     public float myDamage;
 
-  
+    [Header("Autofilled variables")]
+
+    [SerializeField]
+    [Tooltip("Autofilled")]
     Player myPlayer;
+    [SerializeField]
+    [Tooltip("Autofilled")]
+    PlayerMovement myPlayerMovement;
 
     [Header("Debug Options")]
 
@@ -24,32 +30,29 @@ public class LethalObject : MonoBehaviour
     bool myLogCollision;
     bool myHasLoggedCollision;
 
-
-
+    // Used for collision prediction
+    Vector3 myPreviousPosition;
+    Vector3 myDeltaPosition;
 
     void OnValidate()
     {
-        myPlayer = FindObjectOfType<Player>();
-    }
-    private void OnEnable()
-    {
-        myPlayer = FindObjectOfType<Player>();
-    }
-    private void Start()
-    {
-        myPlayer = FindObjectOfType<Player>();
-
         if (myName == "")
         {
             myName = "Unnamed Lethal Object";
         }
+
+        myPlayer = FindObjectOfType<Player>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        myDeltaPosition = (myPreviousPosition - transform.position);
+        myPreviousPosition = transform.position;
+
         Vector3 rectangleOneScale = transform.localScale,
                 rectangleTwoScale = myPlayer.transform.localScale,
-                rectangleOnePosition = transform.position,
+                rectangleOnePosition = transform.position + myDeltaPosition,
                 rectangleTwoPosition = myPlayer.transform.position;
 
         // Calculate the sides of the rectangles in order to detect collision
@@ -106,10 +109,13 @@ public class LethalObject : MonoBehaviour
         }
         if (myShowCollision)
         {
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(transform.position, transform.position + myDeltaPosition);
+
             Vector3 rectangleOneScale = transform.localScale,
-                rectangleTwoScale = myPlayer.transform.localScale,
-                rectangleOnePosition = transform.position,
-                rectangleTwoPosition = myPlayer.transform.position;
+                    rectangleTwoScale = myPlayer.transform.localScale,
+                    rectangleOnePosition = transform.position + myDeltaPosition,
+                    rectangleTwoPosition = myPlayer.transform.position;
 
             // Calculate the sides of the rectangles in order to detect collision
             float rectangleOneRightSide = rectangleOnePosition.x - rectangleOneScale.x * .5f,
@@ -127,8 +133,8 @@ public class LethalObject : MonoBehaviour
             else
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(
-                new Vector3(rectangleOneLeftSide, transform.position.y - transform.localScale.y * .5f, transform.position.z),
-                new Vector3(rectangleOneLeftSide, transform.position.y + transform.localScale.y * .5f, transform.position.z));
+                new Vector3(rectangleOneLeftSide, rectangleOneBottomSide, transform.position.z),
+                new Vector3(rectangleOneLeftSide, rectangleOneTopSide, transform.position.z));
 
             Gizmos.color = Color.white;
             if (rectangleOneLeftSide > rectangleTwoRightSide)
@@ -136,8 +142,8 @@ public class LethalObject : MonoBehaviour
             else
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(
-                new Vector3(rectangleOneRightSide, transform.position.y - transform.localScale.y * .5f, transform.position.z),
-                new Vector3(rectangleOneRightSide, transform.position.y + transform.localScale.y * .5f, transform.position.z));
+                new Vector3(rectangleOneRightSide, rectangleOneBottomSide, transform.position.z),
+                new Vector3(rectangleOneRightSide, rectangleOneTopSide, transform.position.z));
 
             Gizmos.color = Color.white;
             if (rectangleOneBottomSide < rectangleTwoTopSide)
@@ -145,8 +151,8 @@ public class LethalObject : MonoBehaviour
             else
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(
-                new Vector3(transform.position.x - transform.localScale.x * .5f, rectangleOneTopSide, transform.position.z),
-                new Vector3(transform.position.x + transform.localScale.x * .5f, rectangleOneTopSide, transform.position.z));
+                new Vector3(rectangleOneRightSide, rectangleOneTopSide, transform.position.z),
+                new Vector3(rectangleOneLeftSide, rectangleOneTopSide, transform.position.z));
 
             Gizmos.color = Color.white;
             if (rectangleOneTopSide > rectangleTwoBottomSide)
@@ -154,8 +160,8 @@ public class LethalObject : MonoBehaviour
             else
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(
-                new Vector3(transform.position.x - transform.localScale.x * .5f, rectangleOneBottomSide, transform.position.z),
-                new Vector3(transform.position.x + transform.localScale.x * .5f, rectangleOneBottomSide, transform.position.z));
+                new Vector3(rectangleOneRightSide, rectangleOneBottomSide, transform.position.z),
+                new Vector3(rectangleOneLeftSide, rectangleOneBottomSide, transform.position.z));
         }
     }
 }
