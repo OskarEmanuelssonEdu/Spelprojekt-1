@@ -223,13 +223,13 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (Input.GetKeyDown(mySlideKey) || Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(mySlideKey) && !myIsSliding || Input.GetKeyDown(KeyCode.S) && !myIsSliding)
         {
 
             DoEnterSlide();
-
+             
         }
-        else if (Input.GetKeyUp(mySlideKey) || Input.GetKeyUp(KeyCode.S))
+        else if (Input.GetKeyUp(mySlideKey) && myIsSliding || Input.GetKeyUp(KeyCode.S) && myIsSliding)
         {
 
             DoExitSlide();
