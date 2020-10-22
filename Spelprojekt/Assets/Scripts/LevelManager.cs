@@ -113,7 +113,7 @@ public class LevelManager : MonoBehaviour
         myPlayerMovement.enabled = true;
         myGrappleHook.enabled = true;
         myCameraMovement.ResetCameraPosition();
-        myScoreManager.ResetTimer();
+        //myScoreManager.ResetTimer();
        // myCameraMovement.ResetCameraPosition();
     }
 }
