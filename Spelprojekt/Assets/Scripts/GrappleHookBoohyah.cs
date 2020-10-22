@@ -17,7 +17,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
 
     [Header("Projectile Settings")]
-    [SerializeField]   
+    [SerializeField]
     GrapplingProjectile myProjectilePrefab;
     GrapplingProjectile myProjectile;
     [SerializeField]
@@ -28,7 +28,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     [Range(10, 100)]
     [SerializeField]
     float myProjectileSpeed;
-    
+
     [Range(10, 100)]
     [Tooltip("Max distansen som pojektilen kommer att färdas (I UNITS)")]
     [SerializeField]
@@ -39,7 +39,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     Vector3 myGrapplePosition;
 
     [SerializeField]
-
+    float myMaxRopeLength;
 
     float myGrappleDistance;
 
@@ -98,11 +98,11 @@ public class GrappleHookBoohyah : MonoBehaviour
     void Update()
     {
         GetInputs();
-        
+
         Vector3 tempGrapplingPos = myProjectile.MoveProjectile(myMouseDirection, myProjectileSpeed, myGrappleLayer, myGrappleMaxDistance);
-        
-        if (tempGrapplingPos != Vector3.zero&& !myGrappling) 
-        {           
+
+        if (tempGrapplingPos != Vector3.zero && !myGrappling)
+        {
             myGrapplePosition = tempGrapplingPos;
             myGrappleDistance = (tempGrapplingPos - transform.position).magnitude + myGrappleStartSlack;
             myHitEffect.transform.position = myGrapplePosition;
@@ -112,7 +112,7 @@ public class GrappleHookBoohyah : MonoBehaviour
             myGrappling = true;
             AudioManager.ourPublicInstance.PlaySFX1(myGrappleHitSound, myGrappleHitSoundVolume);
         }
-        
+
     }
     private void FixedUpdate()
     {
@@ -124,7 +124,7 @@ public class GrappleHookBoohyah : MonoBehaviour
 
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
-    
+
 
     void GetInputs()
     {
@@ -133,62 +133,69 @@ public class GrappleHookBoohyah : MonoBehaviour
             AudioManager.ourPublicInstance.PlaySFX1(myGrappleShootSound, myGrappleShootSoundVolume);
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
-            
+
             myMousePosition = myOrtograpicCamera.ScreenToWorldPoint(Input.mousePosition);
             myMouseDirection = new Vector3(myMousePosition.x, myMousePosition.y, 0) - transform.position;
-          
-           
+
+
         }
         else if (Input.GetKeyUp(myGrappleKey))
         {
             myLineRenderer.gameObject.SetActive(false);
             myGrappling = false;
-            
+
         }
     }
-  
+
     void Grapple()
     {
-
-
-        if (myGrappling)
+        print((myPlayerMovement.transform.position - myGrapplePosition).magnitude);
+        if ((myPlayerMovement.transform.position - myGrapplePosition).magnitude < myGrappleMaxDistance)
         {
             
-            
-            animator.SetBool("isGrappling", true);
-            myLineRenderer.enabled = true;
-            myLineRenderer.SetPosition(0, myShootPosition.position + myPlayerMovement.CurrentSpeed * Time.fixedDeltaTime);
-            myLineRenderer.SetPosition(1, myGrapplePosition);
 
 
-            if ((myPlayerMovement.transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
+
+            if (myGrappling)
             {
 
 
-               
-                myPlayerMovement.CurrentSpeed = Vector3.Lerp(myPlayerMovement.CurrentSpeed, Vector3.Project(myPlayerMovement.CurrentSpeed, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
-                myPlayerMovement.CurrentSpeed += ((myGrapplePosition - transform.position).normalized/* * myGrappleDistance*/) * Mathf.Pow(myRopeStrength, Mathf.Abs((myGrappleDistance - (myGrapplePosition - myPlayerMovement.transform.position).magnitude)) * Time.fixedDeltaTime);
-                myPlayerMovement.CurrentSpeed += myPlayerMovement.CurrentSpeed.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
 
-                //print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
+
+                animator.SetBool("isGrappling", true);
+                myLineRenderer.enabled = true;
+                myLineRenderer.SetPosition(0, myShootPosition.position + myPlayerMovement.CurrentSpeed * Time.fixedDeltaTime);
+                myLineRenderer.SetPosition(1, myGrapplePosition);
+
+
+                if ((myPlayerMovement.transform.position - myGrapplePosition).magnitude >= myGrappleDistance)
+                {
+
+
+
+                    myPlayerMovement.CurrentSpeed = Vector3.Lerp(myPlayerMovement.CurrentSpeed, Vector3.Project(myPlayerMovement.CurrentSpeed, Quaternion.Euler(0, 0, 90) * ((myGrapplePosition - transform.position).normalized)), mySwingCorrection);
+                    myPlayerMovement.CurrentSpeed += ((myGrapplePosition - transform.position).normalized/* * myGrappleDistance*/) * Mathf.Pow(myRopeStrength, Mathf.Abs((myGrappleDistance - (myGrapplePosition - myPlayerMovement.transform.position).magnitude)) * Time.fixedDeltaTime);
+                    myPlayerMovement.CurrentSpeed += myPlayerMovement.CurrentSpeed.normalized * myGrappleSpeedIncrease * Time.fixedDeltaTime;
+
+                    //print((myGrappleDistance - (myPlayerMovement.transform.position - myGrapplePosition).magnitude));
+                }
+
+
+
+
+                Debug.DrawRay(myGrapplePosition, ((myGrapplePosition - transform.position).normalized) * myGrappleDistance, Color.red);
+
+
+            }
+            else
+            {
+                animator.SetBool("isGrappling", false);
+
+                //myLineRenderer.enabled = false;
+
             }
 
-
-
-
-            Debug.DrawRay(myGrapplePosition, ((myGrapplePosition - transform.position).normalized) * myGrappleDistance, Color.red);
-            
-
         }
-        else
-        {
-            animator.SetBool("isGrappling", false);
-            
-            //myLineRenderer.enabled = false;
-
-        }
-
-
 
     }
     private void OnDrawGizmos()

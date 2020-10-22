@@ -109,4 +109,3 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   myLevelManager: {fileID: 0}
   myRange: 3
-  myCheckPointEffect: {fileID: 0}
