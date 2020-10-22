@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LethalObject : MonoBehaviour
 {
-    public float myDamage;
-
     [Header("Autofilled variables")]
 
     [SerializeField]
@@ -76,9 +74,9 @@ public class LethalObject : MonoBehaviour
             {
                 Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
                 myHasLoggedCollision = true;
-                AudioManager.ourPublicInstance.PlayLethalHit();
+                //AudioManager.ourPublicInstance.PlayLethalHit();
             }
-            myPlayer.TakeDamage(myDamage);
+            myPlayer.TakeDamage(myPlayer.myCurrentHealth);
             
         }
         else if (myHasLoggedCollision)
