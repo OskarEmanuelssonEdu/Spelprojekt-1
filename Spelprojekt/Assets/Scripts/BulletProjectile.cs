@@ -1,23 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 public class BulletProjectile : MonoBehaviour
 {
     public float myBulletSpeed;
     public float myBulletDamage;
-    public float myDamage;
+ 
+ 
+    [SerializeField]
+    LayerMask myLayerMask;
     public BulletManager myBulletManager;
     public GameManager myGameManager;
+    public Player myPlayer;
 
+    [SerializeField]
+    ParticleSystem myExplotionFx;
+    float myLifeTimer = 0;
+    public float myLifeTime = 10;
 
-
-
-    void Update()
+    private void Update()
     {
-        
+        if (myLifeTimer>= myLifeTime)
+        {
+            myExplotionFx.Play();
+            myBulletManager.ReturnBullet(this);
+            myLifeTimer = 0;
+        }
+        else
+        {
+            myLifeTimer += Time.deltaTime;
+        }
+    }
+
+
+    private void FixedUpdate()
+    {
         Move();
- 
     }
 
     //Moves Bullet forward
@@ -27,17 +46,19 @@ public class BulletProjectile : MonoBehaviour
     }
 
     //Checks if bullet hits
-    private void CheckIfHit()
-    {
-        RaycastHit2D hits = Physics2D.Raycast(transform.position, -transform.right, myBulletSpeed*Time.deltaTime);
+    //private void CheckIfHit()
+    //{
+    //    RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,-transform.right, myBulletSpeed * Time.deltaTime , myLayerMask);
 
-        if (hits.collider.GetComponent<Player>() != null)
-        {
-            hits.collider.GetComponent<Player>().TakeDamage(myDamage);
-            myBulletManager.ReturnBullet(this);
-        }
 
-    }
+    //    if (hits.collider != null && hits.collider.gameObject.layer != 0)
+    //    {
+    //        myPlayer.TakeDamage(myBulletDamage);
+    //        myBulletManager.ReturnBullet(this);
+            
+    //    }
+
+    //}
 
 
 }

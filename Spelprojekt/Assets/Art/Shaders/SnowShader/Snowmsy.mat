@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Snowmsy
+  m_Shader: {fileID: -6465566751694194690, guid: b6026bd6e7ddc1847b3f9c20a6079a65,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_15C59CE7:
+        m_Texture: {fileID: 2800000, guid: cbb543c334bcf95438a6f75071968609, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_3CA4B94D:
+        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_6F182A64:
+        m_Texture: {fileID: 2800000, guid: 8bc30660190fa504098475d47477a519, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_A838C3A0:
+        m_Texture: {fileID: 2800000, guid: 8015aabdc566c3041b08df1a36d0c1af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_D43B7CE1:
+        m_Texture: {fileID: 2800000, guid: 8015aabdc566c3041b08df1a36d0c1af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_67374B9F_Out_0:
+        m_Texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_772FF885_Texture_1:
+        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_4BE4F5D7: 39.57
+    - Vector1_4FC1C0CC: 1
+    - Vector1_6319E607: -0.63
+    - Vector1_6F6282E2: 1.584
+    - Vector1_B12C9272: 8.22
+    - Vector1_DD5B8554: 1.25
+    m_Colors:
+    - Color_B37522E7: {r: 1, g: 1, b: 1, a: 1}
+    - Vector3_9136CD4E: {r: 0, g: 1, b: 0, a: 0}

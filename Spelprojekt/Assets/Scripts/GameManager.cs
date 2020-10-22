@@ -5,11 +5,12 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
     [Header("Countdown Before Game Begins")]
     [SerializeField]
     float myCountDownTime = 3;
     float myCountDownTimer = 0;
-   
+
     [Header("Level Compelet Screen Settings")]
     [SerializeField]
     GameObject myLevelCompleteScreen;
@@ -18,16 +19,42 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
+    [SerializeField]
+    TextMeshProUGUI myCountDownText;
 
-    [Header("Reference Settings")]
+
     [SerializeField]
     ScoreManager myScoreManager;
     [SerializeField]
+    PlayerMovement myPlayerMovement;
+    [SerializeField]
+    GrappleHookBoohyah myGrappleHook;
+    [SerializeField]
     Player myPlayer;
     Vector3 startPos;
+    [SerializeField]
+    NewCameraMovement myCamera;
+    [SerializeField]
+    LevelManager myLevelManager;
+
+    [Header("SOUND")]
+    [SerializeField]
+    private AudioClip myDeathSoundClip;
+    void OnValidate()
+    {
+        myPlayer = FindObjectOfType<Player>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
+        myScoreManager = FindObjectOfType<ScoreManager>();
+        myCamera = FindObjectOfType<NewCameraMovement>();
+        myLevelManager = FindObjectOfType<LevelManager>();
+
+    }
     void Start()
     {
-        startPos = myPlayer.transform.position;        
+        myGrappleHook.enabled = true;
+        myPlayerMovement.enabled = true;
+        startPos = myPlayer.transform.position;
     }
     void Update()
     {
@@ -38,7 +65,7 @@ public class GameManager : MonoBehaviour
         }
         if (myPlayer.myCurrentHealth <= 0)
         {
-            GameOver();
+            ResetGame();
         }
     }
     void CountDownToStart()
@@ -47,20 +74,44 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
+            if (myCountDownText != null)
+            {
+                myCountDownText.text = "Go!";
+            }
+
         }
         else
         {
-            myCountDownTimer += Time.deltaTime;
+            if (myCountDownText != null)
+            {
+                myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
+            }
+
+            Time.timeScale = 0;
+            myCountDownTimer += Time.unscaledDeltaTime;
         }
     }
-    void LevelComplete()
+    public void LevelComplete()
     {
+        myPlayer.transform.position = startPos;
+        myCamera.ResetCameraPosition();
+        myGrappleHook.enabled = false;
+        myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
     }
-    void GameOver()
+    public void GameOver()
     {
-        myGameOverScreen.SetActive(true);
+        myLevelManager.ResetLevel();
+        myCamera.ResetCameraPosition();
+        AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip, 1);
+        myGrappleHook.enabled = false;
+        myPlayerMovement.enabled = false;
+        if (myGameOverScreen != null)
+        {
+            myGameOverScreen.SetActive(true);
+
+        }
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
 
     }
@@ -70,13 +121,50 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
-        myScoreManager.StartCounter = true;
+        Time.timeScale = 1;
+
+        if (myCountDownTimer < myCountDownTime + 1)
+        {
+            myCountDownTimer += Time.unscaledDeltaTime;
+        
+        }
+        else
+        {
+            if (myCountDownText != null)
+            {
+                myCountDownText.gameObject.SetActive(false);
+            }
+
+
+        }
+
+        if (myScoreManager != null)
+        {
+            myScoreManager.StartCounter = true;
+        }
+
+
 
     }
     public void ResetGame()
     {
-        myScoreManager.ResetTimer();
-        myPlayer.transform.position = startPos;
 
+        myLevelManager.ResetLevel();
+        myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
+        myScoreManager.ResetTimer();
+        if (myGameOverScreen != null)
+        {
+            myGameOverScreen.SetActive(false);
+
+        }
+        if (myGameOverScreen != null)
+        {
+            myLevelCompleteScreen.SetActive(false);
+        }
+
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

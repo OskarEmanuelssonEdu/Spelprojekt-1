@@ -6,14 +6,26 @@ public class BulletManager : MonoBehaviour
 {
     List<BulletProjectile> myActiveBullets;
     List<BulletProjectile> myPassiveBullets;
+    [Header("Bullet Settings")]
+    [Range(150,400)]
+    [SerializeField]
     int myBulletAmount = 100;
 
+    [Header("References")]
     [SerializeField]
     GameManager myGameManager;
     [SerializeField]
     BulletProjectile myBulletPrefab;
 
-    // Start is called before the first frame update
+    [SerializeField]
+    Player myPlayer;
+
+    private void OnValidate()
+    {
+        myGameManager = FindObjectOfType<GameManager>();
+        myPlayer = FindObjectOfType<Player>();
+    }
+ 
     void Start()
     {
         myActiveBullets = new List<BulletProjectile>(myBulletAmount);
@@ -21,15 +33,17 @@ public class BulletManager : MonoBehaviour
         InitializeBullets(myGameManager);
     }
 
-    //Vrf Ref till GameManageR?
     void InitializeBullets(GameManager aGameManager)
     {
         for (int bulletIndex = 0; bulletIndex < myBulletAmount; bulletIndex++)
         {
             BulletProjectile bullet = Instantiate(myBulletPrefab, Vector3.zero, Quaternion.identity, transform);
+            //Sätter refernser till bulleten
             bullet.myBulletManager = this;
-            myPassiveBullets.Add(bullet);
+            bullet.myPlayer = myPlayer;
             bullet.myGameManager = aGameManager;
+           
+            myPassiveBullets.Add(bullet);
             bullet.gameObject.SetActive(false);
         }
     }
@@ -49,14 +63,15 @@ public class BulletManager : MonoBehaviour
             myPassiveBullets[bulletIndex].gameObject.SetActive(false);
         }
     }
-    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage)
+    public void GetBullet(Vector2 aPosition, Quaternion aRotation, float aSpeed, float aDamage, float alifeTime, float aScale)
     {
         myPassiveBullets[myPassiveBullets.Count - 1].gameObject.SetActive(true);
         myPassiveBullets[myPassiveBullets.Count - 1].transform.position = aPosition;
         myPassiveBullets[myPassiveBullets.Count - 1].transform.rotation = aRotation;
+        myPassiveBullets[myPassiveBullets.Count - 1].transform.localScale = new Vector3(aScale, aScale, aScale);
         myPassiveBullets[myPassiveBullets.Count - 1].myBulletSpeed = aSpeed;
         myPassiveBullets[myPassiveBullets.Count - 1].myBulletDamage = aDamage;
-
+        myPassiveBullets[myPassiveBullets.Count - 1].myLifeTime = alifeTime;
         myActiveBullets.Add(myPassiveBullets[myPassiveBullets.Count - 1]);
         myPassiveBullets.RemoveAt(myPassiveBullets.Count - 1);
     }
