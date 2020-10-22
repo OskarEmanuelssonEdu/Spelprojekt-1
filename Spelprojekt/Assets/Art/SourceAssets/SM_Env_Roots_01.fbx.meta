@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7f9311acd66e4724b91d386d34fd9744
+guid: 6c31eb5fa5087f945bcd711288446604
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert8
-    second: {fileID: 2100000, guid: da289015c5610a04b938f2422cc95012, type: 2}
+      name: assetsLizzard3_Assets_GradientCastle
+    second: {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
