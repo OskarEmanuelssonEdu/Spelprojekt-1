@@ -119,6 +119,13 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float myTurnSpeed;
+
+    // getVelocity to change grapplehookboohyah.cs
+    public Vector3 GetVeclocity()
+    {
+        return myCurrentVelocity;
+    }
+
     private void OnValidate()
     {
         myAnimator = GetComponentInChildren<Animator>();
