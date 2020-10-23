@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01a7c823f948d444a4d38fc5112ed47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myDamage: 1
   myPlayer: {fileID: 0}
   myPlayerMovement: {fileID: 0}
   myName: Unnamed Lethal Object
