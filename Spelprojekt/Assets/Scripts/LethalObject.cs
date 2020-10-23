@@ -83,7 +83,7 @@ public class LethalObject : MonoBehaviour
         {
             if (myLogCollision && !myHasLoggedCollision)
             {
-                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                //Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
                 myHasLoggedCollision = true;
                 //AudioManager.ourPublicInstance.PlayLethalHit();
             }
@@ -96,7 +96,7 @@ public class LethalObject : MonoBehaviour
         
             if (myLogCollision && !myHasLoggedCollision)
             {
-                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                //Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
                 myHasLoggedCollision = true;
             }
             //myPlayer.TakeDamage(myDamage * Time.deltaTime);
@@ -104,7 +104,7 @@ public class LethalObject : MonoBehaviour
         else if (myHasLoggedCollision)
         {
             
-            Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+            //Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             myHasLoggedCollision = false;
         }
     }
