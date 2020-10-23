@@ -45,6 +45,7 @@ public class ObjectFalling : MonoBehaviour
         transform.position = myStartPosition;
         transform.rotation = myStartRotation;
         transform.localScale = myStartScale;
+        myRunFalling = false;
     }
     bool myRunFalling = false; 
     void FixedUpdate()
