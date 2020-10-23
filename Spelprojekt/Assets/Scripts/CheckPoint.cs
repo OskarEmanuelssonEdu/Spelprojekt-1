@@ -24,6 +24,9 @@ public class CheckPoint : MonoBehaviour
     VisualEffect myCheckPointEffect;
     private bool myPlayerHasEnteredCheckpoint = false;
 
+    [SerializeField]
+    Material myMaterial;
+
     private void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -45,6 +48,7 @@ public class CheckPoint : MonoBehaviour
             myCheckPointEffect.Play();
             myLevelManager.MyStartPosition = transform.position;
             myPlayerHasEnteredCheckpoint = true;
+            this.GetComponent<MeshRenderer>().material = myMaterial;
         }
     }
 
