@@ -213,4 +213,10 @@ public class GrappleHookBoohyah : MonoBehaviour
         Gizmos.DrawWireSphere(myShootPosition.position, myGrappleMaxDistance);
 
     }
+    public void BreakHook()
+    {
+        myGrappling = false;
+
+    }
+
 }

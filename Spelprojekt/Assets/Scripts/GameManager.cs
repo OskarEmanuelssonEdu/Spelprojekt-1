@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame(bool aResetTimer)
     {
-
+        myGrappleHook.BreakHook();
         myLevelManager.ResetLevel();
         myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
         if (aResetTimer)
