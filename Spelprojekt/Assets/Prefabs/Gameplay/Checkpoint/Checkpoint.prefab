@@ -106,6 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577cf6a4fc8cf4a48b41f8a9c9ff5098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCheckpointSound: {fileID: 8300000, guid: b0d906ba16e883340bca26fe4ce36a0c, type: 3}
+  myCheckpointVolume: 0.03
   myPlayer: {fileID: 0}
   myLevelManager: {fileID: 0}
   myRange: 3

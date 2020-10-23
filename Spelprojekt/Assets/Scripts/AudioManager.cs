@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -44,12 +46,19 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private AudioListener myAudioListener;
+    [SerializeField]
+    [Range(0f,1f)]
+    private float myMasterVolume = 1;
+
+    [SerializeField]
+    [Range(0f, 1f)]
     private float myMinMusicVolume = 0.3f;
     [SerializeField]
+    [Range(0f, 1f)]
     private float myMaxMusicVolume = 1f;
     [SerializeField]
-    private float myMinRunningVolume = 0.3f;
-    [SerializeField]
+    [Range(0f,1f)]
     private float myMaxRunningVolume = 1f;
     [SerializeField]
     private float myMaxReverbDryLevel = 0f;
@@ -57,14 +66,31 @@ public class AudioManager : MonoBehaviour
     private float myMinReverbDryLevel = -1000f;
 
     [SerializeField]
-    private AudioClip myMusicClip;
+    private AudioClip myLevel1MusicClip;
+    [SerializeField]
+    private AudioClip myLevel2MusicClip;
+    [SerializeField]
+    private AudioClip myLevel3MusicClip;
     [SerializeField]
     private AudioClip mySlidingSound;
     [SerializeField]
-    private AudioClip myLethalAudioClip;
+    private AudioClip []myLethalAudioClips;
+    [SerializeField]
+    [Range(0f,1f)]
+    private float myLethalAudioVolume;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myMaxSlidingVolume = 1f;
+
+    [SerializeField]
+    AudioMixer myAudioMixer;
+    //TODO Fix a audiomixer to be able to control maaster volume in game.
+    [SerializeField]
+    private AudioClip myClickSound;
+
+
+    
+   
     private void Awake()
     {
         //Make sure we dont destroy this instance
@@ -73,8 +99,8 @@ public class AudioManager : MonoBehaviour
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
         mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
         mySlidingSoundSource = gameObject.AddComponent<AudioSource>();
-      
-
+        myAudioListener = this.gameObject.GetComponent<AudioListener>();
+        myAudioMixer = FindObjectOfType<AudioMixer>();
         //Music will keep playing even if game is paused
         myMusicSource.ignoreListenerPause = true;
         myMusicSource2.ignoreListenerPause = true;
@@ -87,10 +113,16 @@ public class AudioManager : MonoBehaviour
         mySlidingSoundSource.loop = true;
         mySlidingSoundSource.clip = mySlidingSound;
 
+
     }
     private void Start()
     {
-        PlayMusic(myMusicClip);
+        PlayMusic(myLevel1MusicClip);
+    }
+
+    private void Update()
+    {
+        AudioListener.volume = myMasterVolume;
     }
     public void PlayMusic(AudioClip aMusicClip)
     {
@@ -120,6 +152,45 @@ public class AudioManager : MonoBehaviour
         newSource.clip = aMusicClip;
         newSource.Play();
         StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, aTransitionTime));
+    }
+    public void PlayLevel1Music()
+    {
+        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
+        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
+
+        //Swap the source
+        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
+
+        // Set the fields of the audio source, then start the coroutine to crossfade
+        newSource.clip = myLevel1MusicClip;
+        newSource.Play();
+        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
+    }
+    public void PlayLevel2Music()
+    {
+        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
+        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
+
+        //Swap the source
+        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
+
+        // Set the fields of the audio source, then start the coroutine to crossfade
+        newSource.clip = myLevel2MusicClip;
+        newSource.Play();
+        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
+    }
+    public void PlayLevel3Music()
+    {
+        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
+        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
+
+        //Swap the source
+        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
+
+        // Set the fields of the audio source, then start the coroutine to crossfade
+        newSource.clip = myLevel3MusicClip;
+        newSource.Play();
+        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
     }
     private IEnumerator UpdateMusicWithFade(AudioSource anActiveSouce, AudioClip aNewClip, float aTransitionTime)
     {
@@ -201,6 +272,10 @@ public class AudioManager : MonoBehaviour
         }
         anOriginal.Stop();
     }
+    public void SetMasterVolume(float aVolume)
+    {
+        myMasterVolume = aVolume;
+    }
   
     public void PlaySFX1(AudioClip aClip, float aVolume)
     {
@@ -210,51 +285,15 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource2.PlayOneShot(aClip, aVolume);
     }
+    public void PlayClickSound()
+    {
+        mySfxSource1.PlayOneShot(myClickSound);
+    }
     public void PlayLethalHit()
     {
-        mySfxSource1.PlayOneShot(myLethalAudioClip);
+        mySfxSource1.PlayOneShot(myLethalAudioClips[Random.Range(0,myLethalAudioClips.Length)],myLethalAudioVolume);
     }
-    //public void PlayRunningSound()
-    //{
 
-    //    if (!myRunningSoundSource.isPlaying)
-    //    {
-    //        myRunningSoundSource.Play();
-    //    }
-    //    if (myRunningSoundSource.isPlaying)
-    //    {
-    //        Debug.Log("Playing running sound");
-    //    }
-
-
-
-    //    myRunningSoundSource.volume += Time.deltaTime;
-
-
-    //    if (myRunningSoundSource.volume > myMaxRunningVolume)
-    //    {
-    //        myRunningSoundSource.volume = myMaxRunningVolume;
-    //    }
-    //}
-    //public void StopRunningSound()
-    //{
-
-    //    myRunningSoundSource.volume -= Time.deltaTime;
-    //    if (myRunningSoundSource.volume == 0)
-    //    {
-    //        myRunningSoundSource.Stop();
-    //    }
-    //}
-    public void PlayGrappleSound(AudioClip aShootClip)
-    {
-       
-    }
-    public void StopGrappleHitSound()
-    {
-
-        
-        
-    }
     public void PlaySlidingSound()
     {
         mySlidingSoundSource.loop = true;

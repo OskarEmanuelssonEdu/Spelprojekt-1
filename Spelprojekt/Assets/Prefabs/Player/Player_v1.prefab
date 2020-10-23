@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 90427244}
   - component: {fileID: 90427243}
-  - component: {fileID: 90427242}
   - component: {fileID: 90427245}
   - component: {fileID: 90427246}
   m_Layer: 0
@@ -78,14 +77,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &90427242
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90427241}
-  m_Enabled: 0
 --- !u!114 &90427245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,16 +1231,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727af76fbb23aba44a5efc4ddb0839ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myJumpSound1: {fileID: 8300000, guid: 5c8d02d6a9941c543a9732afc9224fe8, type: 3}
-  myJumpSound2: {fileID: 8300000, guid: 4208612f75f1fa3408b6f9208453b501, type: 3}
-  myJumpSoundVolume: 0.608
-  myMinRunningVolume: 0
+  myJumpSounds:
+  - {fileID: 8300000, guid: 7eb2f51b944ce624f8971a6307868c62, type: 3}
+  - {fileID: 8300000, guid: cbbfbdfd4e4b5bb41bb2127023c7a83b, type: 3}
+  - {fileID: 8300000, guid: 04f8a6517260e2f428fd4a47337d7be1, type: 3}
+  - {fileID: 8300000, guid: 4d03067c8baac9c4099239406e2c8044, type: 3}
+  - {fileID: 8300000, guid: 60d50dbcbeb1d7442adb3b47af2d6f6b, type: 3}
+  - {fileID: 8300000, guid: 2ef899b96b39ab64887c81d2d419b8c1, type: 3}
+  myJumpSoundVolume: 0.383
+  myLandSound: {fileID: 8300000, guid: 415df953b21db2f47ad23a5f071dfdcc, type: 3}
+  myLandVolume: 0.108
   myMaxRunningVolume: 0.3
   myMaxSpeed: 25
   myAcceleration: 0.25
   myDecceleration: 0.1
   myFriction: 0.4
-  mySlidingFrictionFraction: 0.3
+  mySlidingFrictionFraction: 0
   myAirControlFraction: 0.169
   mySlideControlFraction: 0.176
   mySlideDownwardsSpeed: 0
@@ -1284,10 +1281,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eadf28be0c20284298e2db7d6e2afdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myGrappleShootSound: {fileID: 8300000, guid: 5cd0c1845b7fde84cb3f282d503aa50e, type: 3}
-  myGrappleShootSoundVolume: 1
-  myGrappleHitSound: {fileID: 8300000, guid: eed4651dd8d813f43b38806a027bc142, type: 3}
-  myGrappleHitSoundVolume: 1
+  myGrappleShootSounds:
+  - {fileID: 8300000, guid: 5b337402589462a41ad886e06ef06509, type: 3}
+  - {fileID: 8300000, guid: dff8ac3482a2c8840ad0dcc2cb264cbf, type: 3}
+  - {fileID: 8300000, guid: 2a62c3a9e2ff1e544ad0d34e23380587, type: 3}
+  myGrappleShootSoundVolume: 0.162
+  myGrappleHitSound: {fileID: 8300000, guid: 76458fb462e8d7d47a3bdb27efb6f7bf, type: 3}
+  myGrappleHitSoundVolume: 0.103
   myProjectilePrefab: {fileID: 3779059131566209103, guid: 7c605d0e32511dc458e3beea8208c2bb,
     type: 3}
   myShootPosition: {fileID: 5271244468322379942}
@@ -1333,7 +1333,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9e1ad1cfe14f2c84e89cdac9469b2497, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 07bc0dcd2f7042c4ba8223c6934251fd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7133,15 +7133,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b81edd6db4249d54bbdb09466edf457c, type: 3}
---- !u!4 &1447372877 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3285396755095359532, guid: b81edd6db4249d54bbdb09466edf457c,
-    type: 3}
-  m_PrefabInstance: {fileID: 3285396756407990369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &1447372876 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3285396755095359533, guid: b81edd6db4249d54bbdb09466edf457c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3285396756407990369}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1447372877 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3285396755095359532, guid: b81edd6db4249d54bbdb09466edf457c,
     type: 3}
   m_PrefabInstance: {fileID: 3285396756407990369}
   m_PrefabAsset: {fileID: 0}
@@ -7214,15 +7214,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d91a5a2c1f25c4d4197c20319c69351a, type: 3}
---- !u!4 &2762223216325919452 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5160215060837998021, guid: d91a5a2c1f25c4d4197c20319c69351a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7046346862352080665}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &2762223216325919453 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5160215060837998020, guid: d91a5a2c1f25c4d4197c20319c69351a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7046346862352080665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2762223216325919452 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5160215060837998021, guid: d91a5a2c1f25c4d4197c20319c69351a,
     type: 3}
   m_PrefabInstance: {fileID: 7046346862352080665}
   m_PrefabAsset: {fileID: 0}

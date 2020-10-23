@@ -43,6 +43,7 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     private AudioClip myShootClip;
     [SerializeField]
+    [Range(0f,1f)]
     private float myShootVolume = 1;
 
 

@@ -4,6 +4,10 @@ using UnityEngine;
  
 public class BulletProjectile : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myBulletDestroySound;
+    [SerializeField]
+    private float myBulletDestroyVolume;
     public float myBulletSpeed;
     public float myBulletDamage;
  
@@ -21,6 +25,7 @@ public class BulletProjectile : MonoBehaviour
     {
         if (myLifeTimer>= myLifeTime)
         {
+            AudioManager.ourPublicInstance.PlaySFX1(myBulletDestroySound, myBulletDestroyVolume);
             myBulletManager.ReturnBullet(this);
             myLifeTimer = 0;
         }

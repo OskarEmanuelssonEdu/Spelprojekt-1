@@ -88,7 +88,12 @@ public class LethalObject : MonoBehaviour
                 //AudioManager.ourPublicInstance.PlayLethalHit();
             }
             myPlayer.TakeDamage(myPlayer.myCurrentHealth);
-            
+            if (!myHasLoggedCollision)
+            {
+                AudioManager.ourPublicInstance.PlayLethalHit();
+
+            }
+
         }
         else if (myHasLoggedCollision)
         {
