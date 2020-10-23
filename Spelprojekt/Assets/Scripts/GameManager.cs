@@ -133,7 +133,10 @@ public class GameManager : MonoBehaviour
         {
             if (myCountDownText != null)
             {
-                myCountDownText.gameObject.SetActive(false);
+                for (int i = 0; i < myCountDownText.Length; i++)
+                {
+                    myCountDownText[i].gameObject.SetActive(false);
+                }
             }
 
 
