@@ -72,6 +72,8 @@ public class GrappleHookBoohyah : MonoBehaviour
     LineRenderer myLineRenderer;
     [SerializeField]
     Animator animator;
+    [SerializeField]
+    Transform myAnimatedTransform;
 
     [SerializeField]
     KeyCode myGrappleKey = KeyCode.Mouse0;
@@ -111,8 +113,22 @@ public class GrappleHookBoohyah : MonoBehaviour
 
             myGrappling = true;
             AudioManager.ourPublicInstance.PlaySFX1(myGrappleHitSound, myGrappleHitSoundVolume);
+
+
         }
         
+        // rotate player when it swinging.
+        if (myGrappling)
+        {
+            Vector3 grappleDirection= myGrapplePosition - transform.position;
+            Vector2 grappleDirection2D = new Vector2(grappleDirection.x, grappleDirection.y);
+            float grappleAngle= Vector2.SignedAngle(grappleDirection2D, Vector2.up);
+
+            float currentDirection = Mathf.Sign(myPlayerMovement.GetVeclocity().x);
+          
+            myAnimatedTransform.transform.rotation = Quaternion.Euler(grappleAngle * currentDirection, 90 * currentDirection, 0);
+        }
+
     }
     private void FixedUpdate()
     {
