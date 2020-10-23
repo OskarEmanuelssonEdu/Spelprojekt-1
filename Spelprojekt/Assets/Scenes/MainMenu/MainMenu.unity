@@ -182,7 +182,7 @@ MonoBehaviour:
   myEaseFunction: 27
   myAnimateFrom: 5
   myAnimateTo: 4
-  myTime: 1
+  myTime: 1.25
 --- !u!114 &172853707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   myEaseFunction: 7
   myAnimateFrom: 4
   myAnimateTo: 3
-  myTime: 1
+  myTime: 0.75
 --- !u!1 &175946511
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   myEaseFunction: 27
   myAnimateFrom: 1
   myAnimateTo: 4
-  myTime: 1
+  myTime: 1.25
 --- !u!114 &175946514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2170,7 +2170,7 @@ MonoBehaviour:
   myEaseFunction: 7
   myAnimateFrom: 4
   myAnimateTo: 1
-  myTime: 1
+  myTime: 0.75
 --- !u!114 &1447334555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2208,7 +2208,7 @@ MonoBehaviour:
   myEaseFunction: 27
   myAnimateFrom: 5
   myAnimateTo: 4
-  myTime: 1
+  myTime: 1.25
 --- !u!114 &1447334557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,7 +2227,7 @@ MonoBehaviour:
   myEaseFunction: 7
   myAnimateFrom: 4
   myAnimateTo: 3
-  myTime: 1
+  myTime: 0.75
 --- !u!114 &1447334558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2246,7 +2246,7 @@ MonoBehaviour:
   myEaseFunction: 27
   myAnimateFrom: 3
   myAnimateTo: 4
-  myTime: 1
+  myTime: 1.25
 --- !u!114 &1447334559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2265,7 +2265,7 @@ MonoBehaviour:
   myEaseFunction: 7
   myAnimateFrom: 4
   myAnimateTo: 5
-  myTime: 1
+  myTime: 0.75
 --- !u!1 &1454797621
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,10 +3587,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1600, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
