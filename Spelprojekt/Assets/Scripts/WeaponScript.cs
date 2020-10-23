@@ -25,6 +25,9 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
     float myDistanceToActivate;
+    [Tooltip("Changes the distance to activate in Y-axis")]
+    [SerializeField]
+    float myHeightTreshold;
     [SerializeField]
     float bulletLifeTime = 10;
     [Header("References")]
@@ -50,36 +53,47 @@ public class WeaponScript : MonoBehaviour
     }
     void FixedUpdate()
     {
+
         if (CheckPlayerDistance())
+        {  
+            Shoot();
+        }
+        else
         {
-          Shoot();
+            myTimerInBetweenshots = 0;
         }
     }
 
 
     void Shoot()
     {
-        if (myTimerInBetweenshots >= myTimeInBetweenShots)
-        {
-            myShootEffect.Play();
+            if (myTimerInBetweenshots >= myTimeInBetweenShots)
+            {
+                myShootEffect.Play();
 
-            AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
-            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
-            myTimerInBetweenshots = 0;
-        }
-        else
-        {
-            myTimerInBetweenshots = myTimerInBetweenshots + Time.deltaTime;
-        }
+                AudioManager.ourPublicInstance.PlaySFX1(myShootClip, myShootVolume);
+                myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
+                myTimerInBetweenshots = 0;
+            }
+            else
+            {
+                myTimerInBetweenshots = myTimerInBetweenshots + Time.deltaTime;
+            }
     }
+
 
     bool CheckPlayerDistance()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, myGameManager.PlayerPosition());
+
         if (distanceToPlayer < myDistanceToActivate)
         {
-            return true;
+            if (Mathf.Abs(myGameManager.PlayerPosition().y - transform.position.y) < myHeightTreshold)
+            {
+                return true;
+            }
         }
+
         return false;
     }
 }
