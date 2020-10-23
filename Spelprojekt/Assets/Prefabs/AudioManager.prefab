@@ -44,19 +44,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5493e35571f8162408763fa10c8f2ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myMinMusicVolume: 0.2
-  myMaxMusicVolume: 0.8
-  myMinRunningVolume: 0.3
-  myMaxRunningVolume: 1
+  myMasterVolume: 1
+  myMinMusicVolume: 0.1
+  myMaxMusicVolume: 0.6
+  myMinRunningVolume: 0
+  myMaxRunningVolume: 0.8
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
-  myLevel1MusicClip: {fileID: 0}
+  myLevel1MusicClip: {fileID: 8300000, guid: 2f414befd329b1e48baa275b593c5f3f, type: 3}
   myLevel2MusicClip: {fileID: 0}
   myLevel3MusicClip: {fileID: 0}
-  mySlidingSound: {fileID: 8300000, guid: ffff0ff36724dc3439baa348fed5a155, type: 3}
-  myLethalAudioClip: {fileID: 8300000, guid: 0f05b8c1369ef3743ace6ba47a63363d, type: 3}
-  myMaxSlidingVolume: 1
-  myClickSound: {fileID: 8300000, guid: 0c157f8b470ef5b43a3ce313a3fa5390, type: 3}
+  mySlidingSound: {fileID: 8300000, guid: 55418b2ad06779049b3d37375a774920, type: 3}
+  myLethalAudioClips:
+  - {fileID: 8300000, guid: da3cc8c3bdd549743a0de4cf1e0b1c54, type: 3}
+  - {fileID: 8300000, guid: 0e44b33979552954ab4b53e0ff07f1b2, type: 3}
+  - {fileID: 8300000, guid: 3518e1c460332294c8954e25d0354593, type: 3}
+  - {fileID: 8300000, guid: 2d5f0ef64c0c388418d1fb796d0f73d1, type: 3}
+  myLethalAudioVolume: 0.131
+  myMaxSlidingVolume: 0.042
+  myAudioMixer: {fileID: 0}
+  myClickSound: {fileID: 8300000, guid: 884b6e8b43f278d40bcd577e64b14c26, type: 3}
 --- !u!81 &6285212864489501905
 AudioListener:
   m_ObjectHideFlags: 0

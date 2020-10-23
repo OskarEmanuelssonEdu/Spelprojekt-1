@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ObjectFalling : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myFallingSound;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myFallingVolume;
+
     private bool isGrounded;
     Vector3 velocity = new Vector3(0, 0, 0);
 
@@ -52,6 +58,10 @@ public class ObjectFalling : MonoBehaviour
     {
         if (CheckPlayerDistance())
         {
+            if (!myRunFalling)
+            {
+                AudioManager.ourPublicInstance.PlaySFX1(myFallingSound, myFallingVolume);
+            }
             myRunFalling = true;
 
         }

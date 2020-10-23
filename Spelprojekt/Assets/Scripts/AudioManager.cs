@@ -46,15 +46,19 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private AudioListener myAudioListener;
+    [SerializeField]
+    [Range(0f,1f)]
     private float myMasterVolume = 1;
 
     [SerializeField]
+    [Range(0f, 1f)]
     private float myMinMusicVolume = 0.3f;
     [SerializeField]
+    [Range(0f, 1f)]
     private float myMaxMusicVolume = 1f;
     [SerializeField]
-    private float myMinRunningVolume = 0.3f;
-    [SerializeField]
+    [Range(0f,1f)]
     private float myMaxRunningVolume = 1f;
     [SerializeField]
     private float myMaxReverbDryLevel = 0f;
@@ -70,7 +74,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip mySlidingSound;
     [SerializeField]
-    private AudioClip myLethalAudioClip;
+    private AudioClip []myLethalAudioClips;
+    [SerializeField]
+    [Range(0f,1f)]
+    private float myLethalAudioVolume;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myMaxSlidingVolume = 1f;
@@ -82,6 +89,8 @@ public class AudioManager : MonoBehaviour
     private AudioClip myClickSound;
 
 
+    
+   
     private void Awake()
     {
         //Make sure we dont destroy this instance
@@ -90,7 +99,7 @@ public class AudioManager : MonoBehaviour
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
         mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
         mySlidingSoundSource = gameObject.AddComponent<AudioSource>();
-
+        myAudioListener = this.gameObject.GetComponent<AudioListener>();
         myAudioMixer = FindObjectOfType<AudioMixer>();
         //Music will keep playing even if game is paused
         myMusicSource.ignoreListenerPause = true;
@@ -108,10 +117,13 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        PlayMusic(myMusicClip);
+        PlayMusic(myLevel1MusicClip);
     }
-  
-    
+
+    private void Update()
+    {
+        AudioListener.volume = myMasterVolume;
+    }
     public void PlayMusic(AudioClip aMusicClip)
     {
         //Determine which source is active
@@ -260,6 +272,10 @@ public class AudioManager : MonoBehaviour
         }
         anOriginal.Stop();
     }
+    public void SetMasterVolume(float aVolume)
+    {
+        myMasterVolume = aVolume;
+    }
   
     public void PlaySFX1(AudioClip aClip, float aVolume)
     {
@@ -275,49 +291,9 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayLethalHit()
     {
-        mySfxSource1.PlayOneShot(myLethalAudioClip);
+        mySfxSource1.PlayOneShot(myLethalAudioClips[Random.Range(0,myLethalAudioClips.Length)],myLethalAudioVolume);
     }
-    //public void PlayRunningSound()
-    //{
 
-    //    if (!myRunningSoundSource.isPlaying)
-    //    {
-    //        myRunningSoundSource.Play();
-    //    }
-    //    if (myRunningSoundSource.isPlaying)
-    //    {
-    //        Debug.Log("Playing running sound");
-    //    }
-
-
-
-    //    myRunningSoundSource.volume += Time.deltaTime;
-
-
-    //    if (myRunningSoundSource.volume > myMaxRunningVolume)
-    //    {
-    //        myRunningSoundSource.volume = myMaxRunningVolume;
-    //    }
-    //}
-    //public void StopRunningSound()
-    //{
-
-    //    myRunningSoundSource.volume -= Time.deltaTime;
-    //    if (myRunningSoundSource.volume == 0)
-    //    {
-    //        myRunningSoundSource.Stop();
-    //    }
-    //}
-    public void PlayGrappleSound(AudioClip aShootClip)
-    {
-       
-    }
-    public void StopGrappleHitSound()
-    {
-
-        
-        
-    }
     public void PlaySlidingSound()
     {
         mySlidingSoundSource.loop = true;

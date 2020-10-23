@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 public class GrappleHookBoohyah : MonoBehaviour
 {
     [SerializeField]
-    private AudioClip myGrappleShootSound;
+    private AudioClip[] myGrappleShootSounds;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myGrappleShootSoundVolume = 1f;
@@ -146,7 +146,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
-            AudioManager.ourPublicInstance.PlaySFX1(myGrappleShootSound, myGrappleShootSoundVolume);
+            AudioManager.ourPublicInstance.PlaySFX1(myGrappleShootSounds[Random.Range(0, myGrappleShootSounds.Length)], myGrappleShootSoundVolume);
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
             

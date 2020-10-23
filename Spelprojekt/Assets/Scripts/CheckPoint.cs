@@ -8,6 +8,12 @@ using UnityEngine.VFX;
 public class CheckPoint : MonoBehaviour
 {
     [SerializeField]
+    private AudioClip myCheckpointSound;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myCheckpointVolume;
+
+    [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private Player myPlayer;
 
@@ -43,8 +49,10 @@ public class CheckPoint : MonoBehaviour
         {
             myCheckPointEffect.transform.position = this.transform.position;
             myCheckPointEffect.Play();
+            AudioManager.ourPublicInstance.PlaySFX1(myCheckpointSound, myCheckpointVolume);
             myLevelManager.MyStartPosition = transform.position;
             myPlayerHasEnteredCheckpoint = true;
+
         }
     }
 

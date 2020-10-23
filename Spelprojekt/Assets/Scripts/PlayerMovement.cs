@@ -8,17 +8,19 @@ public class PlayerMovement : MonoBehaviour
     //Audio variables
     [Header("AUDIO settings")]
     [SerializeField]
-    private AudioClip myJumpSound1;
-    [SerializeField]
-    private AudioClip myJumpSound2;
-    [SerializeField]
-    private AudioClip myLandSound;
+    private AudioClip []myJumpSounds;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myJumpSoundVolume = 1f;
     [SerializeField]
-    private float myMinRunningVolume = 0.3f;
+    private AudioClip myLandSound;
     [SerializeField]
+    [Range(0, 1.0f)]
+    private float myLandVolume = 1f;
+    
+    
+    [SerializeField]
+    [Range(0f,1f)]
     private float myMaxRunningVolume = 1f;
     AudioSource myAudioSource;
     
@@ -505,7 +507,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     myHasRelasedJumpKey = false;
                     myJumpAndLandFx.Play();
-                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
+                    //AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
+                    AudioManager.ourPublicInstance.PlaySFX1(myJumpSounds[Random.Range(0,myJumpSounds.Length)], myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
@@ -546,9 +549,8 @@ public class PlayerMovement : MonoBehaviour
                 {
 
                     myJumpAndLandFx.Play();
-                    AudioManager.ourPublicInstance.PlaySFX1(myLandSound, 1);
+                    AudioManager.ourPublicInstance.PlaySFX1(myLandSound, myLandVolume);
                     myJumpState = JumpState.none;
-                    AudioManager.ourPublicInstance.PlaySFX1(myLandSound, 1);
 
 
                 }
