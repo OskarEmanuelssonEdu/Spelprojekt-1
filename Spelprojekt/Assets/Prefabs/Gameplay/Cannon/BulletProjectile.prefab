@@ -115,7 +115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01a7c823f948d444a4d38fc5112ed47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myDamage: 1
   myPlayer: {fileID: 0}
   myPlayerMovement: {fileID: 0}
   myName: Unnamed Lethal Object
@@ -184,6 +183,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8582141776773459210, guid: 26342cd2df27cca489054de2a83a4419,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 32478a83e679dba4b8014dd7633dc401, type: 2}
     - target: {fileID: 8582141776773459211, guid: 26342cd2df27cca489054de2a83a4419,
         type: 3}
       propertyPath: m_Name

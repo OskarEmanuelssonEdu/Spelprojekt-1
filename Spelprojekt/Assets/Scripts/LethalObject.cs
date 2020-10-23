@@ -43,13 +43,24 @@ public class LethalObject : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
 
+    void Start()
+    {
+        if (myName == "")
+        {
+            myName = "Unnamed Lethal Object";
+        }
+
+        myPlayer = FindObjectOfType<Player>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+    }
+
     private void FixedUpdate()
     {
         myDeltaPosition = (myPreviousPosition - transform.position);
         myPreviousPosition = transform.position;
 
         Vector3 rectangleOneScale = transform.localScale,
-                rectangleTwoScale = myPlayer.transform.localScale,
+                rectangleTwoScale = myPlayerMovement.MyHitbox,
                 rectangleOnePosition = transform.position + myDeltaPosition,
                 rectangleTwoPosition = myPlayer.transform.position;
 
