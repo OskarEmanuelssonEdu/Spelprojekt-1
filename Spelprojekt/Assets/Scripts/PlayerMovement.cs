@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float myTurnSpeed;
-    
+
 
     // getVelocity to change grapplehookboohyah.cs
     public Vector3 GetVeclocity()
@@ -135,7 +135,11 @@ public class PlayerMovement : MonoBehaviour
         myAnimator = GetComponentInChildren<Animator>();
         myModelTransform = myAnimator.transform;
         myAudioSource = GetComponent<AudioSource>();
-        myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
+        if (FindObjectOfType<NewCameraMovement>() != null)
+        {
+            myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
+        }
+
     }
     public Vector3 CurrentSpeed
     {
@@ -240,21 +244,21 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(myJumpKey) || Input.GetKey(KeyCode.W))
         {
             myInputDirectionY = 1;
-            
+
         }
         else
         {
             myHasRelasedJumpKey = true;
             myInputDirectionY = 0;
         }
-        
+
 
 
         if (Input.GetKeyDown(mySlideKey) && !myIsSliding || Input.GetKeyDown(KeyCode.S) && !myIsSliding)
         {
 
             DoEnterSlide();
-             
+
         }
         else if (Input.GetKeyUp(mySlideKey) && myIsSliding || Input.GetKeyUp(KeyCode.S) && myIsSliding)
         {
@@ -270,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
-       // Physics2D.BoxCastNonAlloc
+        // Physics2D.BoxCastNonAlloc
         if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
         {
             myAnimator.SetTrigger("LandTrigger");
@@ -358,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
                 {
-                   // print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                    // print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
                     transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
@@ -471,7 +475,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                
+
 
                 ApplyForce((myCurrentVelocity * -1) * myFriction * Time.fixedDeltaTime);
 
@@ -561,7 +565,7 @@ public class PlayerMovement : MonoBehaviour
 
     void DoEnterSlide()
     {
-      
+
 
         myIsSliding = true;
         myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
@@ -584,7 +588,7 @@ public class PlayerMovement : MonoBehaviour
     {
         myModelTransform.localPosition = new Vector3(myModelTransform.localPosition.x, myModelTransform.localPosition.y - 0.75f, myModelTransform.localPosition.z);
 
-      
+
         // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
         transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
         myIsSliding = false;

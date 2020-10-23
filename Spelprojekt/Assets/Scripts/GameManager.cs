@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
-    [SerializeField]
-    TextMeshProUGUI myCountDownText;
 
 
     [SerializeField]
@@ -36,6 +34,8 @@ public class GameManager : MonoBehaviour
     NewCameraMovement myCamera;
     [SerializeField]
     LevelManager myLevelManager;
+    [SerializeField]
+    SpriteRenderer[] myCountDownText;
 
     [Header("SOUND")]
     [SerializeField]
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             StartGame();
             if (myCountDownText != null)
             {
-                myCountDownText.text = "Go!";
+                myCountDownText[3].gameObject.SetActive(true);
             }
 
         }
@@ -84,7 +84,8 @@ public class GameManager : MonoBehaviour
         {
             if (myCountDownText != null)
             {
-                myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
+                myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(false);
+
             }
 
             Time.timeScale = 0;
