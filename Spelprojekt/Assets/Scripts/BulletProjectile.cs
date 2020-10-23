@@ -27,11 +27,11 @@ public class BulletProjectile : MonoBehaviour
     {
         if (myLifeTimer>= myLifeTime)
         {
-<<<<<<< HEAD
+
             AudioManager.ourPublicInstance.PlaySFX1(myBulletDestroySound, myBulletDestroyVolume);
-=======
+
             myExplotionFx.Play();
->>>>>>> BleedingEdge
+
             myBulletManager.ReturnBullet(this);
             myLifeTimer = 0;
         }
