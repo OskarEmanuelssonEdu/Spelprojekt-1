@@ -10,6 +10,9 @@ public class BulletManager : MonoBehaviour
     [Range(150,400)]
     [SerializeField]
     int myBulletAmount = 100;
+    [SerializeField]
+    ParticleSystem myExplotionEffect;
+
 
     [Header("References")]
     [SerializeField]
@@ -77,6 +80,9 @@ public class BulletManager : MonoBehaviour
     }
     public void ReturnBullet(BulletProjectile aBullet)
     {
+        myExplotionEffect.transform.position = aBullet.transform.position;
+        myExplotionEffect.Play();
+
         aBullet.transform.position = Vector3.zero;
         myActiveBullets.Remove(aBullet);
         myPassiveBullets.Add(aBullet);

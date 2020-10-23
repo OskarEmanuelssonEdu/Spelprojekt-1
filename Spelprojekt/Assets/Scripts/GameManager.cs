@@ -61,11 +61,11 @@ public class GameManager : MonoBehaviour
         CountDownToStart();
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ResetGame();
+            ResetGame(true);
         }
         if (myPlayer.myCurrentHealth <= 0)
         {
-            ResetGame();
+            ResetGame(false);
         }
     }
     void CountDownToStart()
@@ -146,12 +146,17 @@ public class GameManager : MonoBehaviour
 
 
     }
-    public void ResetGame()
+    public void ResetGame(bool aResetTimer)
     {
 
         myLevelManager.ResetLevel();
         myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
-        myScoreManager.ResetTimer();
+        if (aResetTimer)
+        {
+            myScoreManager.ResetTimer();
+
+        }
+        
         if (myGameOverScreen != null)
         {
             myGameOverScreen.SetActive(false);

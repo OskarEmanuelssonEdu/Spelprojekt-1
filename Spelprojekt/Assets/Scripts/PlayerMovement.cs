@@ -100,6 +100,9 @@ public class PlayerMovement : MonoBehaviour
     ParticleSystem myJumpAndLandFx;
     [SerializeField]
     ParticleSystem mySlideFx;
+    [SerializeField]
+    ParticleSystem myEffectTrail;
+
 
     [Header("DO NOT TOUCH")]
     [SerializeField]
@@ -111,20 +114,29 @@ public class PlayerMovement : MonoBehaviour
     Vector3 myCurrentVelocity;
     JumpState myJumpState;
     [SerializeField]
-    Animator animator;
+    Animator myAnimator;
     [SerializeField]
-    Transform modelTransform;
-    bool walkingUpSlope = false;
+    Transform myModelTransform;
+    bool myWalkingUpSlope = false;
+    bool myHasRelasedJumpKey = false;
 
     [SerializeField]
     Transform myCameraTransform;
 
     [SerializeField]
     float myTurnSpeed;
+    
+
+    // getVelocity to change grapplehookboohyah.cs
+    public Vector3 GetVeclocity()
+    {
+        return myCurrentVelocity;
+    }
+
     private void OnValidate()
     {
-        animator = GetComponentInChildren<Animator>();
-        modelTransform = animator.transform;
+        myAnimator = GetComponentInChildren<Animator>();
+        myModelTransform = myAnimator.transform;
         myAudioSource = GetComponent<AudioSource>();
         myCameraTransform = FindObjectOfType<NewCameraMovement>().transform;
     }
@@ -161,6 +173,22 @@ public class PlayerMovement : MonoBehaviour
         myIsGrounded = CheckGround();
         GetInputs();
 
+        if (myCurrentVelocity.magnitude > 30)
+        {
+            if (!myEffectTrail.isPlaying)
+            {
+                myEffectTrail.Play();
+            }
+        }
+        else
+        {
+            if (myEffectTrail.isPlaying)
+            {
+                myEffectTrail.Stop();
+            }
+
+        }
+
         if (myCurrentVelocity.x > 0)
         {
             myXDirection = 1;
@@ -183,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         {
             AudioManager.ourPublicInstance.StopSlidingSound();
         }
-        modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.Euler(new Vector3(modelTransform.rotation.x, 90 * myXDirection, modelTransform.rotation.z)), myTurnSpeed);
+        myModelTransform.rotation = Quaternion.Slerp(myModelTransform.rotation, Quaternion.Euler(new Vector3(myModelTransform.rotation.x, 90 * myXDirection, myModelTransform.rotation.z)), myTurnSpeed);
 
         DoPhysics();
 
@@ -212,22 +240,26 @@ public class PlayerMovement : MonoBehaviour
             myInputDirectionX = 0;
         }
 
-        if (Input.GetKey(myJumpKey))
+        if (Input.GetKey(myJumpKey) || Input.GetKey(KeyCode.W))
         {
             myInputDirectionY = 1;
+            
         }
         else
         {
+            myHasRelasedJumpKey = true;
             myInputDirectionY = 0;
         }
+        
 
-        if (Input.GetKeyDown(mySlideKey))
+
+        if (Input.GetKeyDown(mySlideKey) && !myIsSliding || Input.GetKeyDown(KeyCode.S) && !myIsSliding)
         {
 
             DoEnterSlide();
-
+             
         }
-        else if (Input.GetKeyUp(mySlideKey))
+        else if (Input.GetKeyUp(mySlideKey) && myIsSliding || Input.GetKeyUp(KeyCode.S) && myIsSliding)
         {
 
             DoExitSlide();
@@ -241,9 +273,10 @@ public class PlayerMovement : MonoBehaviour
     }
     bool CheckGround()
     {
+       // Physics2D.BoxCastNonAlloc
         if (Physics2D.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y * 0.9f, transform.localScale.z * 0.9f), 0, Vector3.down, 0.7f, myLayerMask))
         {
-            animator.SetTrigger("LandTrigger");
+            myAnimator.SetTrigger("LandTrigger");
 
             return true;
         }
@@ -316,7 +349,7 @@ public class PlayerMovement : MonoBehaviour
             if (hitNormals.x >= 0 && hitNormals.x < 0.6f)
             {
 
-                walkingUpSlope = true;
+                myWalkingUpSlope = true;
                 DoMoveAlongSlope(hitNormals);
 
 
@@ -324,11 +357,11 @@ public class PlayerMovement : MonoBehaviour
 
             else
             {
-                walkingUpSlope = false;
+                myWalkingUpSlope = false;
 
                 if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y) - Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y)) < 0.2f)
                 {
-                    print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
+                   // print(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y));
                     transform.position += new Vector3(0, Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y), 0);
                 }
                 else
@@ -354,14 +387,14 @@ public class PlayerMovement : MonoBehaviour
             if (hitNormals.x < 0 && hitNormals.x > -0.6 && myIsGrounded)
             {
 
-                walkingUpSlope = true;
+                myWalkingUpSlope = true;
                 DoMoveAlongSlope(hitNormals);
 
             }
             else
             {
 
-                walkingUpSlope = false;
+                myWalkingUpSlope = false;
 
 
                 if (hitInfo.Length > 1 && Mathf.Abs(Mathf.Abs(hitInfo[1].collider.bounds.extents.y + hitInfo[1].transform.position.y) - Mathf.Abs(hitInfo[0].collider.bounds.extents.y + hitInfo[0].transform.position.y)) < 0.2f)
@@ -387,7 +420,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (myIsGrounded)
         {
-            animator.SetBool("isGrounded", true);
+            myAnimator.SetBool("isGrounded", true);
 
             if (myIsSliding)
             {
@@ -405,7 +438,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            animator.SetBool("isGrounded", false);
+            myAnimator.SetBool("isGrounded", false);
             myCurrentControlFraction = myAirControlFraction;
 
         }
@@ -468,15 +501,15 @@ public class PlayerMovement : MonoBehaviour
                     ApplyForce(new Vector3(0, -myGravity, 0));
                 }
 
-                if (myIsGrounded && myInputDirectionY == 1)
+                if (myIsGrounded && myInputDirectionY == 1 && myHasRelasedJumpKey)
                 {
-
+                    myHasRelasedJumpKey = false;
                     myJumpAndLandFx.Play();
                     AudioManager.ourPublicInstance.PlaySFX1(myJumpSound1, myJumpSoundVolume);
                     myCurrentVelocity.y = 0;
                     myJumpTimer = 0;
                     ApplyForce(new Vector3(0, myJumpStartForce, 0));
-                    animator.SetTrigger("JumpTrigger");
+                    myAnimator.SetTrigger("JumpTrigger");
                     myJumpState = JumpState.jumping;
 
                 }
@@ -506,7 +539,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case JumpState.falling:
 
-                animator.SetTrigger("ExtendedJump");
+                myAnimator.SetTrigger("ExtendedJump");
                 ApplyForce(new Vector3(0, -myGravity, 0));
 
                 if (myIsGrounded)
@@ -538,15 +571,11 @@ public class PlayerMovement : MonoBehaviour
         myCurrentColliderSize = new Vector3(myColliderSize.x, myColliderSize.y / 4, myColliderSize.z);
 
 
+        transform.position = new Vector3(myModelTransform.position.x, transform.position.y - 0.75f, myModelTransform.position.z);
+        myModelTransform.localPosition = new Vector3(myModelTransform.localPosition.x, myModelTransform.localPosition.y + 0.75f, myModelTransform.localPosition.z);
 
 
-
-
-        transform.position = new Vector3(modelTransform.position.x, transform.position.y - 0.75f, modelTransform.position.z);
-        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y + 0.75f, modelTransform.localPosition.z);
-
-
-        animator.SetBool("SlideBool", true);
+        myAnimator.SetBool("SlideBool", true);
 
         myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y + 0.75f, myCameraTransform.transform.localPosition.z);
 
@@ -557,7 +586,7 @@ public class PlayerMovement : MonoBehaviour
 
     void DoExitSlide()
     {
-        modelTransform.localPosition = new Vector3(modelTransform.localPosition.x, modelTransform.localPosition.y - 0.75f, modelTransform.localPosition.z);
+        myModelTransform.localPosition = new Vector3(myModelTransform.localPosition.x, myModelTransform.localPosition.y - 0.75f, myModelTransform.localPosition.z);
 
       
         // transform.position = new Vector3(transform.position.x, transform.position.y + (myColliderSize.y - myCurrentColliderSize.y), transform.position.z);
@@ -566,7 +595,7 @@ public class PlayerMovement : MonoBehaviour
         myCurrentColliderSize = myColliderSize;
         myCameraTransform.localPosition = new Vector3(myCameraTransform.transform.localPosition.x, myCameraTransform.transform.localPosition.y - 0.75f, myCameraTransform.transform.localPosition.z);
 
-        animator.SetBool("SlideBool", false);
+        myAnimator.SetBool("SlideBool", false);
     }
     void DoMoveAlongSlope(Vector3 someNormals)
     {
@@ -613,7 +642,7 @@ public class PlayerMovement : MonoBehaviour
             myCurrentVelocity = Vector3.Project(myCurrentVelocity, positiveNormal);
             Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, negativeNormal), Color.red);
 
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
+            myModelTransform.rotation = Quaternion.Slerp(myModelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, -90, 0), myTurnSpeed);
 
 
 
@@ -627,13 +656,13 @@ public class PlayerMovement : MonoBehaviour
             Debug.DrawRay(transform.position, Vector3.Project(myCurrentVelocity, positiveNormal), Color.red);
 
 
-            modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
+            myModelTransform.rotation = Quaternion.Slerp(myModelTransform.rotation, Quaternion.FromToRotation(transform.up, someNormals) * Quaternion.Euler(0, 90, 0), myTurnSpeed);
 
 
 
         }
 
-        print(someNormals);
+
 
 
         Debug.DrawRay(transform.position, someNormals, Color.red);
@@ -647,7 +676,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Animate()
     {
-        animator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
+        myAnimator.SetFloat("isRunning", Mathf.Abs(myCurrentVelocity.x));
     }
 
 

@@ -118,7 +118,7 @@ public class NewCameraMovement : MonoBehaviour
     }
     public void ResetCameraPosition()
     {
-        Debug.Log("Camera Reset");
+
         myPlayerCurrentVelocity = Vector3.zero;
         myCamera.fieldOfView = myCameraStartFOV;
         myCamera.transform.localPosition = new Vector3(0, 0, myCameraResetPosition.z);

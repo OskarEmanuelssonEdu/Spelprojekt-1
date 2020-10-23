@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
         {
             myPlayerPosition = value;
             myCameraMovement.ChangeCameraResetPosition(value);
-            Debug.Log("New checkpoint!");
+          
         }
     }
 
@@ -113,7 +113,7 @@ public class LevelManager : MonoBehaviour
         myPlayerMovement.enabled = true;
         myGrappleHook.enabled = true;
         myCameraMovement.ResetCameraPosition();
-        myScoreManager.ResetTimer();
+        //myScoreManager.ResetTimer();
        // myCameraMovement.ResetCameraPosition();
     }
 }

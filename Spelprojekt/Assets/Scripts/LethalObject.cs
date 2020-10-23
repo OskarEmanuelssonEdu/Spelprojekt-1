@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LethalObject : MonoBehaviour
 {
-    public float myDamage;
-
     [Header("Autofilled variables")]
 
     [SerializeField]
@@ -29,8 +27,6 @@ public class LethalObject : MonoBehaviour
     [Tooltip("Tick to log when the LethalObject collides with the player.")]
     bool myLogCollision;
     bool myHasLoggedCollision;
-
-    private bool myHasCollided = false;
 
     // Used for collision prediction
     Vector3 myPreviousPosition;
@@ -74,32 +70,31 @@ public class LethalObject : MonoBehaviour
             && rectangleOneTopSide > rectangleTwoBottomSide)
 
         {
-            // Debug
+            if (myLogCollision && !myHasLoggedCollision)
+            {
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                myHasLoggedCollision = true;
+                //AudioManager.ourPublicInstance.PlayLethalHit();
+            }
+            myPlayer.TakeDamage(myPlayer.myCurrentHealth);
+            
+        }
+        else if (myHasLoggedCollision)
+        {
+
+        
             if (myLogCollision && !myHasLoggedCollision)
             {
                 Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
                 myHasLoggedCollision = true;
             }
-
-            myPlayer.TakeDamage(myDamage);
-
-            if (!myHasCollided)
-            {
-                myHasCollided = true;
-                AudioManager.ourPublicInstance.PlayLethalHit();
-            }
-            
+            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
         }
-        else
+        else if (myHasLoggedCollision)
         {
-            // Debug
-            if (myHasLoggedCollision)
-            {
-                Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
-                myHasLoggedCollision = false;
-            }
-
-            myHasCollided = false;
+            
+            Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+            myHasLoggedCollision = false;
         }
     }
 
