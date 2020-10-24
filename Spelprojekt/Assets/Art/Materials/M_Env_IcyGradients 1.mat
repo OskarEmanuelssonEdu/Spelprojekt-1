@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Env_IcyGradients
+  m_Name: M_Env_IcyGradients 1
   m_Shader: {fileID: -6465566751694194690, guid: cdf1d47f297cefc4492b43e07b6b4d0b,
     type: 3}
   m_ShaderKeywords: 
