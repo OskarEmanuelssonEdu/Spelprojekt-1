@@ -45,6 +45,7 @@ public class ObjectFalling : MonoBehaviour
         transform.position = myStartPosition;
         transform.rotation = myStartRotation;
         transform.localScale = myStartScale;
+        myRunFalling = false;
     }
     bool myRunFalling = false; 
     void FixedUpdate()
@@ -60,7 +61,7 @@ public class ObjectFalling : MonoBehaviour
             if (!isGrounded)
             {
                 velocity.y -= gravity * Time.fixedDeltaTime;
-                Debug.Log("Current velocity Y = " + velocity.y);
+                //Debug.Log("Current velocity Y = " + velocity.y);
                 transform.position += velocity * Time.fixedDeltaTime;
             }
 
