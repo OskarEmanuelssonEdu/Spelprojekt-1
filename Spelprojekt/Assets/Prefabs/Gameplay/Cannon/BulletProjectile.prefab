@@ -94,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15e51deddd273464a9e40bfa79b4b681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myBulletDestroySound: {fileID: 0}
+  myBulletDestroyVolume: 0
   myBulletSpeed: 5
   myBulletDamage: 1
   myLayerMask:
@@ -102,6 +104,8 @@ MonoBehaviour:
   myBulletManager: {fileID: 0}
   myGameManager: {fileID: 0}
   myPlayer: {fileID: 0}
+  myExplotionFx: {fileID: 3212644831382219190, guid: 50142045b433d4d48b1b911dd6fc8ad3,
+    type: 3}
   myLifeTime: 10
 --- !u!114 &8518810131296481985
 MonoBehaviour:
@@ -128,6 +132,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6338713749743429423}
     m_Modifications:
+    - target: {fileID: 764709598229527818, guid: 26342cd2df27cca489054de2a83a4419,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7132fadb2c94fb34894b4bb20c7c6993, type: 2}
+    - target: {fileID: 764709598229527818, guid: 26342cd2df27cca489054de2a83a4419,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8582141776773459208, guid: 26342cd2df27cca489054de2a83a4419,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -188,6 +202,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 32478a83e679dba4b8014dd7633dc401, type: 2}
+    - target: {fileID: 8582141776773459210, guid: 26342cd2df27cca489054de2a83a4419,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7132fadb2c94fb34894b4bb20c7c6993, type: 2}
     - target: {fileID: 8582141776773459211, guid: 26342cd2df27cca489054de2a83a4419,
         type: 3}
       propertyPath: m_Name
