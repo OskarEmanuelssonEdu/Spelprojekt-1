@@ -77,6 +77,11 @@ public class AudioManager : MonoBehaviour
     [Range(0f,1f)]
     private float myLethalAudioVolume;
     [SerializeField]
+    private AudioClip myFallingObjectClip;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myFallingObjectVolume;
+    [SerializeField]
     [Range(0, 1.0f)]
     private float myMaxSlidingVolume = 1f;
 
@@ -268,6 +273,15 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource1.PlayOneShot(myLethalAudioClips[Random.Range(0,myLethalAudioClips.Length)],myLethalAudioVolume);
     }
+    public void PlayFallingObject()
+    {
+        //Snabb lösning för att få ljudet från spikar att vara tyst på Bo's bana
+        if (myCurrentMusicIndex != 2)
+        {
+            mySfxSource1.PlayOneShot(myFallingObjectClip, myFallingObjectVolume);
+        }
+        
+    }
 
     public void PlaySlidingSound()
     {
@@ -370,6 +384,7 @@ public class AudioManager : MonoBehaviour
         myCurrentMusicIndex = 2;
         PlayMusicWithFade(myMusicClips[myCurrentMusicIndex], 2f);
     }
+    
     void PauseAudio()
     {
         AudioListener.pause = true;
