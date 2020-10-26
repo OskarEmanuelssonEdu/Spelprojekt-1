@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     LevelManager myLevelManager;
     [SerializeField]
-    SpriteRenderer[] myCountDownText;
+    GameObject[] myCountDownText;
+    [SerializeField]
+    GameObject myCountDownTextContainer;
 
     [Header("SOUND")]
     [SerializeField]
@@ -72,19 +74,23 @@ public class GameManager : MonoBehaviour
     {
         if (myCountDownTimer >= myCountDownTime)
         {
+            myCountDownText[2].gameObject.SetActive(false);
             // Game has started and player can move :D
             StartGame();
             if (myCountDownText != null)
             {
+
                 myCountDownText[3].gameObject.SetActive(true);
+
             }
 
         }
         else
         {
-            if (myCountDownText != null)
+            if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1 < myCountDownText.Length)
             {
-                myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(false);
+                myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer)].SetActive(false);
+                myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(true);
 
             }
 
@@ -127,7 +133,7 @@ public class GameManager : MonoBehaviour
         if (myCountDownTimer < myCountDownTime + 1)
         {
             myCountDownTimer += Time.unscaledDeltaTime;
-        
+
         }
         else
         {
@@ -135,7 +141,7 @@ public class GameManager : MonoBehaviour
             {
                 for (int i = 0; i < myCountDownText.Length; i++)
                 {
-                    myCountDownText[i].gameObject.SetActive(false);
+                    myCountDownTextContainer.SetActive(false);
                 }
             }
 
@@ -160,7 +166,7 @@ public class GameManager : MonoBehaviour
             myScoreManager.ResetTimer();
 
         }
-        
+
         if (myGameOverScreen != null)
         {
             myGameOverScreen.SetActive(false);
