@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float myCountDownTime = 3;
     float myCountDownTimer = 0;
+    [SerializeField]
+    GameObject[] myCountDownText;
+    [SerializeField]
+    GameObject myCountDownTextContainer;
 
     [Header("Level Compelet Screen Settings")]
     [SerializeField]
@@ -34,10 +38,7 @@ public class GameManager : MonoBehaviour
     NewCameraMovement myCamera;
     [SerializeField]
     LevelManager myLevelManager;
-    [SerializeField]
-    GameObject[] myCountDownText;
-    [SerializeField]
-    GameObject myCountDownTextContainer;
+
 
     [Header("SOUND")]
     [SerializeField]
@@ -74,13 +75,14 @@ public class GameManager : MonoBehaviour
     {
         if (myCountDownTimer >= myCountDownTime)
         {
-            myCountDownText[2].gameObject.SetActive(false);
             // Game has started and player can move :D
             StartGame();
             if (myCountDownText != null)
             {
 
-                myCountDownText[3].gameObject.SetActive(true);
+                myCountDownText[1].gameObject.SetActive(false);
+                myCountDownText[0].gameObject.SetActive(true);
+
 
             }
 
@@ -89,14 +91,35 @@ public class GameManager : MonoBehaviour
         {
             if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1 < myCountDownText.Length)
             {
-                myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer)].SetActive(false);
+
                 myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(true);
 
+
+
+                if ((myCountDownTime - myCountDownTimer) % 1 <= 0.5f)
+                {
+
+                    myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].transform.position = Vector3.Lerp(myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].transform.position, Vector3.zero + myCountDownTextContainer.transform.position, 0.5f);
+
+
+                }
+                else
+                {
+                    if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) < myCountDownText.Length)
+                    {
+
+                        myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer)].transform.position = Vector3.Lerp(myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer)].transform.position, myCountDownTextContainer.transform.position + new Vector3(2000, 2000, 0), 0.1f);
+
+
+                    }
+                }
             }
 
             Time.timeScale = 0;
             myCountDownTimer += Time.unscaledDeltaTime;
         }
+
+
     }
     public void LevelComplete()
     {
