@@ -67,7 +67,7 @@ MonoBehaviour:
   myMaxSlidingVolume: 0.042
   myAudioMixer: {fileID: 0}
   myClickSound: {fileID: 8300000, guid: 884b6e8b43f278d40bcd577e64b14c26, type: 3}
-  myClickVolume: 0.575
+  myClickVolume: 0.264
 --- !u!81 &6285212864489501905
 AudioListener:
   m_ObjectHideFlags: 0
