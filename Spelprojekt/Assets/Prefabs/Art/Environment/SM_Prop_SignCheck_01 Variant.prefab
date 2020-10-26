@@ -147,6 +147,11 @@ PrefabInstance:
       propertyPath: myCheckPointEffect
       value: 
       objectReference: {fileID: 6242093210085168443}
+    - target: {fileID: 4183906688148783039, guid: 12783fc1ee5c0674a9cc09ee6b389c67,
+        type: 3}
+      propertyPath: myMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: efc890a2b9228cf49a3d7fc10cb934d4, type: 2}
     - target: {fileID: 6915680568826647915, guid: 12783fc1ee5c0674a9cc09ee6b389c67,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
