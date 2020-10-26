@@ -66,11 +66,9 @@ public class AudioManager : MonoBehaviour
     private float myMinReverbDryLevel = -1000f;
 
     [SerializeField]
-    private AudioClip myLevel1MusicClip;
-    [SerializeField]
-    private AudioClip myLevel2MusicClip;
-    [SerializeField]
-    private AudioClip myLevel3MusicClip;
+    private AudioClip[] myMusicClips;
+    private int myCurrentMusicIndex = 0;
+    
     [SerializeField]
     private AudioClip mySlidingSound;
     [SerializeField]
@@ -87,10 +85,13 @@ public class AudioManager : MonoBehaviour
     //TODO Fix a audiomixer to be able to control maaster volume in game.
     [SerializeField]
     private AudioClip myClickSound;
+    [SerializeField]
+    [Range(0f,1f)]
+    private float myClickVolume;
 
 
-    
-   
+
+
     private void Awake()
     {
         //Make sure we dont destroy this instance
@@ -117,7 +118,7 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        PlayMusic(myLevel1MusicClip);
+        PlayMusic(myMusicClips[2]);
     }
 
     private void Update()
@@ -150,48 +151,17 @@ public class AudioManager : MonoBehaviour
 
         // Set the fields of the audio source, then start the coroutine to crossfade
         newSource.clip = aMusicClip;
+        newSource.volume = 0f;
         newSource.Play();
+        
         StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, aTransitionTime));
     }
-    public void PlayLevel1Music()
+    public void IncreaseMusicIndex()
     {
-        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
-        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
-
-        //Swap the source
-        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
-
-        // Set the fields of the audio source, then start the coroutine to crossfade
-        newSource.clip = myLevel1MusicClip;
-        newSource.Play();
-        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
+        myCurrentMusicIndex++;
+        PlayMusicWithCrossFade(myMusicClips[myCurrentMusicIndex],5f);
     }
-    public void PlayLevel2Music()
-    {
-        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
-        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
-
-        //Swap the source
-        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
-
-        // Set the fields of the audio source, then start the coroutine to crossfade
-        newSource.clip = myLevel2MusicClip;
-        newSource.Play();
-        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
-    }
-    public void PlayLevel3Music()
-    {
-        AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
-        AudioSource newSource = (myFirstMusicSourceIsPlaying) ? myMusicSource2 : myMusicSource;
-
-        //Swap the source
-        myFirstMusicSourceIsPlaying = !myFirstMusicSourceIsPlaying;
-
-        // Set the fields of the audio source, then start the coroutine to crossfade
-        newSource.clip = myLevel3MusicClip;
-        newSource.Play();
-        StartCoroutine(UpdateMusicWithCrossFade(activeSource, newSource, 1));
-    }
+   
     private IEnumerator UpdateMusicWithFade(AudioSource anActiveSouce, AudioClip aNewClip, float aTransitionTime)
     {
         // Make sure the source is active and playing
@@ -203,7 +173,7 @@ public class AudioManager : MonoBehaviour
         //Fade out
         for (t = 0; t < aTransitionTime; t+=Time.deltaTime)
         {
-            anActiveSouce.volume = (1 - (t / aTransitionTime));
+            anActiveSouce.volume = (anActiveSouce.volume - (t / aTransitionTime));
             yield return null;
         }
         anActiveSouce.Stop();
@@ -214,6 +184,10 @@ public class AudioManager : MonoBehaviour
         for (t = 0; t < aTransitionTime; t += Time.deltaTime)
         {
             anActiveSouce.volume = (t / aTransitionTime);
+            if (anActiveSouce.volume >= myMinMusicVolume)
+            {
+                anActiveSouce.volume = myMinMusicVolume;
+            }
             yield return null;
         }
     }
@@ -260,14 +234,18 @@ public class AudioManager : MonoBehaviour
         anActiveSouce.volume = aVolume;
     }
 
-    private IEnumerator UpdateMusicWithCrossFade(AudioSource anOriginal, AudioSource newSource, float aTransitionTime)
+    private IEnumerator UpdateMusicWithCrossFade(AudioSource anOriginal, AudioSource aNewSource, float aTransitionTime)
     {
-        float t = 0.0f;
-
-        for (t = 0.0f; t < aTransitionTime; t += Time.deltaTime)
+        
+        aNewSource.volume = 0f;
+        for (float t = 0.0f; t < aTransitionTime; t += Time.deltaTime)
         {
-            anOriginal.volume = (1 - (t / aTransitionTime));
-            newSource.volume = (t / aTransitionTime);
+            anOriginal.volume -= Time.deltaTime;
+            aNewSource.volume += 0.000000001f;
+            if (aNewSource.volume > myMinMusicVolume)
+            {
+                aNewSource.volume = myMinMusicVolume;
+            }
             yield return null;
         }
         anOriginal.Stop();
@@ -281,13 +259,10 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource1.PlayOneShot(aClip, aVolume);
     }
-    public void PlaySFX2(AudioClip aClip, float aVolume)
-    {
-        mySfxSource2.PlayOneShot(aClip, aVolume);
-    }
+
     public void PlayClickSound()
     {
-        mySfxSource1.PlayOneShot(myClickSound);
+        mySfxSource1.PlayOneShot(myClickSound,myClickVolume);
     }
     public void PlayLethalHit()
     {
@@ -379,6 +354,21 @@ public class AudioManager : MonoBehaviour
         {
             myMusicReverbFilter.dryLevel = myMaxReverbDryLevel;
         }
+    }
+    public void PlayLevel1Music()
+    {
+        myCurrentMusicIndex = 0;
+        PlayMusicWithFade(myMusicClips[myCurrentMusicIndex], 2f);
+    }
+    public void PlayLevel2Music()
+    {
+        myCurrentMusicIndex = 1;
+        PlayMusicWithFade(myMusicClips[myCurrentMusicIndex], 2f);
+    }
+    public void PlayLevel3Music()
+    {
+        myCurrentMusicIndex = 2;
+        PlayMusicWithFade(myMusicClips[myCurrentMusicIndex], 2f);
     }
     void PauseAudio()
     {

@@ -88,6 +88,7 @@ public class LevelManager : MonoBehaviour
     {
         // TODO: Implement this
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        AudioManager.ourPublicInstance.IncreaseMusicIndex();
 
     }
     public void GameOver()

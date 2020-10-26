@@ -44,16 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5493e35571f8162408763fa10c8f2ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAudioListener: {fileID: 0}
   myMasterVolume: 1
   myMinMusicVolume: 0.1
   myMaxMusicVolume: 0.6
-  myMinRunningVolume: 0
   myMaxRunningVolume: 0.8
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
-  myLevel1MusicClip: {fileID: 8300000, guid: 2f414befd329b1e48baa275b593c5f3f, type: 3}
-  myLevel2MusicClip: {fileID: 0}
-  myLevel3MusicClip: {fileID: 0}
+  myMusicClips:
+  - {fileID: 8300000, guid: 3516a46776527cb4790b05dff96f3682, type: 3}
+  - {fileID: 8300000, guid: 5d86e7e8756099a4fb59cb3f8821a3a3, type: 3}
+  - {fileID: 8300000, guid: 4c6bf076503737a44936927691ef6e53, type: 3}
   mySlidingSound: {fileID: 8300000, guid: 55418b2ad06779049b3d37375a774920, type: 3}
   myLethalAudioClips:
   - {fileID: 8300000, guid: da3cc8c3bdd549743a0de4cf1e0b1c54, type: 3}
@@ -64,6 +65,7 @@ MonoBehaviour:
   myMaxSlidingVolume: 0.042
   myAudioMixer: {fileID: 0}
   myClickSound: {fileID: 8300000, guid: 884b6e8b43f278d40bcd577e64b14c26, type: 3}
+  myClickVolume: 0.575
 --- !u!81 &6285212864489501905
 AudioListener:
   m_ObjectHideFlags: 0
