@@ -48,13 +48,12 @@ MonoBehaviour:
   myMasterVolume: 1
   myMinMusicVolume: 0.1
   myMaxMusicVolume: 0.6
-  myMaxRunningVolume: 0.8
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
   myMusicClips:
   - {fileID: 8300000, guid: 3516a46776527cb4790b05dff96f3682, type: 3}
-  - {fileID: 8300000, guid: 5d86e7e8756099a4fb59cb3f8821a3a3, type: 3}
   - {fileID: 8300000, guid: 4c6bf076503737a44936927691ef6e53, type: 3}
+  - {fileID: 8300000, guid: 5d86e7e8756099a4fb59cb3f8821a3a3, type: 3}
   mySlidingSound: {fileID: 8300000, guid: 55418b2ad06779049b3d37375a774920, type: 3}
   myLethalAudioClips:
   - {fileID: 8300000, guid: da3cc8c3bdd549743a0de4cf1e0b1c54, type: 3}

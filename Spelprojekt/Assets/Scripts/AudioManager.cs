@@ -33,13 +33,8 @@ public class AudioManager : MonoBehaviour
     private AudioSource myMusicSource;
     private AudioSource myMusicSource2;
     private AudioSource mySfxSource1;
-    private AudioSource mySfxSource2;
-
-    private AudioSource myRunningSoundSource;
-    private AudioSource myGrappleHitSoundSource;
     private AudioSource mySlidingSoundSource;
     private AudioReverbFilter myMusicReverbFilter;
-    private AudioReverbFilter mySFXReverbFilter;
 
     private bool myFirstMusicSourceIsPlaying;
 
@@ -57,9 +52,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     [Range(0f, 1f)]
     private float myMaxMusicVolume = 1f;
-    [SerializeField]
-    [Range(0f,1f)]
-    private float myMaxRunningVolume = 1f;
     [SerializeField]
     private float myMaxReverbDryLevel = 0f;
     [SerializeField]
@@ -123,7 +115,7 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        PlayMusic(myMusicClips[2]);
+        PlayMusic(myMusicClips[1]);
     }
 
     private void Update()
@@ -276,7 +268,7 @@ public class AudioManager : MonoBehaviour
     public void PlayFallingObject()
     {
         //Snabb lösning för att få ljudet från spikar att vara tyst på Bo's bana
-        if (myCurrentMusicIndex != 2)
+        if (myCurrentMusicIndex != 1)
         {
             mySfxSource1.PlayOneShot(myFallingObjectClip, myFallingObjectVolume);
         }
