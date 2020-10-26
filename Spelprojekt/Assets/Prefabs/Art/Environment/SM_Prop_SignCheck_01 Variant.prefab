@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!23 &8641892116365895775
+--- !u!23 &3590769624925394302
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,22 +49,22 @@ PrefabInstance:
     - target: {fileID: 295511240099107964, guid: a7f707fbf88c0704db40fa1be938f1dd,
         type: 3}
       propertyPath: m_Name
-      value: SM_Prop_SignCheck_01 Variant
+      value: SM_Prop_SignCheck_01
       objectReference: {fileID: 0}
     - target: {fileID: 1103959447179251398, guid: a7f707fbf88c0704db40fa1be938f1dd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -998.95
       objectReference: {fileID: 0}
     - target: {fileID: 1103959447179251398, guid: a7f707fbf88c0704db40fa1be938f1dd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 48.63002
       objectReference: {fileID: 0}
     - target: {fileID: 1103959447179251398, guid: a7f707fbf88c0704db40fa1be938f1dd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 88.26837
       objectReference: {fileID: 0}
     - target: {fileID: 1103959447179251398, guid: a7f707fbf88c0704db40fa1be938f1dd,
         type: 3}
@@ -185,12 +185,7 @@ PrefabInstance:
         type: 3}
       propertyPath: myCheckPointEffect
       value: 
-      objectReference: {fileID: 6242093210085168443}
-    - target: {fileID: 4183906688148783039, guid: 12783fc1ee5c0674a9cc09ee6b389c67,
-        type: 3}
-      propertyPath: myMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: efc890a2b9228cf49a3d7fc10cb934d4, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6915680568826647915, guid: 12783fc1ee5c0674a9cc09ee6b389c67,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -206,12 +201,6 @@ PrefabInstance:
 --- !u!1 &7574117648422030705 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1038380374724138791, guid: 12783fc1ee5c0674a9cc09ee6b389c67,
-    type: 3}
-  m_PrefabInstance: {fileID: 7455070006886079062}
-  m_PrefabAsset: {fileID: 0}
---- !u!2083052967 &6242093210085168443 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 3591027103620665197, guid: 12783fc1ee5c0674a9cc09ee6b389c67,
     type: 3}
   m_PrefabInstance: {fileID: 7455070006886079062}
   m_PrefabAsset: {fileID: 0}
