@@ -34,6 +34,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
+    [SerializeField]
+    [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
+    private CameraShaker myCameraShaker;
 
     [SerializeField]
     private VisualEffect deathEffect;
@@ -78,6 +81,7 @@ public class LevelManager : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
         myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
+        myCameraShaker = FindObjectOfType<CameraShaker>();
 
         myPlayerPosition = myPlayerMovement.transform.position;
         myCameraMovement = FindObjectOfType<NewCameraMovement>();
@@ -131,6 +135,8 @@ public class LevelManager : MonoBehaviour
             myLevelIsGoingToReset = true;
 
             myPlayerMovement.enabled = false;
+
+            myCameraShaker.shouldShake = true;
 
             deathEffect.transform.position = myPlayerMovement.transform.position;
             deathEffect.SendEvent("PlayDeathEffect");
