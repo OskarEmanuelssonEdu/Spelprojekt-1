@@ -33,7 +33,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: d30f54ad979a5314ab8bf8fd72fd785f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 544f399d6ea8e3d4bb9bcf12b6df4588, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -45,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DownTex:
-        m_Texture: {fileID: 2800000, guid: 8842b1133829ead4883128d408b8651d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1ff1dd432099db94ca783f41e3b4694d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -53,11 +53,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
-        m_Texture: {fileID: 2800000, guid: 9e6a8f272d564134081fc599fb63f7a6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 544f399d6ea8e3d4bb9bcf12b6df4588, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LeftTex:
-        m_Texture: {fileID: 2800000, guid: 1ce11ddc381c0b14e8ace605a8d43584, type: 3}
+        m_Texture: {fileID: 2800000, guid: 544f399d6ea8e3d4bb9bcf12b6df4588, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -73,7 +73,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex:
-        m_Texture: {fileID: 2800000, guid: 39794308d6da08c479785abf87f024fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 544f399d6ea8e3d4bb9bcf12b6df4588, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -85,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
-        m_Texture: {fileID: 2800000, guid: 51682017649ac2e49bc11a6586a7f204, type: 3}
+        m_Texture: {fileID: 2800000, guid: 446c4e8481549394696eed25d889c8ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
