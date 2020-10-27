@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: efc890a2b9228cf49a3d7fc10cb934d4, type: 2}
+  - {fileID: 2100000, guid: cac85e2cd724c7c42aab73a6a4e5bee2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,3 +111,5 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   myLevelManager: {fileID: 0}
   myRange: 3
+  myCheckPointEffect: {fileID: 0}
+  myMaterial: {fileID: 0}
