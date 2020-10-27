@@ -60,7 +60,7 @@ public class ObjectFalling : MonoBehaviour
         {
             if (!myRunFalling)
             {
-                AudioManager.ourPublicInstance.PlayFallingObject(); ;
+                AudioManager.ourPublicInstance.PlayFallingObject(myFallingVolume); 
             }
             myRunFalling = true;
 

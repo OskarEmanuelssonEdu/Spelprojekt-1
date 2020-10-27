@@ -269,12 +269,12 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource1.PlayOneShot(myLethalAudioClips[Random.Range(0,myLethalAudioClips.Length)],myLethalAudioVolume);
     }
-    public void PlayFallingObject()
+    public void PlayFallingObject(float aVolume)
     {
         //Snabb lösning för att få ljudet från spikar att vara tyst på Bo's bana
         if (myCurrentMusicIndex != 1)
         {
-            mySfxSource1.PlayOneShot(myFallingObjectClip, myFallingObjectVolume);
+            mySfxSource1.PlayOneShot(myFallingObjectClip, aVolume);
         }
     }
     public void PlayCountDown()
