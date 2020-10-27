@@ -37,7 +37,6 @@ public class CameraShaker : MonoBehaviour
     {
         camera = Camera.main.transform;
         startPosition = camera.localPosition;
-        print(startPosition);
 
         if (shouldShake)
         {

@@ -9,6 +9,7 @@ public class ObjectFalling : MonoBehaviour
     [SerializeField]
     [Range(0f, 1f)]
     private float myFallingVolume;
+    bool mySoundPlayed = false;
 
     private bool isGrounded;
     Vector3 velocity = new Vector3(0, 0, 0);
@@ -58,9 +59,10 @@ public class ObjectFalling : MonoBehaviour
     {
         if (CheckPlayerDistance())
         {
-            if (!myRunFalling)
+            if (!mySoundPlayed)
             {
-                AudioManager.ourPublicInstance.PlayFallingObject(); ;
+                AudioManager.ourPublicInstance.PlayFallingObject(myFallingVolume);
+                mySoundPlayed = true;
             }
             myRunFalling = true;
 

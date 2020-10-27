@@ -19,7 +19,11 @@ public class AudioManager : MonoBehaviour
                 {
                     ourPrivateInstance = new GameObject("Spawned AudioManager", typeof(AudioManager)).GetComponent<AudioManager>();
                 }
+                
+
             }
+            
+
             return ourPrivateInstance;
         }
         private set
@@ -95,6 +99,10 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         //Make sure we dont destroy this instance
+        if (ourPrivateInstance)
+        {
+            Destroy(ourPrivateInstance.gameObject);
+        }
         DontDestroyOnLoad(this.gameObject);
         myMusicSource = this.gameObject.AddComponent<AudioSource>();
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
@@ -269,12 +277,12 @@ public class AudioManager : MonoBehaviour
     {
         mySfxSource1.PlayOneShot(myLethalAudioClips[Random.Range(0,myLethalAudioClips.Length)],myLethalAudioVolume);
     }
-    public void PlayFallingObject()
+    public void PlayFallingObject(float aVolume)
     {
         //Snabb lösning för att få ljudet från spikar att vara tyst på Bo's bana
         if (myCurrentMusicIndex != 1)
         {
-            mySfxSource1.PlayOneShot(myFallingObjectClip, myFallingObjectVolume);
+            mySfxSource1.PlayOneShot(myFallingObjectClip, aVolume);
         }
     }
     public void PlayCountDown()
