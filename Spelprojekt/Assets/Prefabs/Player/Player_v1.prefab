@@ -123,10 +123,10 @@ MonoBehaviour:
   myCamera: {fileID: 90427243}
   myPlayer: {fileID: 0}
   myPlayerMovement: {fileID: 0}
-  myPixelsAllowedFromRight: 200
-  myPixelsAllowedFromLeft: 200
-  myPixelsAllowedFromTop: 100
-  myPixelsAllowedFromBottom: 100
+  myPixelsAllowedFromRight: 10
+  myPixelsAllowedFromLeft: 10
+  myPixelsAllowedFromTop: 50
+  myPixelsAllowedFromBottom: 50
   myPlayerHorizontalCameraPosition: 0
   myPlayerVerticalCameraPosition: -3
   myZoomOutSpeed: 0.5
