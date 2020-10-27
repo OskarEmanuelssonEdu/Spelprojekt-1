@@ -103,7 +103,7 @@ MonoBehaviour:
   bulletLifeTime: 10
   myBulletManager: {fileID: 0}
   myGameManager: {fileID: 0}
-  myShootEffect: {fileID: 0}
+  myShootEffect: {fileID: 1015313127884449458}
   myShootClip: {fileID: 8300000, guid: 25c83194b7cccd0428c9591af1efd2b5, type: 3}
   myShootVolume: 1
 --- !u!1001 &547941853
@@ -278,6 +278,12 @@ PrefabInstance:
 --- !u!4 &1015313127884449459 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8237865589702755258, guid: df930f4c44e03184883a6aa961562ad5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8954804169277072649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1015313127884449458 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8237865589702755259, guid: df930f4c44e03184883a6aa961562ad5,
     type: 3}
   m_PrefabInstance: {fileID: 8954804169277072649}
   m_PrefabAsset: {fileID: 0}

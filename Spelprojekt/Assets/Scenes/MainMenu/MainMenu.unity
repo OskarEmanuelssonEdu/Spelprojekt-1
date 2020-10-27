@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1015,7 +1015,7 @@ PrefabInstance:
     - target: {fileID: 834646492146889218, guid: 6e2c8042d2052184f96affaf343d6f8c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Level_3_Bo
+      value: Level_3
       objectReference: {fileID: 0}
     - target: {fileID: 834646492146889218, guid: 6e2c8042d2052184f96affaf343d6f8c,
         type: 3}
@@ -7569,7 +7569,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1454797621}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1454797623
 Camera:
   m_ObjectHideFlags: 0
@@ -9653,7 +9653,7 @@ PrefabInstance:
     - target: {fileID: 834646492146889218, guid: 6e2c8042d2052184f96affaf343d6f8c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Level 2
+      value: Level_2_Bo
       objectReference: {fileID: 0}
     - target: {fileID: 834646492146889218, guid: 6e2c8042d2052184f96affaf343d6f8c,
         type: 3}
@@ -13543,7 +13543,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211469685453312247}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b01a7c823f948d444a4d38fc5112ed47, type: 3}
   m_Name: 
