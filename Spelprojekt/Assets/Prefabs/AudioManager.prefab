@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAudioListener: {fileID: 0}
   myMasterVolume: 1
-  myMinMusicVolume: 0.1
+  myMinMusicVolume: 0.2
   myMaxMusicVolume: 0.6
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
@@ -64,9 +64,10 @@ MonoBehaviour:
   myFallingObjectClip: {fileID: 8300000, guid: e46eb9901ceacdf4f8078e385c737d05, type: 3}
   myFallingObjectVolume: 0.085
   myMaxSlidingVolume: 0.085
-  myAudioMixer: {fileID: 0}
   myClickSound: {fileID: 8300000, guid: 884b6e8b43f278d40bcd577e64b14c26, type: 3}
   myClickVolume: 0.23
+  myCountdownSound: {fileID: 8300000, guid: 9d51ab9fcb630d84faea7f8e3526dfd2, type: 3}
+  myCountdownVolume: 0.723
 --- !u!81 &6285212864489501905
 AudioListener:
   m_ObjectHideFlags: 0
