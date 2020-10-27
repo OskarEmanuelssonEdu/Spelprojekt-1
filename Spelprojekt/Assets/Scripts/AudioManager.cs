@@ -19,7 +19,11 @@ public class AudioManager : MonoBehaviour
                 {
                     ourPrivateInstance = new GameObject("Spawned AudioManager", typeof(AudioManager)).GetComponent<AudioManager>();
                 }
+                
+
             }
+            
+
             return ourPrivateInstance;
         }
         private set
@@ -95,6 +99,10 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         //Make sure we dont destroy this instance
+        if (ourPrivateInstance)
+        {
+            Destroy(ourPrivateInstance.gameObject);
+        }
         DontDestroyOnLoad(this.gameObject);
         myMusicSource = this.gameObject.AddComponent<AudioSource>();
         myMusicSource2 = this.gameObject.AddComponent<AudioSource>();
