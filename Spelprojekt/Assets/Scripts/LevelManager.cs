@@ -35,6 +35,14 @@ public class LevelManager : MonoBehaviour
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
 
+    [Header("Pause screen")]
+    [SerializeField]
+    GameObject myPauseMenu;
+    [Header("End screen")]
+    [SerializeField]
+    GameObject myEndScreen;
+
+
     [SerializeField]
     private VisualEffect deathEffect;
 
@@ -96,10 +104,25 @@ public class LevelManager : MonoBehaviour
         }
 
     }
+    public void ReturnToMainMenu()
+    {
+        Unpause();
+        print("Should unpause");
+        SceneManager.LoadScene(0);
+
+    }
 
     public void LevelComplete()
     {
         // TODO: Implement this
+        myEndScreen.SetActive(true);
+        Time.timeScale = 0;
+
+
+    }
+    public void Nextlevel()
+    {
+        Unpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         AudioManager.ourPublicInstance.IncreaseMusicIndex();
 
@@ -160,4 +183,18 @@ public class LevelManager : MonoBehaviour
         //myScoreManager.ResetTimer();
         // myCameraMovement.ResetCameraPosition();
     }
+
+    public void Pause()
+    {
+        Time.timeScale = 0f;
+        myPauseMenu.SetActive(true);
+
+    }
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+        myPauseMenu.SetActive(false);
+
+    }
+
 }
