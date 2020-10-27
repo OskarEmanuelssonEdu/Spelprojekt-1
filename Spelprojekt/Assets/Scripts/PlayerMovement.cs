@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0f,1f)]
     private float myMaxRunningVolume = 1f;
+    [SerializeField]
     AudioSource myAudioSource;
     
 
