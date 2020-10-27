@@ -14,17 +14,16 @@ public class GameManager : MonoBehaviour
     GameObject[] myCountDownText;
     [SerializeField]
     GameObject myCountDownTextContainer;
+    bool initialUnpause = false;
 
     [Header("Level Compelet Screen Settings")]
     [SerializeField]
     GameObject myLevelCompleteScreen;
-    [SerializeField]
-    GameObject myGameOverScreen;
 
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
 
-
+    [Header("Dependencies")]
     [SerializeField]
     ScoreManager myScoreManager;
     [SerializeField]
@@ -70,6 +69,11 @@ public class GameManager : MonoBehaviour
         {
             ResetGame(false);
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            myLevelManager.Pause();
+
+        }
     }
     void CountDownToStart()
     {
@@ -91,7 +95,7 @@ public class GameManager : MonoBehaviour
         {
             if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1 < myCountDownText.Length)
             {
-
+               
                 myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(true);
 
 
@@ -129,6 +133,7 @@ public class GameManager : MonoBehaviour
         myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+
     }
     public void GameOver()
     {
@@ -137,12 +142,14 @@ public class GameManager : MonoBehaviour
         AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip, 1);
         myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
-        if (myGameOverScreen != null)
-        {
-            myGameOverScreen.SetActive(true);
+        //if (myGameOverScreen != null)
+        //{
+        //    myGameOverScreen.SetActive(true);
 
-        }
+        //}
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+        myLevelManager.Unpause();
+
 
     }
     public Vector3 PlayerPosition()
@@ -151,7 +158,11 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
-        Time.timeScale = 1;
+        if(initialUnpause == false)
+        {
+            initialUnpause = true;
+            Time.timeScale = 1;
+        }
 
         if (myCountDownTimer < myCountDownTime + 1)
         {
@@ -181,6 +192,7 @@ public class GameManager : MonoBehaviour
     }
     public void ResetGame(bool aResetTimer)
     {
+        myLevelManager.Unpause();
         myGrappleHook.BreakHook();
         myLevelManager.ResetLevel();
         myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
@@ -190,17 +202,19 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if (myGameOverScreen != null)
-        {
-            myGameOverScreen.SetActive(false);
+        //if (myGameOverScreen != null)
+        //{
+        //    myGameOverScreen.SetActive(false);
 
-        }
-        if (myGameOverScreen != null)
-        {
-            myLevelCompleteScreen.SetActive(false);
-        }
+        //}
+        //if (myGameOverScreen != null)
+        //{
+        //    myLevelCompleteScreen.SetActive(false);
+        //}
 
     }
+
+
     public void QuitGame()
     {
         Application.Quit();
