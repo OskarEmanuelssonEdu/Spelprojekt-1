@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     [Header("SOUND")]
     [SerializeField]
     private AudioClip myDeathSoundClip;
+    bool myCountDownSoundStarted = false;
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
+            myCountDownSoundStarted = false;
             if (myCountDownText != null)
             {
 
@@ -89,16 +91,21 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            
             if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1 < myCountDownText.Length)
             {
-
+                if (myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.activeSelf == false && myCountDownSoundStarted == false)
+                {
+                    AudioManager.ourPublicInstance.PlayCountDown();
+                    myCountDownSoundStarted = true;
+                }
                 myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(true);
 
 
 
                 if ((myCountDownTime - myCountDownTimer) % 1 <= 0.5f)
                 {
-
+                    
                     myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].transform.position = Vector3.Lerp(myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].transform.position, Vector3.zero + myCountDownTextContainer.transform.position, 0.5f);
 
 
@@ -114,8 +121,9 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-
+            
             Time.timeScale = 0;
+           
             myCountDownTimer += Time.unscaledDeltaTime;
         }
 
