@@ -311,8 +311,8 @@ public class AudioManager : MonoBehaviour
     {
         if (myMusicSource.volume < myMaxMusicVolume || myMusicSource2.volume < myMaxMusicVolume && aVolume > 0)
         {
-            myMusicSource.volume += aVolume / (myMusicSource.volume+1) * Time.deltaTime;
-            myMusicSource2.volume += aVolume / (myMusicSource2.volume+1) * Time.deltaTime;
+            myMusicSource.volume += aVolume / (myMusicSource.volume+1) * Time.deltaTime*0.7f;
+            myMusicSource2.volume += aVolume / (myMusicSource2.volume+1) * Time.deltaTime * 0.7f;
         }
         
         if (myMusicSource.volume < myMinMusicVolume || myMusicSource2.volume < myMinMusicVolume)
@@ -327,8 +327,8 @@ public class AudioManager : MonoBehaviour
         }
         if (myMusicSource.volume > myMinMusicVolume || myMusicSource2.volume > myMinMusicVolume)
         {
-            myMusicSource.volume -= Time.deltaTime*0.1f;
-            myMusicSource2.volume -= Time.deltaTime*0.1f;
+            myMusicSource.volume -= Time.deltaTime*0.06f;
+            myMusicSource2.volume -= Time.deltaTime*0.06f;
         }
     }
     public void SetMusicPitch(float aPitch)
