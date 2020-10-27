@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [Header("SOUND")]
     [SerializeField]
     private AudioClip myDeathSoundClip;
+    bool myCountDownSoundStarted = false;
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
+            myCountDownSoundStarted = false;
             if (myCountDownText != null)
             {
 
@@ -95,7 +97,11 @@ public class GameManager : MonoBehaviour
         {
             if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1 < myCountDownText.Length)
             {
-               
+                if (myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.activeSelf == false && myCountDownSoundStarted == false)
+                {
+                    AudioManager.ourPublicInstance.PlayCountDown();
+                    myCountDownSoundStarted = true;
+                }
                 myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(true);
 
 
