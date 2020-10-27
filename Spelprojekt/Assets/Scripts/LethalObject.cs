@@ -82,10 +82,14 @@ public class LethalObject : MonoBehaviour
             && rectangleOneTopSide > rectangleTwoBottomSide)
 
         {
-            if (!myHasCollided)
+            Vector3 cachedPosition = transform.position;
+            if (!myHasCollided &&
+                !(cachedPosition.x > 2160.0f && cachedPosition.y < -200.0f)    
+            )
             {
                 myHasCollided = true;
                 AudioManager.ourPublicInstance.PlayLethalHit();
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             }
 
             if (myLogCollision && !myHasLoggedCollision)
@@ -129,6 +133,7 @@ public class LethalObject : MonoBehaviour
     [ExecuteInEditMode]
     private void OnDrawGizmos()
     {
+        
         if (myShowHitbox && !myShowCollision)
         {
             Gizmos.DrawWireCube(transform.position, transform.localScale);

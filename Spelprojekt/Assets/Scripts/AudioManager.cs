@@ -78,13 +78,16 @@ public class AudioManager : MonoBehaviour
     private float myMaxSlidingVolume = 1f;
 
     [SerializeField]
-    AudioMixer myAudioMixer;
-    //TODO Fix a audiomixer to be able to control maaster volume in game.
-    [SerializeField]
     private AudioClip myClickSound;
     [SerializeField]
     [Range(0f,1f)]
     private float myClickVolume;
+    [SerializeField]
+    private AudioClip myCountdownSound;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myCountdownVolume;
+
 
 
 
@@ -98,7 +101,6 @@ public class AudioManager : MonoBehaviour
         mySfxSource1 = this.gameObject.AddComponent<AudioSource>();
         mySlidingSoundSource = gameObject.AddComponent<AudioSource>();
         myAudioListener = this.gameObject.GetComponent<AudioListener>();
-        myAudioMixer = FindObjectOfType<AudioMixer>();
         //Music will keep playing even if game is paused
         myMusicSource.ignoreListenerPause = true;
         myMusicSource2.ignoreListenerPause = true;
@@ -107,7 +109,9 @@ public class AudioManager : MonoBehaviour
         
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
-      
+
+        mySfxSource1.playOnAwake = false;
+        mySlidingSoundSource.playOnAwake = false;
         mySlidingSoundSource.loop = true;
         mySlidingSoundSource.clip = mySlidingSound;
 
@@ -273,7 +277,10 @@ public class AudioManager : MonoBehaviour
             mySfxSource1.PlayOneShot(myFallingObjectClip, myFallingObjectVolume);
         }
     }
-
+    public void PlayCountDown()
+    {
+        mySfxSource1.PlayOneShot(myCountdownSound,myCountdownVolume);
+    }
     public void PlaySlidingSound()
     {
         mySlidingSoundSource.loop = true;
@@ -304,8 +311,8 @@ public class AudioManager : MonoBehaviour
     {
         if (myMusicSource.volume < myMaxMusicVolume || myMusicSource2.volume < myMaxMusicVolume && aVolume > 0)
         {
-            myMusicSource.volume += aVolume / (myMusicSource.volume+1) * Time.deltaTime;
-            myMusicSource2.volume += aVolume / (myMusicSource2.volume+1) * Time.deltaTime;
+            myMusicSource.volume += aVolume / (myMusicSource.volume+1) * Time.deltaTime*0.7f;
+            myMusicSource2.volume += aVolume / (myMusicSource2.volume+1) * Time.deltaTime * 0.7f;
         }
         
         if (myMusicSource.volume < myMinMusicVolume || myMusicSource2.volume < myMinMusicVolume)
@@ -320,8 +327,8 @@ public class AudioManager : MonoBehaviour
         }
         if (myMusicSource.volume > myMinMusicVolume || myMusicSource2.volume > myMinMusicVolume)
         {
-            myMusicSource.volume -= Time.deltaTime*0.1f;
-            myMusicSource2.volume -= Time.deltaTime*0.1f;
+            myMusicSource.volume -= Time.deltaTime*0.06f;
+            myMusicSource2.volume -= Time.deltaTime*0.06f;
         }
     }
     public void SetMusicPitch(float aPitch)
