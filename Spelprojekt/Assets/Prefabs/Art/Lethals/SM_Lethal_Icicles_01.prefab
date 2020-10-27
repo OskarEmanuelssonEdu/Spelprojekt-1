@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04429dc026165d4798ccc6c69a66ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myFallingSound: {fileID: 8300000, guid: 50c2f870c33b1a04ca6c4a7379098570, type: 3}
+  myFallingSound: {fileID: 8300000, guid: e46eb9901ceacdf4f8078e385c737d05, type: 3}
   myFallingVolume: 0.085
   gravity: 50
   myDistanceToActivate: 10

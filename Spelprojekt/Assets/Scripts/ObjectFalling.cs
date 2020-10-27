@@ -60,7 +60,7 @@ public class ObjectFalling : MonoBehaviour
         {
             if (!myRunFalling)
             {
-                AudioManager.ourPublicInstance.PlaySFX1(myFallingSound, myFallingVolume);
+                AudioManager.ourPublicInstance.PlayFallingObject(); ;
             }
             myRunFalling = true;
 

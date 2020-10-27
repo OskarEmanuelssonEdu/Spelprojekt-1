@@ -11,5 +11,6 @@ public class SliderValue : MonoBehaviour
     public void SetMasterVolume(float aVolume)
     {
         myTextMeshProObject.text = "Master Volume: " + ((int)(aVolume * 100)).ToString() + "%";
+        AudioManager.ourPublicInstance.SetMasterVolume(aVolume);
     }
 }
