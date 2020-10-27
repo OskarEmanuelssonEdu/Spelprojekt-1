@@ -27,6 +27,7 @@ public class LethalObject : MonoBehaviour
     [Tooltip("Tick to log when the LethalObject collides with the player.")]
     bool myLogCollision;
     bool myHasLoggedCollision;
+    bool myHasCollided = false;
 
     // Used for collision prediction
     Vector3 myPreviousPosition;
@@ -81,42 +82,58 @@ public class LethalObject : MonoBehaviour
             && rectangleOneTopSide > rectangleTwoBottomSide)
 
         {
+            Vector3 cachedPosition = transform.position;
+            if (!myHasCollided &&
+                !(cachedPosition.x > 2160.0f && cachedPosition.y < -200.0f)    
+            )
+            {
+                myHasCollided = true;
+                AudioManager.ourPublicInstance.PlayLethalHit();
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+            }
+
             if (myLogCollision && !myHasLoggedCollision)
             {
-                //Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                
                 myHasLoggedCollision = true;
-                //AudioManager.ourPublicInstance.PlayLethalHit();
             }
             myPlayer.TakeDamage(myPlayer.myCurrentHealth);
             if (!myHasLoggedCollision)
             {
-                AudioManager.ourPublicInstance.PlayLethalHit();
+                
 
             }
 
         }
-        else if (myHasLoggedCollision)
+        else
         {
+            myHasCollided = false;
 
-        
-            if (myLogCollision && !myHasLoggedCollision)
+            if (myHasLoggedCollision)
             {
-                //Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
-                myHasLoggedCollision = true;
+
+
+                if (myLogCollision && !myHasLoggedCollision)
+                {
+                    //Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                    myHasLoggedCollision = true;
+                }
+                //myPlayer.TakeDamage(myDamage * Time.deltaTime);
             }
-            //myPlayer.TakeDamage(myDamage * Time.deltaTime);
-        }
-        else if (myHasLoggedCollision)
-        {
-            
-            //Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
-            myHasLoggedCollision = false;
+            else if (myHasLoggedCollision)
+            {
+
+                //Debug.Log(string.Format("{0} stopped intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                myHasLoggedCollision = false;
+            }
         }
     }
 
     [ExecuteInEditMode]
     private void OnDrawGizmos()
     {
+        
         if (myShowHitbox && !myShowCollision)
         {
             Gizmos.DrawWireCube(transform.position, transform.localScale);

@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCheckpointSound: {fileID: 8300000, guid: b0d906ba16e883340bca26fe4ce36a0c, type: 3}
-  myCheckpointVolume: 0.102
+  myCheckpointVolume: 0.166
   myPlayer: {fileID: 0}
   myLevelManager: {fileID: 0}
   myRange: 3
