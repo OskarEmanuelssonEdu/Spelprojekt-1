@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
+    [SerializeField]
+    private GameObject myPlayerModel;
 
     [Header("Pause screen")]
     [SerializeField]
@@ -158,6 +160,7 @@ public class LevelManager : MonoBehaviour
 
             myPlayerMovement.enabled = false;
 
+            myPlayerModel.SetActive(false);
             deathEffect.transform.position = myPlayerMovement.transform.position;
             deathEffect.SendEvent("PlayDeathEffect");
         }
@@ -181,6 +184,7 @@ public class LevelManager : MonoBehaviour
         myPlayer.transform.position = myPlayerPosition;
         myPlayerMovement.enabled = true;
         myGrappleHook.enabled = true;
+        myPlayerModel.SetActive(true);
         myCameraMovement.ResetCameraPosition();
         //myScoreManager.ResetTimer();
         // myCameraMovement.ResetCameraPosition();
