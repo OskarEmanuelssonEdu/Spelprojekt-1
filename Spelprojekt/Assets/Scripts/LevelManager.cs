@@ -152,6 +152,8 @@ public class LevelManager : MonoBehaviour
     {
         if (!myLevelIsGoingToReset)
         {
+            Unpause();
+
             myLevelIsGoingToReset = true;
 
             myPlayerMovement.enabled = false;
