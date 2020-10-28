@@ -89,7 +89,7 @@ public class LethalObject : MonoBehaviour
             {
                 myHasCollided = true;
                 AudioManager.ourPublicInstance.PlayLethalHit();
-                Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
+                //Debug.Log(string.Format("{0} started intersecting Player at: (X: {1} | Y: {2} | Z: {3})", myName, transform.position.x, transform.position.y, transform.position.z));
             }
 
             if (myLogCollision && !myHasLoggedCollision)
