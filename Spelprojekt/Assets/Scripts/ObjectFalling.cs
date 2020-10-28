@@ -11,12 +11,12 @@ public class ObjectFalling : MonoBehaviour
     private float myFallingVolume;
     bool mySoundPlayed = false;
 
-    private bool isGrounded;
-    Vector3 velocity = new Vector3(0, 0, 0);
+    private bool myIsGrounded;
+    Vector3 myVelocity = new Vector3(0, 0, 0);
 
     [Tooltip("Adjusts the falling speed/gravity of the falling object")]
     [SerializeField]
-    public float gravity;
+    public float myGravity;
 
     [Tooltip("Distance from falling object to player to trigger fall")]
     [SerializeField]
@@ -40,7 +40,7 @@ public class ObjectFalling : MonoBehaviour
 
     private void Start()
     {
-        velocity = Vector3.zero;
+        myVelocity = Vector3.zero;
         myStartPosition = transform.position;
         myStartRotation = transform.rotation;
         myStartScale = transform.localScale;
@@ -48,7 +48,7 @@ public class ObjectFalling : MonoBehaviour
 
     public void ResetMe()
     {
-        velocity = Vector3.zero;
+        myVelocity = Vector3.zero;
         transform.position = myStartPosition;
         transform.rotation = myStartRotation;
         transform.localScale = myStartScale;
@@ -70,11 +70,11 @@ public class ObjectFalling : MonoBehaviour
         if (myRunFalling)
         {
             CheckGrounded();
-            if (!isGrounded)
+            if (!myIsGrounded)
             {
-                velocity.y -= gravity * Time.fixedDeltaTime;
+                myVelocity.y -= myGravity * Time.fixedDeltaTime;
                 //Debug.Log("Current velocity Y = " + velocity.y);
-                transform.position += velocity * Time.fixedDeltaTime;
+                transform.position += myVelocity * Time.fixedDeltaTime;
             }
 
         }
@@ -94,15 +94,15 @@ public class ObjectFalling : MonoBehaviour
 
     void CheckGrounded()
     {
-        RaycastHit2D boxResult = Physics2D.BoxCast(transform.position, new Vector3(1, 1f), 0f, Vector3.down, velocity.y * Time.fixedDeltaTime);
+        RaycastHit2D boxResult = Physics2D.BoxCast(transform.position, new Vector3(1, 1f), 0f, Vector3.down, myVelocity.y * Time.fixedDeltaTime);
         if (boxResult.collider != null)
         {
             myRunFalling = false;
-            isGrounded = true;
+            myIsGrounded = true;
         }
         else
         {
-            isGrounded = false;
+            myIsGrounded = false;
         }
     }
 }

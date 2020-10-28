@@ -6,13 +6,13 @@ public class GrapplingProjectile : MonoBehaviour
 {
 
     
-    GrappleHookBoohyah grapplingHook;
+    GrappleHookBoohyah myGrapplingHook;
     LineRenderer myLineRenderer;
     public GrappleHookBoohyah GrapplingHook
     {
         set
         {
-            grapplingHook = value;
+            myGrapplingHook = value;
         }
     }
     public LineRenderer Line
@@ -33,7 +33,7 @@ public class GrapplingProjectile : MonoBehaviour
         if (gameObject.activeSelf)
         {
             myLineRenderer.gameObject.SetActive(true);
-            myLineRenderer.SetPosition(0, grapplingHook.ShootPosition);
+            myLineRenderer.SetPosition(0, myGrapplingHook.ShootPosition);
             myLineRenderer.SetPosition(1, transform.position + aDirection.normalized * (aProjectileSpeed * Time.deltaTime));
 
             Debug.DrawRay(transform.position, aDirection.normalized * aProjectileSpeed * Time.deltaTime, Color.green, Mathf.Infinity);
@@ -49,7 +49,7 @@ public class GrapplingProjectile : MonoBehaviour
             }
             else
             {
-                float dist = Vector3.Distance(transform.position, grapplingHook.transform.position);
+                float dist = Vector3.Distance(transform.position, myGrapplingHook.transform.position);
                 if (dist >= aProjectileMaxDistance)
                 {
                     gameObject.SetActive(false);

@@ -73,12 +73,5 @@ public class CheckPoint : MonoBehaviour
     {
         //RaycastHit2D hitinfo = Physics2D.BoxCast(transform.position, transform.localScale + Vector3.one, 0, Vector3.up, 0, myLayerMask);
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.gameObject.CompareTag("Player"))
-    //    { 
-    //        CheckPointManager.myInstance.myLastCheckPoint = transform;
 
-    //    }
-    //}
 }

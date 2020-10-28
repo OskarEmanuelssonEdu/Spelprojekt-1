@@ -12,7 +12,7 @@ public class NextLevel : MonoBehaviour
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private LevelManager myLevelManager;
 
-    bool levelEnded = false;
+    bool myLevelEnded = false;
 
     // Start is called before the first frame update
     void OnValidate()
@@ -24,16 +24,16 @@ public class NextLevel : MonoBehaviour
 
     private void Start()
     {
-        levelEnded = false;
+        myLevelEnded = false;
 
     }
     // Update is called once per frame
     void Update()
     {
 
-        if(myPlayer.transform.position.x > transform.position.x && levelEnded == false)
+        if(myPlayer.transform.position.x > transform.position.x && myLevelEnded == false)
         {
-            levelEnded = true;
+            myLevelEnded = true;
             myLevelManager.LevelComplete();
 
         }

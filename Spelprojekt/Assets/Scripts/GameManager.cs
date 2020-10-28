@@ -148,11 +148,6 @@ public class GameManager : MonoBehaviour
         AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip, 1);
         myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
-        //if (myGameOverScreen != null)
-        //{
-        //    myGameOverScreen.SetActive(true);
-
-        //}
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
         myLevelManager.Unpause();
 
@@ -207,16 +202,6 @@ public class GameManager : MonoBehaviour
             myScoreManager.ResetTimer();
 
         }
-
-        //if (myGameOverScreen != null)
-        //{
-        //    myGameOverScreen.SetActive(false);
-
-        //}
-        //if (myGameOverScreen != null)
-        //{
-        //    myLevelCompleteScreen.SetActive(false);
-        //}
 
     }
 

@@ -113,7 +113,6 @@ public class AudioManager : MonoBehaviour
         myMusicSource.ignoreListenerPause = true;
         myMusicSource2.ignoreListenerPause = true;
        
-       // myMusicReverbFilter = this.gameObject.AddComponent<AudioReverbFilter>();
         
         myMusicSource.loop = true;
         myMusicSource2.loop = true;
@@ -354,15 +353,7 @@ public class AudioManager : MonoBehaviour
         AudioSource activeSource = (myFirstMusicSourceIsPlaying) ? myMusicSource : myMusicSource2;
         StartCoroutine(FadeInMusic(activeSource, aTransitionTime, aVolume));
     }
-    //public void SetSFXVolume(float aVolume)
-    //{
-    //    //mySfxSource.volume = aVolume;
-    //    mySfxSource1.volume += aVolume;
-    //    if (mySfxSource1.volume < myMinMusicVolume)
-    //    {
-    //        mySfxSource1.volume = myMinMusicVolume;
-    //    }
-    //}
+
     public void SetMusicReverb(float aNumber)
     {
         myMusicReverbFilter.dryLevel += aNumber;

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class CameraShaker : MonoBehaviour
 {
-    public float shakeRadius = 1.0f;
+    public float myShakeRadius = 1.0f;
     float duration = 1.0f;
-    public float slowDownAmonut = 1.0f;
+    public float mySlowDownAmonut = 1.0f;
     [SerializeField]
-    float initialDuration;
+    float myInitialDuration;
     [SerializeField]
     NewCameraMovement myNewCameraMovement;
 
-    public bool shouldShake = false;
-    public Transform camera;
+    public bool myShouldShake = false;
+    public Transform myCamera;
 
-    Vector3 startPosition;
+    Vector3 myStartPosition;
 
 
     // Start is called before the first frame update
@@ -27,29 +27,29 @@ public class CameraShaker : MonoBehaviour
     }
     void Start()
     {
-        camera = Camera.main.transform;
-        startPosition = camera.localPosition;
-        initialDuration = duration;
+        myCamera = Camera.main.transform;
+        myStartPosition = myCamera.localPosition;
+        myInitialDuration = duration;
     }
 
     // Update is called once per frame
     void Update()
     {
-        camera = Camera.main.transform;
-        startPosition = camera.localPosition;
+        myCamera = Camera.main.transform;
+        myStartPosition = myCamera.localPosition;
 
-        if (shouldShake)
+        if (myShouldShake)
         {
             if (duration > 0)
             {
-                camera.localPosition = startPosition + Random.insideUnitSphere * shakeRadius;
-                duration -= Time.deltaTime * slowDownAmonut;
+                myCamera.localPosition = myStartPosition + Random.insideUnitSphere * myShakeRadius;
+                duration -= Time.deltaTime * mySlowDownAmonut;
             }
             else
             {
-                shouldShake = false;
-                duration = initialDuration;
-                camera.localPosition = new Vector3(startPosition.x, startPosition.y, -15);
+                myShouldShake = false;
+                duration = myInitialDuration;
+                myCamera.localPosition = new Vector3(myStartPosition.x, myStartPosition.y, -15);
             }
         }
     }

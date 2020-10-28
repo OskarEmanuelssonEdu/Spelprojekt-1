@@ -46,7 +46,7 @@ public class LevelManager : MonoBehaviour
 
 
     [SerializeField]
-    private VisualEffect deathEffect;
+    private VisualEffect myDeathEffect;
 
     [SerializeField]
     [Tooltip("Defines the time it takes to reset player after they died")]
@@ -88,6 +88,7 @@ public class LevelManager : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
         myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
+
 
         myPlayerPosition = myPlayerMovement.transform.position;
         myCameraMovement = FindObjectOfType<NewCameraMovement>();
@@ -161,8 +162,8 @@ public class LevelManager : MonoBehaviour
             myPlayerMovement.enabled = false;
 
             myPlayerModel.SetActive(false);
-            deathEffect.transform.position = myPlayerMovement.transform.position;
-            deathEffect.SendEvent("PlayDeathEffect");
+            myDeathEffect.transform.position = myPlayerMovement.transform.position;
+            myDeathEffect.SendEvent("PlayDeathEffect");
         }
     }
 
@@ -186,8 +187,7 @@ public class LevelManager : MonoBehaviour
         myGrappleHook.enabled = true;
         myPlayerModel.SetActive(true);
         myCameraMovement.ResetCameraPosition();
-        //myScoreManager.ResetTimer();
-        // myCameraMovement.ResetCameraPosition();
+
     }
 
     public void Pause()

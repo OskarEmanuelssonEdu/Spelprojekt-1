@@ -47,7 +47,8 @@ public class ScoreManager : MonoBehaviour
     void UpdateTextMeshTotalTime()
     {
         
-        if (myScoreTextMesh != null)
+        if (
+            myScoreTextMesh != null)
         {
            myScoreTextMesh.SetText(CountTime().ToString()); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
 
