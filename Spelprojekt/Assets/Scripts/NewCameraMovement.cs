@@ -81,7 +81,7 @@ public class NewCameraMovement : MonoBehaviour
 
    
 
-    Vector3 zeroVector;
+    Vector3 myZeroVector;
     private void Start()
     {
         if (myCamera == null)
@@ -91,7 +91,7 @@ public class NewCameraMovement : MonoBehaviour
         myPlayerPrevPos = myPlayer.transform.position;
         myCameraResetPosition = myCamera.transform.localPosition;
         myCameraStartFOV = myCamera.fieldOfView;
-        zeroVector = Vector3.zero;
+        myZeroVector = Vector3.zero;
     }
     private void OnValidate()
     {
@@ -153,7 +153,7 @@ public class NewCameraMovement : MonoBehaviour
             //transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.fixedDeltaTime);
             //transform.position = Vector3.MoveTowards(transform.position, myTargetPosition, Time.fixedDeltaTime);
 
-            transform.position = Vector3.SmoothDamp(transform.position, myTargetPosition, ref zeroVector, 3f);
+            transform.position = Vector3.SmoothDamp(transform.position, myTargetPosition, ref myZeroVector, 3f);
         }
         else if (myPlayerScreenPoint.x < myPixelsAllowedFromLeft)
         {
@@ -177,7 +177,7 @@ public class NewCameraMovement : MonoBehaviour
             myTargetPosition.y = myPositionToMoveTo.y;
 
             //transform.position = Vector3.Lerp(transform.position, myTargetPosition, Time.fixedDeltaTime);
-            transform.position = Vector3.SmoothDamp(transform.position, myTargetPosition, ref zeroVector, 3f);
+            transform.position = Vector3.SmoothDamp(transform.position, myTargetPosition, ref myZeroVector, 3f);
         }
         else if (myPlayerScreenPoint.y < myPixelsAllowedFromBottom)
         {
