@@ -55,13 +55,13 @@ public class LeverLoader : MonoBehaviour
     {
         myTransition.SetTrigger("Start");
         yield return new WaitForSeconds(myTransitionTime);
-        SceneManager.LoadScene(levelIndex);
+        SceneManager.LoadSceneAsync(levelIndex, LoadSceneMode.Single);
     }
 
     IEnumerator LoadLevel (string aSceneName)
     {
         myTransition.SetTrigger("Start");
         yield return new WaitForSeconds(myTransitionTime);
-        SceneManager.LoadScene(aSceneName);
+        SceneManager.LoadSceneAsync(aSceneName, LoadSceneMode.Single);
     }
 }
