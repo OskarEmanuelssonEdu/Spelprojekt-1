@@ -37,8 +37,9 @@ public class LeverLoader : MonoBehaviour
     public void LoadNextLevel()
     {
         myLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        print(SceneManager.GetActiveScene().buildIndex + 1);
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        if (myLevelIndex > 2)
+        if (myLevelIndex > 3)
         {
             myLevelIndex = 0;
         }

@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         CountDownToStart();
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ResetGame(true);
+            ResetGame(false);
         }
         if (myPlayer.myCurrentHealth <= 0)
         {
