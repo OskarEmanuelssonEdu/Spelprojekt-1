@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class LeverLoader : MonoBehaviour
@@ -35,9 +36,10 @@ public class LeverLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
-
         myLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (myLevelIndex > 2)
+        print(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        if (myLevelIndex > 3)
         {
             myLevelIndex = 0;
         }
@@ -54,7 +56,7 @@ public class LeverLoader : MonoBehaviour
     {
         myTransition.SetTrigger("Start");
         yield return new WaitForSeconds(myTransitionTime);
-        SceneManager.LoadScene(levelIndex);
+        SceneManager.LoadSceneAsync(levelIndex);
     }
 
     IEnumerator LoadLevel (string aSceneName)

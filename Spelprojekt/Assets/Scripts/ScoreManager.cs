@@ -9,8 +9,10 @@ public class ScoreManager : MonoBehaviour
 
     [Header("Score text")]
     [SerializeField]
-    TextMeshProUGUI myScoreTextMesh;
-
+    public TextMeshProUGUI myScoreTextMesh;
+  
+    string myAmountOfDecimals = "0.00";
+    int id;
     public float TotalTime
     {
         get
@@ -26,7 +28,11 @@ public class ScoreManager : MonoBehaviour
             myStartCounter = value;
         }
     }
-
+    void Start()
+    {
+        id = Animator.StringToHash(myAmountOfDecimals);
+        
+    }
     void Update()
     {
         if (myStartCounter)
@@ -40,7 +46,9 @@ public class ScoreManager : MonoBehaviour
     }
     void UpdateTextMeshTotalTime()
     {
-        if (myScoreTextMesh != null)
+        
+        if (
+            myScoreTextMesh != null)
         {
            myScoreTextMesh.SetText(CountTime().ToString("0.00")); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
 

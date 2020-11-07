@@ -23,7 +23,7 @@ public class GrappelHook : MonoBehaviour
     [Range(0,1)]
      [SerializeField]
     float myUpAcceleration = 1;
-    float offsetToStartAddUpAcceleration = 4f;
+    float myOffsetToStartAddUpAcceleration = 4f;
     bool myDoGrappel = false;
     Vector3 myHitPosition;
     Vector3 myMousePosition;
@@ -80,7 +80,7 @@ public class GrappelHook : MonoBehaviour
         Debug.DrawLine(transform.position, myHitPosition);
 
 
-        if (directionToPivot.y >= -offsetToStartAddUpAcceleration && directionToPivot.y <=  offsetToStartAddUpAcceleration && myPlayerMovement.CurrentSpeed.y > 0)
+        if (directionToPivot.y >= -myOffsetToStartAddUpAcceleration && directionToPivot.y <=  myOffsetToStartAddUpAcceleration && myPlayerMovement.CurrentSpeed.y > 0)
         {
             myPlayerMovement.ApplyForce(-directionToPivot.normalized * myPullForce + (Vector3.up * myUpAcceleration) * directionToPivot.magnitude * myUpAcceleration );
 

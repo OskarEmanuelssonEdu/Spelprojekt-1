@@ -124,8 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01a7c823f948d444a4d38fc5112ed47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myDamage: 1
-  myName: 
+  myPlayer: {fileID: 0}
+  myPlayerMovement: {fileID: 0}
+  myName: Unnamed Lethal Object
   myShowHitbox: 1
   myShowCollision: 0
   myLogCollision: 1
@@ -141,6 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04429dc026165d4798ccc6c69a66ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 50
+  myFallingSound: {fileID: 8300000, guid: e46eb9901ceacdf4f8078e385c737d05, type: 3}
+  myFallingVolume: 0.085
+  myGravity: 0
   myDistanceToActivate: 10
   myGameManager: {fileID: 0}

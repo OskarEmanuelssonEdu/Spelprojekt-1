@@ -4,6 +4,10 @@ using UnityEngine;
  
 public class BulletProjectile : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip myBulletDestroySound;
+    [SerializeField]
+    private float myBulletDestroyVolume;
     public float myBulletSpeed;
     public float myBulletDamage;
  
@@ -14,6 +18,8 @@ public class BulletProjectile : MonoBehaviour
     public GameManager myGameManager;
     public Player myPlayer;
 
+    [SerializeField]
+    ParticleSystem myExplotionFx;
     float myLifeTimer = 0;
     public float myLifeTime = 10;
 
@@ -21,6 +27,11 @@ public class BulletProjectile : MonoBehaviour
     {
         if (myLifeTimer>= myLifeTime)
         {
+
+            AudioManager.ourPublicInstance.PlaySFX1(myBulletDestroySound, myBulletDestroyVolume);
+
+            myExplotionFx.Play();
+
             myBulletManager.ReturnBullet(this);
             myLifeTimer = 0;
         }
@@ -42,20 +53,6 @@ public class BulletProjectile : MonoBehaviour
         transform.Translate(0f, 0f, myBulletSpeed * Time.deltaTime);
     }
 
-    //Checks if bullet hits
-    //private void CheckIfHit()
-    //{
-    //    RaycastHit2D hits = Physics2D.BoxCast(transform.position, transform.localScale, 0,-transform.right, myBulletSpeed * Time.deltaTime , myLayerMask);
-
-
-    //    if (hits.collider != null && hits.collider.gameObject.layer != 0)
-    //    {
-    //        myPlayer.TakeDamage(myBulletDamage);
-    //        myBulletManager.ReturnBullet(this);
-            
-    //    }
-
-    //}
 
 
 }

@@ -8,6 +8,12 @@ using UnityEngine.VFX;
 public class CheckPoint : MonoBehaviour
 {
     [SerializeField]
+    private AudioClip myCheckpointSound;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float myCheckpointVolume;
+
+    [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private Player myPlayer;
 
@@ -23,6 +29,9 @@ public class CheckPoint : MonoBehaviour
     [SerializeField]
     VisualEffect myCheckPointEffect;
     private bool myPlayerHasEnteredCheckpoint = false;
+
+    [SerializeField]
+    Material myMaterial;
 
     private void OnValidate()
     {
@@ -43,8 +52,11 @@ public class CheckPoint : MonoBehaviour
         {
             myCheckPointEffect.transform.position = this.transform.position;
             myCheckPointEffect.Play();
+            AudioManager.ourPublicInstance.PlaySFX1(myCheckpointSound, myCheckpointVolume);
             myLevelManager.MyStartPosition = transform.position;
             myPlayerHasEnteredCheckpoint = true;
+            this.GetComponent<MeshRenderer>().material = myMaterial;
+
         }
     }
 
@@ -61,12 +73,5 @@ public class CheckPoint : MonoBehaviour
     {
         //RaycastHit2D hitinfo = Physics2D.BoxCast(transform.position, transform.localScale + Vector3.one, 0, Vector3.up, 0, myLayerMask);
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.gameObject.CompareTag("Player"))
-    //    { 
-    //        CheckPointManager.myInstance.myLastCheckPoint = transform;
 
-    //    }
-    //}
 }

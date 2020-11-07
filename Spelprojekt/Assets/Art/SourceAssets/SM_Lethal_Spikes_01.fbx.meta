@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: GradientCastle9
-    second: {fileID: 2100000, guid: c14f960f386e2204680e3ef64fd2647e, type: 2}
+    second: {fileID: 2100000, guid: ac44faf3d46f1dc4484b5a92de2550c3, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -54,8 +54,8 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     fileIdsGeneration: 2
-    swapUVChannels: 0
-    generateSecondaryUV: 0
+    swapUVChannels: 1
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1

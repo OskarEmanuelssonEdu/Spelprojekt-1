@@ -10,19 +10,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float myCountDownTime = 3;
     float myCountDownTimer = 0;
+    [SerializeField]
+    GameObject[] myCountDownText;
+    [SerializeField]
+    GameObject myCountDownTextContainer;
+    bool initialUnpause = false;
 
     [Header("Level Compelet Screen Settings")]
     [SerializeField]
     GameObject myLevelCompleteScreen;
-    [SerializeField]
-    GameObject myGameOverScreen;
 
     [SerializeField]
     TextMeshProUGUI myTotalTimeText;
-    [SerializeField]
-    TextMeshProUGUI myCountDownText;
 
-
+    [Header("Dependencies")]
     [SerializeField]
     ScoreManager myScoreManager;
     [SerializeField]
@@ -37,9 +38,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     LevelManager myLevelManager;
 
+
     [Header("SOUND")]
     [SerializeField]
     private AudioClip myDeathSoundClip;
+    bool myCountDownSoundStarted = false;
     void OnValidate()
     {
         myPlayer = FindObjectOfType<Player>();
@@ -61,11 +64,16 @@ public class GameManager : MonoBehaviour
         CountDownToStart();
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ResetGame();
+            ResetGame(false);
         }
         if (myPlayer.myCurrentHealth <= 0)
         {
-            ResetGame();
+            ResetGame(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            myLevelManager.Pause();
+
         }
     }
     void CountDownToStart()
@@ -74,22 +82,54 @@ public class GameManager : MonoBehaviour
         {
             // Game has started and player can move :D
             StartGame();
+            myCountDownSoundStarted = false;
             if (myCountDownText != null)
             {
-                myCountDownText.text = "Go!";
+
+                myCountDownText[1].gameObject.SetActive(false);
+                myCountDownText[0].gameObject.SetActive(true);
+
+
             }
 
         }
         else
         {
-            if (myCountDownText != null)
+            if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1 < myCountDownText.Length)
             {
-                myCountDownText.text = Mathf.CeilToInt(myCountDownTime - myCountDownTimer).ToString();
+                if (myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.activeSelf == false && myCountDownSoundStarted == false)
+                {
+                    AudioManager.ourPublicInstance.PlayCountDown();
+                    myCountDownSoundStarted = true;
+                }
+                myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].gameObject.SetActive(true);
+
+
+
+                if ((myCountDownTime - myCountDownTimer) % 1 <= 0.5f)
+                {
+
+                    myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].transform.position = Vector3.Lerp(myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer) - 1].transform.position, Vector3.zero + myCountDownTextContainer.transform.position, 0.5f);
+
+
+                }
+                else
+                {
+                    if (Mathf.CeilToInt(myCountDownTime - myCountDownTimer) < myCountDownText.Length)
+                    {
+
+                        myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer)].transform.position = Vector3.Lerp(myCountDownText[Mathf.CeilToInt(myCountDownTime - myCountDownTimer)].transform.position, myCountDownTextContainer.transform.position + new Vector3(2000, 2000, 0), 0.1f);
+
+
+                    }
+                }
             }
 
             Time.timeScale = 0;
             myCountDownTimer += Time.unscaledDeltaTime;
         }
+
+
     }
     public void LevelComplete()
     {
@@ -99,6 +139,7 @@ public class GameManager : MonoBehaviour
         myPlayerMovement.enabled = false;
         myLevelCompleteScreen.SetActive(true);
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+
     }
     public void GameOver()
     {
@@ -107,12 +148,9 @@ public class GameManager : MonoBehaviour
         AudioManager.ourPublicInstance.PlaySFX1(myDeathSoundClip, 1);
         myGrappleHook.enabled = false;
         myPlayerMovement.enabled = false;
-        if (myGameOverScreen != null)
-        {
-            myGameOverScreen.SetActive(true);
-
-        }
         myTotalTimeText.text = myScoreManager.TotalTime.ToString("0.00");
+        myLevelManager.Unpause();
+
 
     }
     public Vector3 PlayerPosition()
@@ -121,18 +159,25 @@ public class GameManager : MonoBehaviour
     }
     void StartGame()
     {
-        Time.timeScale = 1;
+        if(initialUnpause == false)
+        {
+            initialUnpause = true;
+            Time.timeScale = 1;
+        }
 
         if (myCountDownTimer < myCountDownTime + 1)
         {
             myCountDownTimer += Time.unscaledDeltaTime;
-        
+
         }
         else
         {
             if (myCountDownText != null)
             {
-                myCountDownText.gameObject.SetActive(false);
+                for (int i = 0; i < myCountDownText.Length; i++)
+                {
+                    myCountDownTextContainer.SetActive(false);
+                }
             }
 
 
@@ -146,23 +191,21 @@ public class GameManager : MonoBehaviour
 
 
     }
-    public void ResetGame()
+    public void ResetGame(bool aResetTimer)
     {
-
+        myLevelManager.Unpause();
+        myGrappleHook.BreakHook();
         myLevelManager.ResetLevel();
         myPlayer.myCurrentHealth = myPlayer.myMaxHlaeth;
-        myScoreManager.ResetTimer();
-        if (myGameOverScreen != null)
+        if (aResetTimer)
         {
-            myGameOverScreen.SetActive(false);
+            myScoreManager.ResetTimer();
 
-        }
-        if (myGameOverScreen != null)
-        {
-            myLevelCompleteScreen.SetActive(false);
         }
 
     }
+
+
     public void QuitGame()
     {
         Application.Quit();

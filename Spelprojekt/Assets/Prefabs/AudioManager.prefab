@@ -44,16 +44,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5493e35571f8162408763fa10c8f2ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAudioListener: {fileID: 0}
+  myMasterVolume: 1
   myMinMusicVolume: 0.2
-  myMaxMusicVolume: 0.8
-  myMinRunningVolume: 0.3
-  myMaxRunningVolume: 1
+  myMaxMusicVolume: 0.6
   myMaxReverbDryLevel: 0
   myMinReverbDryLevel: -1000
-  myMusicClip: {fileID: 8300000, guid: 0b54f3ecccb57dd4bb3108dcadfa70db, type: 3}
-  mySlidingSound: {fileID: 8300000, guid: ffff0ff36724dc3439baa348fed5a155, type: 3}
-  myLethalAudioClip: {fileID: 8300000, guid: 0f05b8c1369ef3743ace6ba47a63363d, type: 3}
-  myMaxSlidingVolume: 1
+  myMusicClips:
+  - {fileID: 8300000, guid: 3516a46776527cb4790b05dff96f3682, type: 3}
+  - {fileID: 8300000, guid: 5d86e7e8756099a4fb59cb3f8821a3a3, type: 3}
+  - {fileID: 8300000, guid: 4c6bf076503737a44936927691ef6e53, type: 3}
+  mySlidingSound: {fileID: 8300000, guid: 55418b2ad06779049b3d37375a774920, type: 3}
+  myLethalAudioClips:
+  - {fileID: 8300000, guid: da3cc8c3bdd549743a0de4cf1e0b1c54, type: 3}
+  - {fileID: 8300000, guid: 0e44b33979552954ab4b53e0ff07f1b2, type: 3}
+  - {fileID: 8300000, guid: 3518e1c460332294c8954e25d0354593, type: 3}
+  - {fileID: 8300000, guid: 2d5f0ef64c0c388418d1fb796d0f73d1, type: 3}
+  myLethalAudioVolume: 0.267
+  myFallingObjectClip: {fileID: 8300000, guid: e46eb9901ceacdf4f8078e385c737d05, type: 3}
+  myFallingObjectVolume: 0.085
+  myMaxSlidingVolume: 0.085
+  myClickSound: {fileID: 8300000, guid: 884b6e8b43f278d40bcd577e64b14c26, type: 3}
+  myClickVolume: 0.23
+  myCountdownSound: {fileID: 8300000, guid: 9d51ab9fcb630d84faea7f8e3526dfd2, type: 3}
+  myCountdownVolume: 0.723
 --- !u!81 &6285212864489501905
 AudioListener:
   m_ObjectHideFlags: 0

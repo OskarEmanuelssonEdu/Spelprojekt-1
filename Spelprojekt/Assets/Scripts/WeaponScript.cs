@@ -25,6 +25,9 @@ public class WeaponScript : MonoBehaviour
     [Tooltip("This variable will decide when the weapon will start to fire")]
     [SerializeField]
     float myDistanceToActivate;
+    [Tooltip("Changes the distance to activate in Y-axis")]
+    [SerializeField]
+    float myHeightTreshold;
     [SerializeField]
     float bulletLifeTime = 10;
     [Header("References")]
@@ -32,13 +35,15 @@ public class WeaponScript : MonoBehaviour
     BulletManager myBulletManager;
     [SerializeField]
     GameManager myGameManager;
-    [Header("Particles")]
+    
     [SerializeField]
     ParticleSystem myShootEffect;
+
     [Header("SOUND")]
     [SerializeField]
     private AudioClip myShootClip;
     [SerializeField]
+    [Range(0f,1f)]
     private float myShootVolume = 1;
 
 
@@ -47,50 +52,49 @@ public class WeaponScript : MonoBehaviour
         myBulletManager = FindObjectOfType<BulletManager>();
         myGameManager = FindObjectOfType<GameManager>();
     }
-    void Update()
+    void FixedUpdate()
     {
+
         if (CheckPlayerDistance())
-        {
+        {  
             Shoot();
+        }
+        else
+        {
+            myTimerInBetweenshots = 0;
         }
     }
 
 
     void Shoot()
     {
-        if (myTimerInBetweenshots >= myTimeInBetweenShots)
-        {
-            AudioManager.ourPublicInstance.PlaySFX1(myShootClip,myShootVolume);
-            myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
-
-            if (Mathf.Abs( transform.rotation.eulerAngles.y) > 180) 
+            if (myTimerInBetweenshots >= myTimeInBetweenShots)
             {
-                myShootEffect.transform.position = transform.position;
-                myShootEffect.transform.rotation = Quaternion.Euler(0,0,0);
                 myShootEffect.Play();
+
+                AudioManager.ourPublicInstance.PlaySFX1(myShootClip, myShootVolume);
+                myBulletManager.GetBullet(transform.position, transform.rotation, mySpeed, damage, bulletLifeTime, myScale);
+                myTimerInBetweenshots = 0;
             }
             else
             {
-
-                myShootEffect.transform.position = transform.position;
-                myShootEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
-                myShootEffect.Play();
+                myTimerInBetweenshots = myTimerInBetweenshots + Time.deltaTime;
             }
-            myTimerInBetweenshots = 0;
-        }
-        else
-        {
-            myTimerInBetweenshots = myTimerInBetweenshots + Time.deltaTime;
-        }
     }
+
 
     bool CheckPlayerDistance()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, myGameManager.PlayerPosition());
+
         if (distanceToPlayer < myDistanceToActivate)
         {
-            return true;
+            if (Mathf.Abs(myGameManager.PlayerPosition().y - transform.position.y) < myHeightTreshold)
+            {
+                return true;
+            }
         }
+
         return false;
     }
 }

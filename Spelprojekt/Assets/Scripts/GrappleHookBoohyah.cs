@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 public class GrappleHookBoohyah : MonoBehaviour
 {
     [SerializeField]
-    private AudioClip myGrappleShootSound;
+    private AudioClip[] myGrappleShootSounds;
     [SerializeField]
     [Range(0, 1.0f)]
     private float myGrappleShootSoundVolume = 1f;
@@ -125,7 +125,8 @@ public class GrappleHookBoohyah : MonoBehaviour
             float grappleAngle= Vector2.SignedAngle(grappleDirection2D, Vector2.up);
 
             float currentDirection = Mathf.Sign(myPlayerMovement.GetVeclocity().x);
-            myAnimatedTransform.transform.rotation=Quaternion.Euler(grappleAngle * currentDirection, 90* currentDirection, 0);
+          
+            myAnimatedTransform.transform.rotation = Quaternion.Euler(grappleAngle * currentDirection, 90 * currentDirection, 0);
         }
 
     }
@@ -145,7 +146,7 @@ public class GrappleHookBoohyah : MonoBehaviour
     {
         if (Input.GetKeyDown(myGrappleKey) && !myProjectile.gameObject.activeSelf && !myGrappling)
         {
-            AudioManager.ourPublicInstance.PlaySFX1(myGrappleShootSound, myGrappleShootSoundVolume);
+            AudioManager.ourPublicInstance.PlaySFX1(myGrappleShootSounds[Random.Range(0, myGrappleShootSounds.Length)], myGrappleShootSoundVolume);
             myProjectile.transform.position = myShootPosition.position;
             myProjectile.gameObject.SetActive(true);
             
@@ -212,4 +213,10 @@ public class GrappleHookBoohyah : MonoBehaviour
         Gizmos.DrawWireSphere(myShootPosition.position, myGrappleMaxDistance);
 
     }
+    public void BreakHook()
+    {
+        myGrappling = false;
+
+    }
+
 }

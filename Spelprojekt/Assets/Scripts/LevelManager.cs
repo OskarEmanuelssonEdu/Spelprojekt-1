@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.VFX;
+using TMPro;
 public class LevelManager : MonoBehaviour
 {
     // Singleton pattern
@@ -33,7 +34,28 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     [Tooltip("THIS WILL BE AUTOMATICALLY FILLED")]
     private NewCameraMovement myCameraMovement;
+    [SerializeField]
+    private GameObject myPlayerModel;
+    [SerializeField]
+    TextMeshProUGUI myTotalScore;
 
+
+    [Header("Pause screen")]
+    [SerializeField]
+    GameObject myPauseMenu;
+    [Header("End screen")]
+    [SerializeField]
+    GameObject myEndScreen;
+    [SerializeField]
+    LeverLoader myLevelLoader;
+
+    [SerializeField]
+    private VisualEffect myDeathEffect;
+
+    [SerializeField]
+    [Tooltip("Defines the time it takes to reset player after they died")]
+    [Min(0.0f)]
+    private float myResetDelayTime;
 
     public Vector3 MyStartPosition
     {
@@ -42,12 +64,14 @@ public class LevelManager : MonoBehaviour
         {
             myPlayerPosition = value;
             myCameraMovement.ChangeCameraResetPosition(value);
-            Debug.Log("New checkpoint!");
+          
         }
     }
 
     // PRIVATE VARIABLES
     List<ObjectFalling> myFallingObjects;
+    private float myClock;
+    private bool myLevelIsGoingToReset;
 
     // Singleton pattern
     private void Awake()
@@ -68,6 +92,7 @@ public class LevelManager : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
         myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
+        myLevelLoader = FindObjectOfType<LeverLoader>();
 
         myPlayerPosition = myPlayerMovement.transform.position;
         myCameraMovement = FindObjectOfType<NewCameraMovement>();
@@ -77,17 +102,37 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myClock = 0.0f;
+        myLevelIsGoingToReset = false;
         myFallingObjects = new List<ObjectFalling>();
         foreach (var fallingObject in FindObjectsOfType<ObjectFalling>())
         {
             myFallingObjects.Add(fallingObject);
         }
+
+    }
+    public void ReturnToMainMenu()
+    {
+        Unpause();
+        print("Should unpause");
+        SceneManager.LoadScene(0);
+
     }
 
     public void LevelComplete()
     {
         // TODO: Implement this
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        myTotalScore.text = myScoreManager.TotalTime.ToString("0.00");
+        myEndScreen.SetActive(true);
+        Time.timeScale = 0;
+
+
+    }
+    public void Nextlevel()
+    {
+        Unpause();
+        AudioManager.ourPublicInstance.IncreaseMusicIndex();
+        myLevelLoader.LoadNextLevel();
 
     }
     public void GameOver()
@@ -95,8 +140,42 @@ public class LevelManager : MonoBehaviour
         // TODO: Implement this
         // COUNTER: Should this be implemented here?
     }
+
+    public void Update()
+    {
+        if (myLevelIsGoingToReset)
+        {
+            // Tick the clock / Increase the internal time
+            myClock += Time.deltaTime;
+
+            if (myClock >= myResetDelayTime)
+            {
+                myClock = 0.0f;
+                InternalResetLevel();
+            }
+        }
+    }
+
     public void ResetLevel()
     {
+        if (!myLevelIsGoingToReset)
+        {
+            Unpause();
+
+            myLevelIsGoingToReset = true;
+
+            myPlayerMovement.enabled = false;
+
+            myPlayerModel.SetActive(false);
+            myDeathEffect.transform.position = myPlayerMovement.transform.position;
+            myDeathEffect.SendEvent("PlayDeathEffect");
+        }
+    }
+
+    private void InternalResetLevel()
+    {
+        myLevelIsGoingToReset = false;
+
         // Reset FallingObjects
         for (int index = 0; index < myFallingObjects.Count; index++)
         {
@@ -104,7 +183,6 @@ public class LevelManager : MonoBehaviour
         }
 
         // Reset Camera
-        
 
         // Code derived from GameManager
         // Date: 2020-10-08 16:24 UTC+1
@@ -112,8 +190,22 @@ public class LevelManager : MonoBehaviour
         myPlayer.transform.position = myPlayerPosition;
         myPlayerMovement.enabled = true;
         myGrappleHook.enabled = true;
+        myPlayerModel.SetActive(true);
         myCameraMovement.ResetCameraPosition();
-        myScoreManager.ResetTimer();
-       // myCameraMovement.ResetCameraPosition();
+
     }
+
+    public void Pause()
+    {
+        Time.timeScale = 0f;
+        myPauseMenu.SetActive(true);
+
+    }
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+        myPauseMenu.SetActive(false);
+
+    }
+
 }
