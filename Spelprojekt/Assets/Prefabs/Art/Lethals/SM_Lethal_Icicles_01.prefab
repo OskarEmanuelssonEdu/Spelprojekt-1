@@ -144,6 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myFallingSound: {fileID: 8300000, guid: e46eb9901ceacdf4f8078e385c737d05, type: 3}
   myFallingVolume: 0.085
-  gravity: 50
+  myGravity: 0
   myDistanceToActivate: 10
   myGameManager: {fileID: 0}

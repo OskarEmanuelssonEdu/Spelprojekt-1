@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
-
+using TMPro;
 public class LevelManager : MonoBehaviour
 {
     // Singleton pattern
@@ -36,6 +36,9 @@ public class LevelManager : MonoBehaviour
     private NewCameraMovement myCameraMovement;
     [SerializeField]
     private GameObject myPlayerModel;
+    [SerializeField]
+    TextMeshProUGUI myTotalScore;
+
 
     [Header("Pause screen")]
     [SerializeField]
@@ -43,7 +46,8 @@ public class LevelManager : MonoBehaviour
     [Header("End screen")]
     [SerializeField]
     GameObject myEndScreen;
-
+    [SerializeField]
+    LeverLoader myLevelLoader;
 
     [SerializeField]
     private VisualEffect myDeathEffect;
@@ -88,7 +92,7 @@ public class LevelManager : MonoBehaviour
         myPlayerMovement = FindObjectOfType<PlayerMovement>();
         myGrappleHook = FindObjectOfType<GrappleHookBoohyah>();
         myScoreManager = FindObjectOfType<ScoreManager>();
-
+        myLevelLoader = FindObjectOfType<LeverLoader>();
 
         myPlayerPosition = myPlayerMovement.transform.position;
         myCameraMovement = FindObjectOfType<NewCameraMovement>();
@@ -118,6 +122,7 @@ public class LevelManager : MonoBehaviour
     public void LevelComplete()
     {
         // TODO: Implement this
+        myTotalScore.text = myScoreManager.TotalTime.ToString("0.00");
         myEndScreen.SetActive(true);
         Time.timeScale = 0;
 
@@ -126,8 +131,8 @@ public class LevelManager : MonoBehaviour
     public void Nextlevel()
     {
         Unpause();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         AudioManager.ourPublicInstance.IncreaseMusicIndex();
+        myLevelLoader.LoadNextLevel();
 
     }
     public void GameOver()

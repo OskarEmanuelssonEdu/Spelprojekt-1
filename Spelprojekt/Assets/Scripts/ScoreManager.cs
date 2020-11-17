@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
 
     [Header("Score text")]
     [SerializeField]
-    TextMeshProUGUI myScoreTextMesh;
+    public TextMeshProUGUI myScoreTextMesh;
   
     string myAmountOfDecimals = "0.00";
     int id;
@@ -40,9 +40,9 @@ public class ScoreManager : MonoBehaviour
             UpdateTextMeshTotalTime();
         }
     }
-    int CountTime()
+    float CountTime()
     {
-        return Mathf.FloorToInt(myTotalTime = myTotalTime + Time.deltaTime);
+        return myTotalTime = myTotalTime + Time.deltaTime;
     }
     void UpdateTextMeshTotalTime()
     {
@@ -50,7 +50,7 @@ public class ScoreManager : MonoBehaviour
         if (
             myScoreTextMesh != null)
         {
-           myScoreTextMesh.SetText(CountTime().ToString()); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
+           myScoreTextMesh.SetText(CountTime().ToString("0.00")); // To string definrar hur många decimaler jag vill ränka med, så i detta fallet blir det två decimaler
 
         }
     }
